@@ -1,6 +1,6 @@
 package com.bukaoSystem.dao;
 
-import com.bukaoSystem.modal.ExamUser;
+import com.bukaoSystem.model.ExamUser;
 
 import java.util.List;
 

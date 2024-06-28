@@ -1,13 +1,16 @@
 package com.bukaoSystem.dao.impl;
 
 import com.bukaoSystem.dao.ExamUserRepository;
-import com.bukaoSystem.modal.ExamUser;
+import com.bukaoSystem.model.ExamUser;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -18,9 +21,52 @@ public class ExamUserRepositoryImpl implements ExamUserRepository {
 
     @Override
     public void save(ExamUser user) {
-        String sql = "INSERT INTO exam_user (username, account, password, role, email, phone, sex, createTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, user.getUsername(), user.getAccount(), user.getPassword(), user.getRole(), user.getEmail(), user.getPhone(), user.getSex(), user.getCreateTime());
+        StringBuilder sql = new StringBuilder("INSERT INTO exam_user (username, account, password");
+        StringBuilder values = new StringBuilder(" VALUES (?, ?, ?");
+
+        List<Object> params = new ArrayList<>();
+        params.add(user.getUsername());
+        params.add(user.getAccount());
+        params.add(user.getPassword());
+
+        if (user.getRole() != null) {
+            sql.append(", role");
+            values.append(", ?");
+            params.add(user.getRole());
+        }
+
+        if (user.getEmail() != null) {
+            sql.append(", email");
+            values.append(", ?");
+            params.add(user.getEmail());
+        }
+
+        if (user.getPhone() != null) {
+            sql.append(", phone");
+            values.append(", ?");
+            params.add(user.getPhone());
+        }
+
+        if (user.getSex() != null) {
+            sql.append(", sex");
+            values.append(", ?");
+            params.add(user.getSex());
+        }
+
+        if (user.getCreateTime() != null) {
+            sql.append(", createTime");
+            values.append(", ?");
+            params.add(user.getCreateTime());
+        }
+
+        sql.append(")");
+        values.append(")");
+        sql.append(values);
+
+        jdbcTemplate.update(sql.toString(), params.toArray());
     }
+
+
 
     @Override
     public ExamUser findById(Long id) {
@@ -36,15 +82,51 @@ public class ExamUserRepositoryImpl implements ExamUserRepository {
 
     @Override
     public void update(ExamUser user) {
-        String sql = "UPDATE exam_user SET username = ?, account = ?, password = ?, role = ?, email = ?, phone = ?, sex = ?, createTime = ? WHERE id = ?";
-        jdbcTemplate.update(sql, user.getUsername(), user.getAccount(), user.getPassword(), user.getRole(), user.getEmail(), user.getPhone(), user.getSex(), user.getCreateTime(), user.getId());
+        StringBuilder sql = new StringBuilder("UPDATE exam_user SET username = ?, account = ?, password = ?");
+        List<Object> params = new ArrayList<>();
+
+        params.add(user.getUsername());
+        params.add(user.getAccount());
+        params.add(user.getPassword());
+
+        if (user.getRole() != null) {
+            sql.append(", role = ?");
+            params.add(user.getRole());
+        }
+
+        if (user.getEmail() != null) {
+            sql.append(", email = ?");
+            params.add(user.getEmail());
+        }
+
+        if (user.getPhone() != null) {
+            sql.append(", phone = ?");
+            params.add(user.getPhone());
+        }
+
+        if (user.getSex() != null) {
+            sql.append(", sex = ?");
+            params.add(user.getSex());
+        }
+
+        if (user.getCreateTime() != null) {
+            sql.append(", createTime = ?");
+            params.add(user.getCreateTime());
+        }
+
+        sql.append(" WHERE id = ?");
+        params.add(user.getId());
+
+        jdbcTemplate.update(sql.toString(), params.toArray());
     }
+
 
     @Override
     public void delete(Long id) {
         String sql = "DELETE FROM exam_user WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
+
 
     private ExamUser mapRowToExamUser(ResultSet rs, int rowNum) throws SQLException {
         ExamUser user = new ExamUser();
@@ -56,7 +138,7 @@ public class ExamUserRepositoryImpl implements ExamUserRepository {
         user.setEmail(rs.getString("email"));
         user.setPhone(rs.getString("phone"));
         user.setSex(rs.getString("sex"));
-        user.setCreateTime(rs.getTimestamp("createTime").toLocalDateTime());
+        user.setCreateTime(rs.getString("createTime"));
         return user;
     }
 }
