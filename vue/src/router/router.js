@@ -8,12 +8,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect: '/login',
-        },
-        {
-            path: '/',
-            name: '',
-            component:1
+            redirect: '/home',
         },
         {
             path: '/home',
