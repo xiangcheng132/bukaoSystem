@@ -1,22 +1,18 @@
 package com.exam.springboot;
 
 import com.bukaoSystem.Application;
-import com.bukaoSystem.controller.ExamUserController;
 import com.bukaoSystem.model.ExamUser;
-import com.bukaoSystem.service.ExamUserService;
+import com.bukaoSystem.service.impl.ExamUserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -32,7 +28,7 @@ public class ExamUserControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ExamUserService examUserService;
+    private ExamUserServiceImpl examUserServiceImpl;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -68,7 +64,7 @@ public class ExamUserControllerTest {
     @Test
     public void testGetAllUsers() throws Exception {
         List<ExamUser> users = Arrays.asList(user1, user2);
-        Mockito.when(examUserService.getAllUsers()).thenReturn(users);
+        Mockito.when(examUserServiceImpl.getAllUsers()).thenReturn(users);
 
         mockMvc.perform(get("http://localhost:8080/bukaoSystem/users"))
                 .andExpect(status().isOk())
@@ -79,7 +75,7 @@ public class ExamUserControllerTest {
 
     @Test
     public void testGetUserById() throws Exception {
-        Mockito.when(examUserService.getUserById(1L)).thenReturn(user1);
+        Mockito.when(examUserServiceImpl.getUserById(1L)).thenReturn(user1);
 
         mockMvc.perform(get("http://localhost:8080/bukaoSystem/users/1"))
                 .andExpect(status().isOk())
@@ -94,7 +90,7 @@ public class ExamUserControllerTest {
                         .content(objectMapper.writeValueAsString(user1)))
                 .andExpect(status().isOk());
 
-        Mockito.verify(examUserService, Mockito.times(1)).saveUser(Mockito.any(ExamUser.class));
+        Mockito.verify(examUserServiceImpl, Mockito.times(1)).saveUser(Mockito.any(ExamUser.class));
     }
 
     @Test
@@ -104,7 +100,7 @@ public class ExamUserControllerTest {
                         .content(objectMapper.writeValueAsString(user1)))
                 .andExpect(status().isOk());
 
-        Mockito.verify(examUserService, Mockito.times(1)).updateUser(Mockito.any(ExamUser.class));
+        Mockito.verify(examUserServiceImpl, Mockito.times(1)).updateUser(Mockito.any(ExamUser.class));
     }
 
     @Test
@@ -112,6 +108,6 @@ public class ExamUserControllerTest {
         mockMvc.perform(post("http://localhost:8080/bukaoSystem/users/delete/1"))
                 .andExpect(status().isOk());
 
-        Mockito.verify(examUserService, Mockito.times(1)).deleteUser(1L);
+        Mockito.verify(examUserServiceImpl, Mockito.times(1)).deleteUser(1L);
     }
 }
