@@ -7,7 +7,7 @@ public class ExamClass {
     private Long id;
     private String name;
     private String comment;
-    private LocalDateTime createTime;
+    private String createTime;
 
     public ExamClass() {
     }
@@ -16,8 +16,7 @@ public class ExamClass {
         this.id = id;
         this.name = name;
         this.comment = comment;
-        LocalDateTime localDateTime = LocalDateTime.parse(createTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        this.createTime = localDateTime;
+        this.createTime = createTime;
     }
 
     public Long getId() {
@@ -44,12 +43,11 @@ public class ExamClass {
         this.comment = comment;
     }
 
-    public LocalDateTime getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(String createTime) {
-        LocalDateTime localDateTime = LocalDateTime.parse(createTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        this.createTime = localDateTime;
+        this.createTime = createTime;
     }
 }

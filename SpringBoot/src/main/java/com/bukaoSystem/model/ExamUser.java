@@ -12,7 +12,7 @@ public class ExamUser {
     private String email;
     private String phone;
     private String sex;
-    private LocalDateTime createTime;
+    private String createTime;
 
     // Getters and Setters
 
@@ -80,14 +80,12 @@ public class ExamUser {
         this.sex = sex;
     }
 
-    public LocalDateTime getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(String createTime) {
-        LocalDateTime localDateTime = LocalDateTime.parse(createTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        this.createTime = localDateTime;
+        this.createTime = createTime;
     }
 
-    // toString, hashCode, equals methods if needed
 }
