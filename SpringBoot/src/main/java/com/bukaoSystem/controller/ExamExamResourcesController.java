@@ -18,6 +18,10 @@ public class ExamExamResourcesController {
     public List<ExamExamResources> getAllExamExamResources() {
         return examExamResourcesService.getAllExamExamResources();
     }
+    @GetMapping("/getById")
+    public List<ExamExamResources> getExamExamResourcesById(@RequestBody ExamExamResources examExamResources) {
+        return examExamResourcesService.getExamExamResourcesById(examExamResources.getId());
+    }
 
     @GetMapping("/getByExamId")
     public List<ExamExamResources> getExamExamResourcesByExamId(@RequestBody ExamExamResources examExamResources) {

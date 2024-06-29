@@ -18,6 +18,10 @@ public class ExamTeacherCourseServiceImpl implements ExamTeacherCourseService {
     public List<ExamTeacherCourse> getAllExamTeacherCourses() {
         return examTeacherCourseDao.getAllExamTeacherCourses();
     }
+    @Override
+    public List<ExamTeacherCourse> getExamTeacherCoursesById(Long id) {
+        return examTeacherCourseDao.getExamTeacherCoursesById(id);
+    }
 
     @Override
     public List<ExamTeacherCourse> getExamTeacherCoursesByTeacherId(Long teacherId) {

@@ -6,6 +6,8 @@ import java.util.List;
 public interface ExamTeacherCourseDao {
     List<ExamTeacherCourse> getAllExamTeacherCourses();
     List<ExamTeacherCourse> getExamTeacherCoursesByTeacherId(Long teacherId);
+    List<ExamTeacherCourse> getExamTeacherCoursesById(Long Id);
+
     List<ExamTeacherCourse> getExamTeacherCoursesByCourseId(Long courseId);
     void saveExamTeacherCourse(ExamTeacherCourse examTeacherCourse);
     void updateExamTeacherCourse(ExamTeacherCourse examTeacherCourse);

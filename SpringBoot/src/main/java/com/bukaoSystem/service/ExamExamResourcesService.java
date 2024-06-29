@@ -6,6 +6,8 @@ import java.util.List;
 public interface ExamExamResourcesService {
     List<ExamExamResources> getAllExamExamResources();
     List<ExamExamResources> getExamExamResourcesByExamId(Long examId);
+    List<ExamExamResources> getExamExamResourcesById(Long Id);
+
     List<ExamExamResources> getExamExamResourcesByResourceId(Long resourceId);
     void saveExamExamResources(ExamExamResources examExamResources);
     void updateExamExamResources(ExamExamResources examExamResources);

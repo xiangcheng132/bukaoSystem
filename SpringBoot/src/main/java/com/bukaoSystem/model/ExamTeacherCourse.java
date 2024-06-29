@@ -3,11 +3,20 @@ package com.bukaoSystem.model;
 import java.time.LocalDateTime;
 
 public class ExamTeacherCourse {
+    private long id;
+
+
+
     private Long teacherId;
     private Long courseId;
     private String createTime;
+    public long getId() {
+        return id;
+    }
 
-    // Getters and Setters
+    public void setId(long id) {
+        this.id = id;
+    }
     public Long getTeacherId() {
         return teacherId;
     }

@@ -18,12 +18,17 @@ public class ExamExamResourcesDaoImpl implements ExamExamResourcesDao {
 
     private RowMapper<ExamExamResources> rowMapper = new BeanPropertyRowMapper<>(ExamExamResources.class);
 
+
     @Override
     public List<ExamExamResources> getAllExamExamResources() {
         String sql = "SELECT * FROM exam_exam_resources";
         return jdbcTemplate.query(sql, rowMapper);
     }
-
+    @Override
+    public List<ExamExamResources> getExamExamResourcesById(Long id) {
+        String sql = "SELECT * FROM exam_exam_resources WHERE id = ?";
+        return jdbcTemplate.query(sql, rowMapper, id);
+    }
     @Override
     public List<ExamExamResources> getExamExamResourcesByExamId(Long examId) {
         String sql = "SELECT * FROM exam_exam_resources WHERE examId = ?";

@@ -1,11 +1,19 @@
 package com.bukaoSystem.model;
 
 public class ExamExamResources {
+    private Long id;
+
     private Long examId;
     private Long resourceId;
     private String createTime;
 
-    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     public Long getExamId() {
         return examId;
     }

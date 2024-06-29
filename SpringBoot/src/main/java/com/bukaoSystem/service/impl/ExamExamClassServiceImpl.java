@@ -20,6 +20,10 @@ public class ExamExamClassServiceImpl implements ExamExamClassService {
     }
 
     @Override
+    public List<ExamExamClass> getExamExamClassesById(Long id) {
+        return examExamClassDao.getExamExamClassesById(id);
+    }
+    @Override
     public List<ExamExamClass> getExamExamClassesByExamId(Long examId) {
         return examExamClassDao.getExamExamClassesByExamId(examId);
     }

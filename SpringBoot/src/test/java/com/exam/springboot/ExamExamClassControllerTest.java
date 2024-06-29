@@ -39,14 +39,16 @@ public class ExamExamClassControllerTest {
     @BeforeEach
     public void setup() {
         examClass1 = new ExamExamClass();
-        examClass1.setExamId(1L);
-        examClass1.setClassId(1L);
-        examClass1.setCreateTime("2023-01-01 00:00:00");
+        examClass1.setId(1L);
+        examClass1.setExamId(101L);
+        examClass1.setClassId(201L);
+        examClass1.setCreateTime("2020-01-01 00:00:00");
 
         examClass2 = new ExamExamClass();
-        examClass2.setExamId(2L);
-        examClass2.setClassId(2L);
-        examClass2.setCreateTime("2023-02-01 00:00:00");
+        examClass2.setId(2L);
+        examClass2.setExamId(102L);
+        examClass2.setClassId(202L);
+        examClass2.setCreateTime("2021-01-01 00:00:00");
     }
 
     @Test
@@ -54,8 +56,7 @@ public class ExamExamClassControllerTest {
         List<ExamExamClass> examClasses = Arrays.asList(examClass1, examClass2);
         Mockito.when(examExamClassService.getAllExamExamClasses()).thenReturn(examClasses);
 
-        mockMvc.perform(get("/bukaoSystem/examClass")
-                        .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/examClass"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].examId").value(examClass1.getExamId()))
@@ -63,11 +64,23 @@ public class ExamExamClassControllerTest {
     }
 
     @Test
+    public void testGetExamExamClassesById() throws Exception {
+        Mockito.when(examExamClassService.getExamExamClassesById(1L)).thenReturn(Arrays.asList(examClass1));
+
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/examClass/getById")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(examClass1)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].examId").value(examClass1.getExamId()));
+    }
+
+    @Test
     public void testGetExamExamClassesByExamId() throws Exception {
         List<ExamExamClass> examClasses = Arrays.asList(examClass1);
-        Mockito.when(examExamClassService.getExamExamClassesByExamId(1L)).thenReturn(examClasses);
+        Mockito.when(examExamClassService.getExamExamClassesByExamId(101L)).thenReturn(examClasses);
 
-        mockMvc.perform(get("/bukaoSystem/examClass/getByExamId")
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/examClass/getByExamId")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(examClass1)))
                 .andExpect(status().isOk())
@@ -77,38 +90,44 @@ public class ExamExamClassControllerTest {
 
     @Test
     public void testGetExamExamClassesByClassId() throws Exception {
-        List<ExamExamClass> examClasses = Arrays.asList(examClass2);
-        Mockito.when(examExamClassService.getExamExamClassesByClassId(2L)).thenReturn(examClasses);
+        List<ExamExamClass> examClasses = Arrays.asList(examClass1);
+        Mockito.when(examExamClassService.getExamExamClassesByClassId(201L)).thenReturn(examClasses);
 
-        mockMvc.perform(get("/bukaoSystem/examClass/getByClassId")
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/examClass/getByClassId")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(examClass2)))
+                        .content(objectMapper.writeValueAsString(examClass1)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].classId").value(examClass2.getClassId()));
+                .andExpect(jsonPath("$[0].examId").value(examClass1.getExamId()));
     }
 
     @Test
     public void testCreateExamExamClass() throws Exception {
-        mockMvc.perform(post("/bukaoSystem/examClass/create")
+        mockMvc.perform(post("http://localhost:8080/bukaoSystem/examClass/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(examClass1)))
                 .andExpect(status().isOk());
+
+        Mockito.verify(examExamClassService, Mockito.times(1)).saveExamExamClass(Mockito.any(ExamExamClass.class));
     }
 
     @Test
     public void testUpdateExamExamClass() throws Exception {
-        mockMvc.perform(post("/bukaoSystem/examClass/update")
+        mockMvc.perform(post("http://localhost:8080/bukaoSystem/examClass/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(examClass1)))
                 .andExpect(status().isOk());
+
+        Mockito.verify(examExamClassService, Mockito.times(1)).updateExamExamClass(Mockito.any(ExamExamClass.class));
     }
 
     @Test
     public void testDeleteExamExamClass() throws Exception {
-        mockMvc.perform(post("/bukaoSystem/examClass/delete")
+        mockMvc.perform(post("http://localhost:8080/bukaoSystem/examClass/delete")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(examClass1)))
                 .andExpect(status().isOk());
+
+        Mockito.verify(examExamClassService, Mockito.times(1)).deleteExamExamClass(examClass1.getExamId(), examClass1.getClassId());
     }
 }

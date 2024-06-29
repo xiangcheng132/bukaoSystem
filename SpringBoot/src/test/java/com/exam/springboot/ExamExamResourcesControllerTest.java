@@ -33,82 +33,102 @@ public class ExamExamResourcesControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private ExamExamResources examResources1;
-    private ExamExamResources examResources2;
+    private ExamExamResources resource1;
+    private ExamExamResources resource2;
 
     @BeforeEach
     public void setup() {
-        examResources1 = new ExamExamResources();
-        examResources1.setExamId(1L);
-        examResources1.setResourceId(1L);
-        examResources1.setCreateTime("2023-01-01 00:00:00");
+        resource1 = new ExamExamResources();
+        resource1.setId(1L);
+        resource1.setExamId(101L);
+        resource1.setResourceId(201L);
+        resource1.setCreateTime("2020-01-01 00:00:00");
 
-        examResources2 = new ExamExamResources();
-        examResources2.setExamId(2L);
-        examResources2.setResourceId(2L);
-        examResources2.setCreateTime("2023-02-01 00:00:00");
+        resource2 = new ExamExamResources();
+        resource2.setId(2L);
+        resource2.setExamId(102L);
+        resource2.setResourceId(202L);
+        resource2.setCreateTime("2021-01-01 00:00:00");
     }
 
     @Test
     public void testGetAllExamExamResources() throws Exception {
-        List<ExamExamResources> examResources = Arrays.asList(examResources1, examResources2);
-        Mockito.when(examExamResourcesService.getAllExamExamResources()).thenReturn(examResources);
+        List<ExamExamResources> resources = Arrays.asList(resource1, resource2);
+        Mockito.when(examExamResourcesService.getAllExamExamResources()).thenReturn(resources);
 
-        mockMvc.perform(get("/bukaoSystem/examResources")
-                        .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/bukaoSystem/examResources"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].examId").value(examResources1.getExamId()))
-                .andExpect(jsonPath("$[1].resourceId").value(examResources2.getResourceId()));
+                .andExpect(jsonPath("$[0].examId").value(resource1.getExamId()))
+                .andExpect(jsonPath("$[1].examId").value(resource2.getExamId()));
+    }
+
+    @Test
+    public void testGetExamExamResourcesById() throws Exception {
+        List<ExamExamResources> resources = Arrays.asList(resource1);
+        Mockito.when(examExamResourcesService.getExamExamResourcesById(1L)).thenReturn(resources);
+
+        mockMvc.perform(get("/bukaoSystem/examResources/getById")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(resource1)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].examId").value(resource1.getExamId()));
     }
 
     @Test
     public void testGetExamExamResourcesByExamId() throws Exception {
-        List<ExamExamResources> examResources = Arrays.asList(examResources1);
-        Mockito.when(examExamResourcesService.getExamExamResourcesByExamId(1L)).thenReturn(examResources);
+        List<ExamExamResources> resources = Arrays.asList(resource1);
+        Mockito.when(examExamResourcesService.getExamExamResourcesByExamId(101L)).thenReturn(resources);
 
         mockMvc.perform(get("/bukaoSystem/examResources/getByExamId")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(examResources1)))
+                        .content(objectMapper.writeValueAsString(resource1)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].examId").value(examResources1.getExamId()));
+                .andExpect(jsonPath("$[0].examId").value(resource1.getExamId()));
     }
 
     @Test
     public void testGetExamExamResourcesByResourceId() throws Exception {
-        List<ExamExamResources> examResources = Arrays.asList(examResources2);
-        Mockito.when(examExamResourcesService.getExamExamResourcesByResourceId(2L)).thenReturn(examResources);
+        List<ExamExamResources> resources = Arrays.asList(resource1);
+        Mockito.when(examExamResourcesService.getExamExamResourcesByResourceId(201L)).thenReturn(resources);
 
         mockMvc.perform(get("/bukaoSystem/examResources/getByResourceId")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(examResources2)))
+                        .content(objectMapper.writeValueAsString(resource1)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].resourceId").value(examResources2.getResourceId()));
+                .andExpect(jsonPath("$[0].examId").value(resource1.getExamId()));
     }
 
     @Test
     public void testCreateExamExamResources() throws Exception {
         mockMvc.perform(post("/bukaoSystem/examResources/create")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(examResources1)))
+                        .content(objectMapper.writeValueAsString(resource1)))
                 .andExpect(status().isOk());
+
+        Mockito.verify(examExamResourcesService, Mockito.times(1)).saveExamExamResources(Mockito.any(ExamExamResources.class));
     }
 
     @Test
     public void testUpdateExamExamResources() throws Exception {
         mockMvc.perform(post("/bukaoSystem/examResources/update")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(examResources1)))
+                        .content(objectMapper.writeValueAsString(resource1)))
                 .andExpect(status().isOk());
+
+        Mockito.verify(examExamResourcesService, Mockito.times(1)).updateExamExamResources(Mockito.any(ExamExamResources.class));
     }
 
     @Test
     public void testDeleteExamExamResources() throws Exception {
         mockMvc.perform(post("/bukaoSystem/examResources/delete")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(examResources1)))
+                        .content(objectMapper.writeValueAsString(resource1)))
                 .andExpect(status().isOk());
+
+        Mockito.verify(examExamResourcesService, Mockito.times(1)).deleteExamExamResources(resource1.getExamId(), resource1.getResourceId());
     }
 }

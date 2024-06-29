@@ -31,6 +31,12 @@ public class ExamExamClassDaoImpl implements ExamExamClassDao {
     }
 
     @Override
+    public List<ExamExamClass> getExamExamClassesById(Long id) {
+        String sql = "SELECT * FROM exam_exam_class WHERE id = ?";
+        return jdbcTemplate.query(sql, rowMapper, id);
+    }
+
+    @Override
     public List<ExamExamClass> getExamExamClassesByClassId(Long classId) {
         String sql = "SELECT * FROM exam_exam_class WHERE classId = ?";
         return jdbcTemplate.query(sql, rowMapper, classId);

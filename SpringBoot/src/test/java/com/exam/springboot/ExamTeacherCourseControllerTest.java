@@ -39,14 +39,16 @@ public class ExamTeacherCourseControllerTest {
     @BeforeEach
     public void setup() {
         teacherCourse1 = new ExamTeacherCourse();
-        teacherCourse1.setTeacherId(1L);
-        teacherCourse1.setCourseId(1L);
-        teacherCourse1.setCreateTime("2023-01-01 00:00:00");
+        teacherCourse1.setId(1L);
+        teacherCourse1.setTeacherId(101L);
+        teacherCourse1.setCourseId(201L);
+        teacherCourse1.setCreateTime("2020-01-01 00:00:00");
 
         teacherCourse2 = new ExamTeacherCourse();
-        teacherCourse2.setTeacherId(2L);
-        teacherCourse2.setCourseId(2L);
-        teacherCourse2.setCreateTime("2023-02-01 00:00:00");
+        teacherCourse2.setId(2L);
+        teacherCourse2.setTeacherId(102L);
+        teacherCourse2.setCourseId(202L);
+        teacherCourse2.setCreateTime("2021-01-01 00:00:00");
     }
 
     @Test
@@ -62,9 +64,22 @@ public class ExamTeacherCourseControllerTest {
     }
 
     @Test
+    public void testGetExamTeacherCoursesById() throws Exception {
+        List<ExamTeacherCourse> teacherCourses = Arrays.asList(teacherCourse1);
+        Mockito.when(examTeacherCourseService.getExamTeacherCoursesById(1L)).thenReturn(teacherCourses);
+
+        mockMvc.perform(get("/bukaoSystem/teacherCourse/getById")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(teacherCourse1)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].teacherId").value(teacherCourse1.getTeacherId()));
+    }
+
+    @Test
     public void testGetExamTeacherCoursesByTeacherId() throws Exception {
         List<ExamTeacherCourse> teacherCourses = Arrays.asList(teacherCourse1);
-        Mockito.when(examTeacherCourseService.getExamTeacherCoursesByTeacherId(1L)).thenReturn(teacherCourses);
+        Mockito.when(examTeacherCourseService.getExamTeacherCoursesByTeacherId(101L)).thenReturn(teacherCourses);
 
         mockMvc.perform(get("/bukaoSystem/teacherCourse/getByTeacherId")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -76,15 +91,15 @@ public class ExamTeacherCourseControllerTest {
 
     @Test
     public void testGetExamTeacherCoursesByCourseId() throws Exception {
-        List<ExamTeacherCourse> teacherCourses = Arrays.asList(teacherCourse2);
-        Mockito.when(examTeacherCourseService.getExamTeacherCoursesByCourseId(2L)).thenReturn(teacherCourses);
+        List<ExamTeacherCourse> teacherCourses = Arrays.asList(teacherCourse1);
+        Mockito.when(examTeacherCourseService.getExamTeacherCoursesByCourseId(201L)).thenReturn(teacherCourses);
 
         mockMvc.perform(get("/bukaoSystem/teacherCourse/getByCourseId")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(teacherCourse2)))
+                        .content(objectMapper.writeValueAsString(teacherCourse1)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].courseId").value(teacherCourse2.getCourseId()));
+                .andExpect(jsonPath("$[0].teacherId").value(teacherCourse1.getTeacherId()));
     }
 
     @Test
@@ -93,6 +108,8 @@ public class ExamTeacherCourseControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(teacherCourse1)))
                 .andExpect(status().isOk());
+
+        Mockito.verify(examTeacherCourseService, Mockito.times(1)).saveExamTeacherCourse(Mockito.any(ExamTeacherCourse.class));
     }
 
     @Test
@@ -101,6 +118,8 @@ public class ExamTeacherCourseControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(teacherCourse1)))
                 .andExpect(status().isOk());
+
+        Mockito.verify(examTeacherCourseService, Mockito.times(1)).updateExamTeacherCourse(Mockito.any(ExamTeacherCourse.class));
     }
 
     @Test
@@ -109,5 +128,7 @@ public class ExamTeacherCourseControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(teacherCourse1)))
                 .andExpect(status().isOk());
+
+        Mockito.verify(examTeacherCourseService, Mockito.times(1)).deleteExamTeacherCourse(teacherCourse1.getTeacherId(), teacherCourse1.getCourseId());
     }
 }

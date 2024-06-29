@@ -23,6 +23,11 @@ public class ExamTeacherCourseDaoImpl implements ExamTeacherCourseDao {
         String sql = "SELECT * FROM exam_teacher_course";
         return jdbcTemplate.query(sql, rowMapper);
     }
+    @Override
+    public List<ExamTeacherCourse> getExamTeacherCoursesById(Long id) {
+        String sql = "SELECT * FROM exam_teacher_course WHERE id = ?";
+        return jdbcTemplate.query(sql, rowMapper, id);
+    }
 
     @Override
     public List<ExamTeacherCourse> getExamTeacherCoursesByTeacherId(Long teacherId) {

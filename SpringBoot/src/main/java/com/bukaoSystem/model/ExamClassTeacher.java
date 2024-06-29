@@ -1,25 +1,27 @@
 package com.bukaoSystem.model;
 
-public class ExamExamClass {
-
+public class ExamClassTeacher {
     private Long id;
-    private Long examId;
     private Long classId;
+    private Long teacherId;
     private String createTime;
 
+    public ExamClassTeacher() {
+    }
+    public ExamClassTeacher(Long id, Long classId, Long teacherId, String createTime) {
+        this.id = id;
+        this.classId = classId;
+        this.teacherId = teacherId;
+        this.createTime = createTime;
+    }
+
+    // Getters and setters for all fields
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-    public Long getExamId() {
-        return examId;
-    }
-
-    public void setExamId(Long examId) {
-        this.examId = examId;
     }
 
     public Long getClassId() {
@@ -28,6 +30,14 @@ public class ExamExamClass {
 
     public void setClassId(Long classId) {
         this.classId = classId;
+    }
+
+    public Long getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Long teacherId) {
+        this.teacherId = teacherId;
     }
 
     public String getCreateTime() {

@@ -18,6 +18,10 @@ public class ExamExamClassController {
     public List<ExamExamClass> getAllExamExamClasses() {
         return examExamClassService.getAllExamExamClasses();
     }
+    @GetMapping("/getById")
+    public List<ExamExamClass> getExamExamClassesById(@RequestBody ExamExamClass examExamClass) {
+        return examExamClassService.getExamExamClassesById(examExamClass.getId());
+    }
 
     @GetMapping("/getByExamId")
     public List<ExamExamClass> getExamExamClassesByExamId(@RequestBody ExamExamClass examExamClass) {

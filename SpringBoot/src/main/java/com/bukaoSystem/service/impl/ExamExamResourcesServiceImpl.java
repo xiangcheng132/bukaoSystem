@@ -25,6 +25,10 @@ public class ExamExamResourcesServiceImpl implements ExamExamResourcesService {
     }
 
     @Override
+    public List<ExamExamResources> getExamExamResourcesById(Long Id) {
+        return examExamResourcesDao.getExamExamResourcesById(Id);
+    }
+    @Override
     public List<ExamExamResources> getExamExamResourcesByResourceId(Long resourceId) {
         return examExamResourcesDao.getExamExamResourcesByResourceId(resourceId);
     }
