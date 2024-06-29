@@ -7,9 +7,8 @@ public interface ExamCourseService {
     void saveExamCourse(ExamCourse examCourse);
     ExamCourse getExamCourseById(Long id);
 
-    List<ExamCourse> getExamCourseBychapter(Long id);
-
     List<ExamCourse> getAllExamCourses();
+    List<ExamCourse> getExamCoursesByName(String name);
     void updateExamCourse(ExamCourse examCourse);
     void deleteExamCourse(Long id);
 }

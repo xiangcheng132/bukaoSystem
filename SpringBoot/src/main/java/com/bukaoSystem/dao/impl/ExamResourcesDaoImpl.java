@@ -86,8 +86,14 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
     }
 
     @Override
-    public List<ExamResources> findByCourseId(Long courseId) {
-        String sql = "SELECT * FROM exam_resources WHERE courseId = ?";
+    public List<ExamResources> findByCourseId(Long courseId, String sort) {
+        String sql = "SELECT * FROM exam_resources WHERE courseId = ? ORDER BY id " + sort;
         return jdbcTemplate.query(sql, new Object[]{courseId}, rowMapper);
+    }
+
+    @Override
+    public List<ExamResources> findByChapterId(Long chapterId, String sort) {
+        String sql = "SELECT * FROM exam_resources WHERE chapterId = ? ORDER BY courseId " + sort;
+        return jdbcTemplate.query(sql, new Object[]{chapterId}, rowMapper);
     }
 }

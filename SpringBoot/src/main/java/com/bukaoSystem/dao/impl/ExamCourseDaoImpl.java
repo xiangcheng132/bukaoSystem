@@ -1,6 +1,6 @@
 package com.bukaoSystem.dao.impl;
 
-import com.bukaoSystem.dao.ExamCourseRepository;
+import com.bukaoSystem.dao.ExamCourseDao;
 import com.bukaoSystem.model.ExamCourse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,19 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class ExamCourseRepositoryImpl implements ExamCourseRepository {
+public class ExamCourseDaoImpl implements ExamCourseDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
     public void save(ExamCourse examCourse) {
-        StringBuilder sql = new StringBuilder("INSERT INTO exam_course (name, chapter");
-        StringBuilder values = new StringBuilder(" VALUES (?, ?");
+        StringBuilder sql = new StringBuilder("INSERT INTO exam_course (name");
+        StringBuilder values = new StringBuilder(" VALUES (?");
 
         List<Object> params = new ArrayList<>();
         params.add(examCourse.getName());
-        params.add(examCourse.getchapter());
 
         if (examCourse.getComment() != null) {
             sql.append(", comment");
@@ -52,12 +51,6 @@ public class ExamCourseRepositoryImpl implements ExamCourseRepository {
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, this::mapRowToExamCourse);
     }
 
-    @Override
-    public List<ExamCourse> findBychapter(Long id) {
-        String sql = "SELECT * FROM exam_course WHERE chapter = ?";
-        return jdbcTemplate.query(sql, new Object[]{id}, this::mapRowToExamCourse);
-    }
-
 
     @Override
     public List<ExamCourse> findAll() {
@@ -66,11 +59,16 @@ public class ExamCourseRepositoryImpl implements ExamCourseRepository {
     }
 
     @Override
+    public List<ExamCourse> findByName(String name) {
+        String sql = "SELECT * FROM exam_course where name = ?";
+        return jdbcTemplate.query(sql, new Object[]{name},this::mapRowToExamCourse);
+    }
+
+    @Override
     public void update(ExamCourse examCourse) {
-        StringBuilder sql = new StringBuilder("UPDATE exam_course SET name = ?, chapter = ?");
+        StringBuilder sql = new StringBuilder("UPDATE exam_course SET name = ?");
         List<Object> params = new ArrayList<>();
         params.add(examCourse.getName());
-        params.add(examCourse.getchapter());
 
         if (examCourse.getComment() != null) {
             sql.append(", comment = ?");
@@ -99,7 +97,6 @@ public class ExamCourseRepositoryImpl implements ExamCourseRepository {
         ExamCourse examCourse = new ExamCourse();
         examCourse.setId(rs.getLong("id"));
         examCourse.setName(rs.getString("name"));
-        examCourse.setchapter(rs.getLong("chapter"));
         examCourse.setComment(rs.getString("comment"));
         examCourse.setCreateTime(rs.getString("createTime"));
         return examCourse;

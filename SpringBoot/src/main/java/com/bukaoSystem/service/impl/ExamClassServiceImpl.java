@@ -1,6 +1,6 @@
 package com.bukaoSystem.service.impl;
 
-import com.bukaoSystem.dao.ExamClassRepository;
+import com.bukaoSystem.dao.ExamClassDao;
 import com.bukaoSystem.model.ExamClass;
 import com.bukaoSystem.service.ExamClassService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,30 +12,30 @@ import java.util.List;
 public class ExamClassServiceImpl implements ExamClassService {
 
     @Autowired
-    private ExamClassRepository examClassRepository;
+    private ExamClassDao examClassDao;
 
     @Override
     public void saveExamClass(ExamClass examClass) {
-        examClassRepository.save(examClass);
+        examClassDao.save(examClass);
     }
 
     @Override
     public ExamClass getExamClassById(Long id) {
-        return examClassRepository.findById(id);
+        return examClassDao.findById(id);
     }
 
     @Override
     public List<ExamClass> getAllExamClasses() {
-        return examClassRepository.findAll();
+        return examClassDao.findAll();
     }
 
     @Override
     public void updateExamClass(ExamClass examClass) {
-        examClassRepository.update(examClass);
+        examClassDao.update(examClass);
     }
 
     @Override
     public void deleteExamClass(Long id) {
-        examClassRepository.delete(id);
+        examClassDao.delete(id);
     }
 }

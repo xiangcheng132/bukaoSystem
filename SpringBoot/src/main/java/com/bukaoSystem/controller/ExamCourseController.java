@@ -29,11 +29,10 @@ public class ExamCourseController {
         return examCourseService.getExamCourseById(examCourse.getId());
     }
 
-    @GetMapping("/getByChapterId")
-    public List<ExamCourse> getExamCourseBychapter(@RequestBody ExamCourse examCourse) {
-        return examCourseService.getExamCourseBychapter(examCourse.getchapter());
+    @GetMapping("/getByName")
+    public List<ExamCourse> getExamCourseByName(@RequestBody ExamCourse examCourse) {
+        return examCourseService.getExamCoursesByName(examCourse.getName());
     }
-
 
     @PostMapping("/update")
     public void updateExamCourse(@RequestBody ExamCourse examCourse) {

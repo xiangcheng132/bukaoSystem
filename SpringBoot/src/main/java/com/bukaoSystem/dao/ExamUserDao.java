@@ -4,7 +4,7 @@ import com.bukaoSystem.model.ExamUser;
 
 import java.util.List;
 
-public interface ExamUserRepository {
+public interface ExamUserDao {
     void save(ExamUser user);
     ExamUser findById(Long id);
     List<ExamUser> findAll();

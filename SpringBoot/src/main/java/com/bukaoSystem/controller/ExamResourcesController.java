@@ -16,12 +16,17 @@ public class ExamResourcesController {
 
     @GetMapping
     public List<ExamResources> getAllExamResources() {
-        return examResourcesService.getExamResourcesByCourseId(null);
+        return examResourcesService.getExamResourcesByCourseId(null,"ASC");
     }
 
     @GetMapping("/getByCourseId")
-    public List<ExamResources> getExamResourcesByCourseId(@RequestBody ExamResources examResources) {
-        return examResourcesService.getExamResourcesByCourseId(examResources.getCourseId());
+    public List<ExamResources> getExamResourcesByCourseId(@RequestBody ExamResources examResources,@RequestParam(defaultValue = "ASC") String sort) {
+        return examResourcesService.getExamResourcesByCourseId(examResources.getCourseId(),sort);
+    }
+
+    @GetMapping("/getByChapterId")
+    public List<ExamResources> getExamResourcesByChapterId(@RequestBody ExamResources examResources,@RequestParam(defaultValue = "ASC") String sort) {
+        return examResourcesService.getExamResourcesByChapterId(examResources.getChapterId(),sort);
     }
 
     @GetMapping("/getById")

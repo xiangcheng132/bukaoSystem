@@ -9,5 +9,6 @@ public interface ExamResourcesService {
     void updateExamResources(ExamResources examResources);
     void deleteExamResources(Long id);
     ExamResources getExamResourcesById(Long id);
-    List<ExamResources> getExamResourcesByCourseId(Long courseId);
+    List<ExamResources> getExamResourcesByCourseId(Long courseId, String sort);
+    List<ExamResources> getExamResourcesByChapterId(Long chapterId, String sort);
 }

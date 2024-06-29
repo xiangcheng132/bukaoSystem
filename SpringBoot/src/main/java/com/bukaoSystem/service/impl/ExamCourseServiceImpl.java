@@ -1,6 +1,6 @@
 package com.bukaoSystem.service.impl;
 
-import com.bukaoSystem.dao.ExamCourseRepository;
+import com.bukaoSystem.dao.ExamCourseDao;
 import com.bukaoSystem.model.ExamCourse;
 import com.bukaoSystem.service.ExamCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,35 +12,35 @@ import java.util.List;
 public class ExamCourseServiceImpl implements ExamCourseService {
 
     @Autowired
-    private ExamCourseRepository examCourseRepository;
+    private ExamCourseDao examCourseDao;
 
     @Override
     public void saveExamCourse(ExamCourse examCourse) {
-        examCourseRepository.save(examCourse);
+        examCourseDao.save(examCourse);
     }
 
     @Override
     public ExamCourse getExamCourseById(Long id) {
-        return examCourseRepository.findById(id);
+        return examCourseDao.findById(id);
     }
 
-    @Override
-    public List<ExamCourse> getExamCourseBychapter(Long id) {
-        return examCourseRepository.findBychapter(id);
-    }
 
     @Override
     public List<ExamCourse> getAllExamCourses() {
-        return examCourseRepository.findAll();
+        return examCourseDao.findAll();
+    }
+    @Override
+    public List<ExamCourse> getExamCoursesByName(String name) {
+        return examCourseDao.findByName(name);
     }
 
     @Override
     public void updateExamCourse(ExamCourse examCourse) {
-        examCourseRepository.update(examCourse);
+        examCourseDao.update(examCourse);
     }
 
     @Override
     public void deleteExamCourse(Long id) {
-        examCourseRepository.delete(id);
+        examCourseDao.delete(id);
     }
 }

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 public class ExamResources {
     private Long id;
     private Long courseId;
+    private Long chapterId;
     private String question;
     private Type type;
     private JsonNode options;
@@ -37,6 +38,14 @@ public class ExamResources {
 
     public void setCourseId(Long courseId) {
         this.courseId = courseId;
+    }
+
+    public Long getChapterId() {
+        return chapterId;
+    }
+
+    public void setChapterId(Long chapterId) {
+        this.chapterId = chapterId;
     }
 
     public String getQuestion() {

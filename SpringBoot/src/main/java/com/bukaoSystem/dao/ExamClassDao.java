@@ -3,7 +3,7 @@ package com.bukaoSystem.dao;
 import com.bukaoSystem.model.ExamClass;
 import java.util.List;
 
-public interface ExamClassRepository {
+public interface ExamClassDao {
     void save(ExamClass examClass);
 
     ExamClass findById(Long id);

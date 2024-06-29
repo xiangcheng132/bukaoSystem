@@ -1,6 +1,6 @@
 package com.bukaoSystem.service.impl;
 
-import com.bukaoSystem.dao.ExamUserRepository;
+import com.bukaoSystem.dao.ExamUserDao;
 import com.bukaoSystem.model.ExamUser;
 import com.bukaoSystem.service.ExamUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,26 +12,26 @@ import java.util.List;
 public class ExamUserServiceImpl implements ExamUserService {
 
     @Autowired
-    private ExamUserRepository examUserRepository;
+    private ExamUserDao examUserDao;
 
     @Override
     public void saveUser(ExamUser user) {
-        examUserRepository.save(user);
+        examUserDao.save(user);
     }
     @Override
     public ExamUser getUserById(Long id) {
-        return examUserRepository.findById(id);
+        return examUserDao.findById(id);
     }
     @Override
     public List<ExamUser> getAllUsers() {
-        return examUserRepository.findAll();
+        return examUserDao.findAll();
     }
     @Override
     public void updateUser(ExamUser user) {
-        examUserRepository.update(user);
+        examUserDao.update(user);
     }
     @Override
     public void deleteUser(Long id) {
-        examUserRepository.delete(id);
+        examUserDao.delete(id);
     }
 }

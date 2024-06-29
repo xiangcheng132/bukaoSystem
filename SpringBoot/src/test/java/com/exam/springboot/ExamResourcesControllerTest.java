@@ -42,6 +42,7 @@ public class ExamResourcesControllerTest {
         resource1 = new ExamResources();
         resource1.setId(1L);
         resource1.setCourseId(1L);
+        resource1.setChapterId(1L);
         resource1.setQuestion("What is the capital of France?");
         resource1.setType(ExamResources.Type.SINGLE_CHOICE);
         resource1.setOptions(objectMapper.createObjectNode().put("A", "Paris").put("B", "London").put("C", "Berlin").put("D", "Madrid"));
@@ -53,6 +54,7 @@ public class ExamResourcesControllerTest {
         resource2 = new ExamResources();
         resource2.setId(2L);
         resource2.setCourseId(2L);
+        resource2.setChapterId(2L);
         resource2.setQuestion("What is the capital of Germany?");
         resource2.setType(ExamResources.Type.SINGLE_CHOICE);
         resource2.setOptions(objectMapper.createObjectNode().put("A", "Paris").put("B", "London").put("C", "Berlin").put("D", "Madrid"));
@@ -65,7 +67,7 @@ public class ExamResourcesControllerTest {
     @Test
     public void testGetAllExamResources() throws Exception {
         List<ExamResources> resources = Arrays.asList(resource1, resource2);
-        Mockito.when(examResourcesService.getExamResourcesByCourseId(null)).thenReturn(resources);
+        Mockito.when(examResourcesService.getExamResourcesByCourseId(null,"ASC")).thenReturn(resources);
 
         mockMvc.perform(get("http://localhost:8080/bukaoSystem/resources"))
                 .andExpect(status().isOk())
@@ -77,9 +79,24 @@ public class ExamResourcesControllerTest {
     @Test
     public void testGetExamResourcesByCourseId() throws Exception {
         List<ExamResources> resources = Arrays.asList(resource1);
-        Mockito.when(examResourcesService.getExamResourcesByCourseId(1L)).thenReturn(resources);
+        Mockito.when(examResourcesService.getExamResourcesByCourseId(1L, "ASC")).thenReturn(resources);
 
         mockMvc.perform(get("http://localhost:8080/bukaoSystem/resources/getByCourseId")
+                        .param("sort", "ASC")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(resource1)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].question").value(resource1.getQuestion()));
+    }
+
+    @Test
+    public void testGetExamResourcesByChapterId() throws Exception {
+        List<ExamResources> resources = Arrays.asList(resource1);
+        Mockito.when(examResourcesService.getExamResourcesByChapterId(1L, "ASC")).thenReturn(resources);
+
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/resources/getByChapterId")
+                        .param("sort", "ASC")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(resource1)))
                 .andExpect(status().isOk())

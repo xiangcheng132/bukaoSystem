@@ -35,7 +35,12 @@ public class ExamResourcesServiceImpl implements ExamResourcesService {
     }
 
     @Override
-    public List<ExamResources> getExamResourcesByCourseId(Long courseId) {
-        return examResourcesDao.findByCourseId(courseId);
+    public List<ExamResources> getExamResourcesByCourseId(Long courseId, String sort) {
+        return examResourcesDao.findByCourseId(courseId, sort);
+    }
+
+    @Override
+    public List<ExamResources> getExamResourcesByChapterId(Long chapterId, String sort) {
+        return examResourcesDao.findByCourseId(chapterId, sort);
     }
 }

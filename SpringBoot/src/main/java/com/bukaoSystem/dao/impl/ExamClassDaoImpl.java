@@ -1,6 +1,6 @@
 package com.bukaoSystem.dao.impl;
 
-import com.bukaoSystem.dao.ExamClassRepository;
+import com.bukaoSystem.dao.ExamClassDao;
 import com.bukaoSystem.model.ExamClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,12 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class ExamClassRepositoryImpl implements ExamClassRepository {
+public class ExamClassDaoImpl implements ExamClassDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
