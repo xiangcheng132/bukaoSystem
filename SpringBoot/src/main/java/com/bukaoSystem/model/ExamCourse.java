@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class ExamCourse {
     private Long id;
     private String name;
-    private Long teacherId;
+    private Long chapter;
     private String comment;
     private String createTime;
 
@@ -27,12 +27,12 @@ public class ExamCourse {
         this.name = name;
     }
 
-    public Long getTeacherId() {
-        return teacherId;
+    public Long getchapter() {
+        return chapter;
     }
 
-    public void setTeacherId(Long teacherId) {
-        this.teacherId = teacherId;
+    public void setchapter(Long chapter) {
+        this.chapter = chapter;
     }
 
     public String getComment() {

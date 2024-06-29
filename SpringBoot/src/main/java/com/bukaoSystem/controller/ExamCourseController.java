@@ -30,8 +30,8 @@ public class ExamCourseController {
     }
 
     @GetMapping("/teacher/{id}")
-    public List<ExamCourse> getExamCourseByTeacherId(@PathVariable Long id) {
-        return examCourseService.getExamCourseByTeacherId(id);
+    public List<ExamCourse> getExamCourseBychapter(@PathVariable Long id) {
+        return examCourseService.getExamCourseBychapter(id);
     }
 
 

@@ -19,12 +19,12 @@ public class ExamCourseRepositoryImpl implements ExamCourseRepository {
 
     @Override
     public void save(ExamCourse examCourse) {
-        StringBuilder sql = new StringBuilder("INSERT INTO exam_course (name, teacherId");
+        StringBuilder sql = new StringBuilder("INSERT INTO exam_course (name, chapter");
         StringBuilder values = new StringBuilder(" VALUES (?, ?");
 
         List<Object> params = new ArrayList<>();
         params.add(examCourse.getName());
-        params.add(examCourse.getTeacherId());
+        params.add(examCourse.getchapter());
 
         if (examCourse.getComment() != null) {
             sql.append(", comment");
@@ -53,8 +53,8 @@ public class ExamCourseRepositoryImpl implements ExamCourseRepository {
     }
 
     @Override
-    public List<ExamCourse> findByTeacherId(Long id) {
-        String sql = "SELECT * FROM exam_course WHERE teacherId = ?";
+    public List<ExamCourse> findBychapter(Long id) {
+        String sql = "SELECT * FROM exam_course WHERE chapter = ?";
         return jdbcTemplate.query(sql, new Object[]{id}, this::mapRowToExamCourse);
     }
 
@@ -67,10 +67,10 @@ public class ExamCourseRepositoryImpl implements ExamCourseRepository {
 
     @Override
     public void update(ExamCourse examCourse) {
-        StringBuilder sql = new StringBuilder("UPDATE exam_course SET name = ?, teacherId = ?");
+        StringBuilder sql = new StringBuilder("UPDATE exam_course SET name = ?, chapter = ?");
         List<Object> params = new ArrayList<>();
         params.add(examCourse.getName());
-        params.add(examCourse.getTeacherId());
+        params.add(examCourse.getchapter());
 
         if (examCourse.getComment() != null) {
             sql.append(", comment = ?");
@@ -99,7 +99,7 @@ public class ExamCourseRepositoryImpl implements ExamCourseRepository {
         ExamCourse examCourse = new ExamCourse();
         examCourse.setId(rs.getLong("id"));
         examCourse.setName(rs.getString("name"));
-        examCourse.setTeacherId(rs.getLong("teacherId"));
+        examCourse.setchapter(rs.getLong("chapter"));
         examCourse.setComment(rs.getString("comment"));
         examCourse.setCreateTime(rs.getString("createTime"));
         return examCourse;

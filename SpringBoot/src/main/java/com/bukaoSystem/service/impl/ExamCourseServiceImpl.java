@@ -25,8 +25,8 @@ public class ExamCourseServiceImpl implements ExamCourseService {
     }
 
     @Override
-    public List<ExamCourse> getExamCourseByTeacherId(Long id) {
-        return examCourseRepository.findByTeacherId(id);
+    public List<ExamCourse> getExamCourseBychapter(Long id) {
+        return examCourseRepository.findBychapter(id);
     }
 
     @Override

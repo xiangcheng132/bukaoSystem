@@ -42,14 +42,14 @@ public class ExamCourseControllerTest {
         course1 = new ExamCourse();
         course1.setId(1L);
         course1.setName("Course 1");
-        course1.setTeacherId(1L);
+        course1.setchapter(1L);
         course1.setComment("Comment 1");
         course1.setCreateTime("2020-01-01 00:00:00");
 
         course2 = new ExamCourse();
         course2.setId(2L);
         course2.setName("Course 2");
-        course2.setTeacherId(2L);
+        course2.setchapter(2L);
         course2.setComment("Comment 2");
         course2.setCreateTime("2020-01-01 00:00:00");
     }

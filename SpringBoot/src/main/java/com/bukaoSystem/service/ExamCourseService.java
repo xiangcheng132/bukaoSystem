@@ -7,7 +7,7 @@ public interface ExamCourseService {
     void saveExamCourse(ExamCourse examCourse);
     ExamCourse getExamCourseById(Long id);
 
-    List<ExamCourse> getExamCourseByTeacherId(Long id);
+    List<ExamCourse> getExamCourseBychapter(Long id);
 
     List<ExamCourse> getAllExamCourses();
     void updateExamCourse(Long id, ExamCourse examCourse);
