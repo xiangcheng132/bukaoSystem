@@ -17,10 +17,10 @@ public class ExamResources {
     private String createTime;
 
     public enum Type {
-        SINGLE_CHOICE,
-        TRUE_FALSE,
-        COMPLETION,
-        BIG_QUESTION
+        single_choice,
+        true_false,
+        completion,
+        bigquestion
     }
 
     // Getters and Setters
