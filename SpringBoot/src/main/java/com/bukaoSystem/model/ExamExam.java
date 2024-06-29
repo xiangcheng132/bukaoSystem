@@ -8,6 +8,9 @@ public class ExamExam {
     private String name;
     private String comment;
     private String place;
+
+
+    private int state;
     private String beginTime;
     private String endTime;
     private String createTime;
@@ -51,6 +54,14 @@ public class ExamExam {
 
     public void setPlace(String place) {
         this.place = place;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     public String getBeginTime() {

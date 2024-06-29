@@ -44,7 +44,7 @@ public class ExamResourcesControllerTest {
         resource1.setCourseId(1L);
         resource1.setChapterId(1L);
         resource1.setQuestion("What is the capital of France?");
-        resource1.setType(ExamResources.Type.SINGLE_CHOICE);
+        resource1.setType(ExamResources.Type.single_choice);
         resource1.setOptions(objectMapper.createObjectNode().put("A", "Paris").put("B", "London").put("C", "Berlin").put("D", "Madrid"));
         resource1.setKey("A");
         resource1.setAnalysis("Paris is the capital of France.");
@@ -56,7 +56,7 @@ public class ExamResourcesControllerTest {
         resource2.setCourseId(2L);
         resource2.setChapterId(2L);
         resource2.setQuestion("What is the capital of Germany?");
-        resource2.setType(ExamResources.Type.SINGLE_CHOICE);
+        resource2.setType(ExamResources.Type.single_choice);
         resource2.setOptions(objectMapper.createObjectNode().put("A", "Paris").put("B", "London").put("C", "Berlin").put("D", "Madrid"));
         resource2.setKey("C");
         resource2.setAnalysis("Berlin is the capital of Germany.");

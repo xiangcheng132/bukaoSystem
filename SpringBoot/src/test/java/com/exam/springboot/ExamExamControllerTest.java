@@ -45,6 +45,7 @@ public class ExamExamControllerTest {
         exam1.setName("Exam 1");
         exam1.setComment("Comment 1");
         exam1.setPlace("Place 1");
+        exam1.setState(0);
         exam1.setBeginTime(LocalDateTime.of(2020, 1, 1, 10, 0).toString());
         exam1.setEndTime(LocalDateTime.of(2020, 1, 1, 12, 0).toString());
         exam1.setCreateTime("2020-01-01 00:00:00");
@@ -55,6 +56,7 @@ public class ExamExamControllerTest {
         exam2.setName("Exam 2");
         exam2.setComment("Comment 2");
         exam2.setPlace("Place 2");
+        exam2.setState(1);
         exam2.setBeginTime(LocalDateTime.of(2021, 1, 1, 10, 0).toString());
         exam2.setEndTime(LocalDateTime.of(2021, 1, 1, 12, 0).toString());
         exam2.setCreateTime("2021-01-01 00:00:00");
