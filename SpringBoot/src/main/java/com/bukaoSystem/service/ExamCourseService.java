@@ -10,6 +10,6 @@ public interface ExamCourseService {
     List<ExamCourse> getExamCourseBychapter(Long id);
 
     List<ExamCourse> getAllExamCourses();
-    void updateExamCourse(Long id, ExamCourse examCourse);
+    void updateExamCourse(ExamCourse examCourse);
     void deleteExamCourse(Long id);
 }

@@ -21,9 +21,9 @@ public class ExamUserController {
     }
 
     // 根据ID获取特定用户
-    @GetMapping("/{id}")
-    public ExamUser getUserById(@PathVariable Long id) {
-        return examUserServiceImpl.getUserById(id);
+    @GetMapping("/getById")
+    public ExamUser getUserById(@RequestBody ExamUser user) {
+        return examUserServiceImpl.getUserById(user.getId());
     }
 
     // 创建用户
@@ -33,15 +33,14 @@ public class ExamUserController {
     }
 
     // 更新用户
-    @PostMapping("/update/{id}")
-    public void updateUser(@PathVariable Long id, @RequestBody ExamUser user) {
-        user.setId(id); // 确保用户ID正确
+    @PostMapping("/update")
+    public void updateUser(@RequestBody ExamUser user) {
         examUserServiceImpl.updateUser(user);
     }
 
     // 删除用户
-    @PostMapping("/delete/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        examUserServiceImpl.deleteUser(id);
+    @PostMapping("/delete")
+    public void deleteUser(@RequestBody ExamUser user) {
+        examUserServiceImpl.deleteUser(user.getId());
     }
 }

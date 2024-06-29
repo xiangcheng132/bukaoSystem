@@ -35,8 +35,7 @@ public class ExamCourseServiceImpl implements ExamCourseService {
     }
 
     @Override
-    public void updateExamCourse(Long id, ExamCourse examCourse) {
-        examCourse.setId(id);
+    public void updateExamCourse(ExamCourse examCourse) {
         examCourseRepository.update(examCourse);
     }
 

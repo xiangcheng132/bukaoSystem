@@ -26,6 +26,16 @@ public class ExamExamServiceImpl implements ExamExamService {
     }
 
     @Override
+    public List<ExamExam> getExamExamsByCourseId(Long courseId)  {
+        return examExamDao.findByCourseId(courseId);
+    }
+
+    @Override
+    public List<ExamExam> getExamExamsByName(String name)  {
+        return examExamDao.findByName(name);
+    }
+
+    @Override
     @Transactional
     public void saveExamExam(ExamExam examExam) {
         examExamDao.save(examExam);

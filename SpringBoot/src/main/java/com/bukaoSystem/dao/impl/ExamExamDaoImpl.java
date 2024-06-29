@@ -30,6 +30,19 @@ public class ExamExamDaoImpl implements ExamExamDao {
     }
 
     @Override
+    public List<ExamExam> findByCourseId(Long id) {
+        String sql = "SELECT * FROM exam_exam WHERE courseId = ?";
+        return jdbcTemplate.query(sql, new ExamExamRowMapper(),id);
+    }
+
+    @Override
+    public List<ExamExam> findByName(String name) {
+        String sql = "SELECT * FROM exam_exam WHERE name = ?";
+        return jdbcTemplate.query(sql, new ExamExamRowMapper(),name);
+    }
+
+
+    @Override
     public void save(ExamExam examExam) {
         String sql = "INSERT INTO exam_exam (courseId, name, comment, place, beginTime, endTime, createTime) VALUES (?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql,

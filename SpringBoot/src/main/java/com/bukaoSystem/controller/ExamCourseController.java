@@ -24,24 +24,24 @@ public class ExamCourseController {
         examCourseService.saveExamCourse(examCourse);
     }
 
-    @GetMapping("/{id}")
-    public ExamCourse getExamCourseById(@PathVariable Long id) {
-        return examCourseService.getExamCourseById(id);
+    @GetMapping("/getById")
+    public ExamCourse getExamCourseById(@RequestBody ExamCourse examCourse) {
+        return examCourseService.getExamCourseById(examCourse.getId());
     }
 
-    @GetMapping("/teacher/{id}")
-    public List<ExamCourse> getExamCourseBychapter(@PathVariable Long id) {
-        return examCourseService.getExamCourseBychapter(id);
+    @GetMapping("/getByChapterId")
+    public List<ExamCourse> getExamCourseBychapter(@RequestBody ExamCourse examCourse) {
+        return examCourseService.getExamCourseBychapter(examCourse.getchapter());
     }
 
 
-    @PostMapping("/update/{id}")
-    public void updateExamCourse(@PathVariable Long id, @RequestBody ExamCourse examCourse) {
-        examCourseService.updateExamCourse(id, examCourse);
+    @PostMapping("/update")
+    public void updateExamCourse(@RequestBody ExamCourse examCourse) {
+        examCourseService.updateExamCourse(examCourse);
     }
 
-    @PostMapping("/delete/{id}")
-    public void deleteExamCourse(@PathVariable Long id) {
-        examCourseService.deleteExamCourse(id);
+    @PostMapping("/delete")
+    public void deleteExamCourse(@RequestBody ExamCourse examCourse) {
+        examCourseService.deleteExamCourse(examCourse.getId());
     }
 }

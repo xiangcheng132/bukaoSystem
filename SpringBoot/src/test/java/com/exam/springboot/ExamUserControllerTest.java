@@ -14,12 +14,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
 public class ExamUserControllerTest {
@@ -40,25 +40,25 @@ public class ExamUserControllerTest {
     public void setup() {
         user1 = new ExamUser();
         user1.setId(1L);
-        user1.setUsername("user1");
-        user1.setAccount("account1");
-        user1.setPassword("password1");
-        user1.setRole("teacher");
-        user1.setEmail("user1@example.com");
+        user1.setUsername("John Doe");
+        user1.setAccount("johndoe");
+        user1.setPassword("password123");
+        user1.setRole("student");
+        user1.setEmail("john.doe@example.com");
         user1.setPhone("1234567890");
-        user1.setSex("男");
-        user1.setCreateTime(LocalDateTime.now().toString());
+        user1.setSex("male");
+        user1.setCreateTime("2020-01-01 00:00:00");
 
         user2 = new ExamUser();
         user2.setId(2L);
-        user2.setUsername("user2");
-        user2.setAccount("account2");
-        user2.setPassword("password2");
-        user2.setRole("student");
-        user2.setEmail("user2@example.com");
+        user2.setUsername("Jane Doe");
+        user2.setAccount("janedoe");
+        user2.setPassword("password123");
+        user2.setRole("teacher");
+        user2.setEmail("jane.doe@example.com");
         user2.setPhone("0987654321");
-        user2.setSex("女");
-        user2.setCreateTime(LocalDateTime.now().toString());
+        user2.setSex("female");
+        user2.setCreateTime("2020-01-01 00:00:00");
     }
 
     @Test
@@ -77,7 +77,9 @@ public class ExamUserControllerTest {
     public void testGetUserById() throws Exception {
         Mockito.when(examUserServiceImpl.getUserById(1L)).thenReturn(user1);
 
-        mockMvc.perform(get("http://localhost:8080/bukaoSystem/users/1"))
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/users/getById")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(user1)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.username").value(user1.getUsername()));
@@ -95,7 +97,7 @@ public class ExamUserControllerTest {
 
     @Test
     public void testUpdateUser() throws Exception {
-        mockMvc.perform(post("http://localhost:8080/bukaoSystem/users/update/1")
+        mockMvc.perform(post("http://localhost:8080/bukaoSystem/users/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(user1)))
                 .andExpect(status().isOk());
@@ -105,9 +107,11 @@ public class ExamUserControllerTest {
 
     @Test
     public void testDeleteUser() throws Exception {
-        mockMvc.perform(post("http://localhost:8080/bukaoSystem/users/delete/1"))
+        mockMvc.perform(post("http://localhost:8080/bukaoSystem/users/delete")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(user1)))
                 .andExpect(status().isOk());
 
-        Mockito.verify(examUserServiceImpl, Mockito.times(1)).deleteUser(1L);
+        Mockito.verify(examUserServiceImpl, Mockito.times(1)).deleteUser(user1.getId());
     }
 }

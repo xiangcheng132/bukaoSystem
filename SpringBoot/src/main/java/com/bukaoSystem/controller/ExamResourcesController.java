@@ -19,14 +19,14 @@ public class ExamResourcesController {
         return examResourcesService.getExamResourcesByCourseId(null);
     }
 
-    @GetMapping("/course/{id}")
-    public List<ExamResources> getExamResourcesByCourseId(@PathVariable Long id) {
-        return examResourcesService.getExamResourcesByCourseId(id);
+    @GetMapping("/getByCourseId")
+    public List<ExamResources> getExamResourcesByCourseId(@RequestBody ExamResources examResources) {
+        return examResourcesService.getExamResourcesByCourseId(examResources.getCourseId());
     }
 
-    @GetMapping("/{id}")
-    public ExamResources getExamResourcesById(@PathVariable Long id) {
-        return examResourcesService.getExamResourcesById(id);
+    @GetMapping("/getById")
+    public ExamResources getExamResourcesById(@RequestBody ExamResources examResources) {
+        return examResourcesService.getExamResourcesById(examResources.getId());
     }
 
     @PostMapping("/create")
@@ -34,14 +34,13 @@ public class ExamResourcesController {
         examResourcesService.saveExamResources(examResources);
     }
 
-    @PostMapping("/update/{id}")
-    public void updateExamResources(@PathVariable Long id, @RequestBody ExamResources examResources) {
-        examResources.setId(id);
+    @PostMapping("/update")
+    public void updateExamResources(@RequestBody ExamResources examResources) {
         examResourcesService.updateExamResources(examResources);
     }
 
-    @PostMapping("/delete/{id}")
-    public void deleteExamResources(@PathVariable Long id) {
-        examResourcesService.deleteExamResources(id);
+    @PostMapping("/delete")
+    public void deleteExamResources(@RequestBody ExamResources examResources) {
+        examResourcesService.deleteExamResources(examResources.getId());
     }
 }

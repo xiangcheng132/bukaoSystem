@@ -19,9 +19,9 @@ public class ExamClassController {
         return examClassService.getAllExamClasses();
     }
 
-    @GetMapping("/{id}")
-    public ExamClass getExamClassById(@PathVariable Long id) {
-        return examClassService.getExamClassById(id);
+    @GetMapping("/getById")
+    public ExamClass getExamClassById(@RequestBody ExamClass examClass) {
+        return examClassService.getExamClassById(examClass.getId());
     }
 
     @PostMapping("/create")
@@ -30,14 +30,13 @@ public class ExamClassController {
     }
 
 
-    @PostMapping("/update/{id}")
-    public void updateExamClass(@PathVariable Long id, @RequestBody ExamClass examClass) {
-        examClass.setId(id);
+    @PostMapping("/update")
+    public void updateExamClass(@RequestBody ExamClass examClass) {
         examClassService.updateExamClass(examClass);
     }
 
-    @PostMapping("/delete/{id}")
-    public void deleteExamClass(@PathVariable Long id) {
-        examClassService.deleteExamClass(id);
+    @PostMapping("/delete")
+    public void deleteExamClass(@RequestBody ExamClass examClass) {
+        examClassService.deleteExamClass(examClass.getId());
     }
 }

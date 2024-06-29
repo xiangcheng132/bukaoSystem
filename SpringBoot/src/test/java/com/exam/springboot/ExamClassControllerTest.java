@@ -48,15 +48,15 @@ public class ExamClassControllerTest {
         class2.setId(2L);
         class2.setName("Class 2");
         class2.setComment("Class 2 Comment");
-        class1.setCreateTime("2020-01-01 00:00:00");
+        class2.setCreateTime("2021-01-01 00:00:00");
     }
 
     @Test
-    public void testGetAllClasses() throws Exception {
+    public void testGetAllExamClasses() throws Exception {
         List<ExamClass> classes = Arrays.asList(class1, class2);
         Mockito.when(examClassService.getAllExamClasses()).thenReturn(classes);
 
-        mockMvc.perform(get("/bukaoSystem/class"))
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/class"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].name").value(class1.getName()))
@@ -64,18 +64,20 @@ public class ExamClassControllerTest {
     }
 
     @Test
-    public void testGetClassById() throws Exception {
+    public void testGetExamClassById() throws Exception {
         Mockito.when(examClassService.getExamClassById(1L)).thenReturn(class1);
 
-        mockMvc.perform(get("/bukaoSystem/class/{id}", 1L))
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/class/getById")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(class1)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name").value(class1.getName()));
     }
 
     @Test
-    public void testCreateClass() throws Exception {
-        mockMvc.perform(post("/bukaoSystem/class/create")
+    public void testCreateExamClass() throws Exception {
+        mockMvc.perform(post("http://localhost:8080/bukaoSystem/class/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(class1)))
                 .andExpect(status().isOk());
@@ -84,8 +86,8 @@ public class ExamClassControllerTest {
     }
 
     @Test
-    public void testUpdateClass() throws Exception {
-        mockMvc.perform(post("/bukaoSystem/class/update/{id}", 1L)
+    public void testUpdateExamClass() throws Exception {
+        mockMvc.perform(post("http://localhost:8080/bukaoSystem/class/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(class1)))
                 .andExpect(status().isOk());
@@ -94,10 +96,12 @@ public class ExamClassControllerTest {
     }
 
     @Test
-    public void testDeleteClass() throws Exception {
-        mockMvc.perform(post("/bukaoSystem/class/delete/{id}", 1L))
+    public void testDeleteExamClass() throws Exception {
+        mockMvc.perform(post("http://localhost:8080/bukaoSystem/class/delete")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(class1)))
                 .andExpect(status().isOk());
 
-        Mockito.verify(examClassService, Mockito.times(1)).deleteExamClass(1L);
+        Mockito.verify(examClassService, Mockito.times(1)).deleteExamClass(class1.getId());
     }
 }
