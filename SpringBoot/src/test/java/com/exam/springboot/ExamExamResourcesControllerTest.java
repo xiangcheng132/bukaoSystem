@@ -56,7 +56,7 @@ public class ExamExamResourcesControllerTest {
         List<ExamExamResources> resources = Arrays.asList(resource1, resource2);
         Mockito.when(examExamResourcesService.getAllExamExamResources()).thenReturn(resources);
 
-        mockMvc.perform(get("/bukaoSystem/examResources"))
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/examResources"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].examId").value(resource1.getExamId()))
@@ -68,7 +68,7 @@ public class ExamExamResourcesControllerTest {
         List<ExamExamResources> resources = Arrays.asList(resource1);
         Mockito.when(examExamResourcesService.getExamExamResourcesById(1L)).thenReturn(resources);
 
-        mockMvc.perform(get("/bukaoSystem/examResources/getById")
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/examResources/getById")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(resource1)))
                 .andExpect(status().isOk())
@@ -81,7 +81,7 @@ public class ExamExamResourcesControllerTest {
         List<ExamExamResources> resources = Arrays.asList(resource1);
         Mockito.when(examExamResourcesService.getExamExamResourcesByExamId(101L)).thenReturn(resources);
 
-        mockMvc.perform(get("/bukaoSystem/examResources/getByExamId")
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/examResources/getByExamId")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(resource1)))
                 .andExpect(status().isOk())
@@ -94,7 +94,7 @@ public class ExamExamResourcesControllerTest {
         List<ExamExamResources> resources = Arrays.asList(resource1);
         Mockito.when(examExamResourcesService.getExamExamResourcesByResourceId(201L)).thenReturn(resources);
 
-        mockMvc.perform(get("/bukaoSystem/examResources/getByResourceId")
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/examResources/getByResourceId")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(resource1)))
                 .andExpect(status().isOk())
@@ -104,7 +104,7 @@ public class ExamExamResourcesControllerTest {
 
     @Test
     public void testCreateExamExamResources() throws Exception {
-        mockMvc.perform(post("/bukaoSystem/examResources/create")
+        mockMvc.perform(post("http://localhost:8080/bukaoSystem/examResources/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(resource1)))
                 .andExpect(status().isOk());
@@ -114,7 +114,7 @@ public class ExamExamResourcesControllerTest {
 
     @Test
     public void testUpdateExamExamResources() throws Exception {
-        mockMvc.perform(post("/bukaoSystem/examResources/update")
+        mockMvc.perform(post("http://localhost:8080/bukaoSystem/examResources/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(resource1)))
                 .andExpect(status().isOk());
@@ -124,7 +124,7 @@ public class ExamExamResourcesControllerTest {
 
     @Test
     public void testDeleteExamExamResources() throws Exception {
-        mockMvc.perform(post("/bukaoSystem/examResources/delete")
+        mockMvc.perform(post("http://localhost:8080/bukaoSystem/examResources/delete")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(resource1)))
                 .andExpect(status().isOk());

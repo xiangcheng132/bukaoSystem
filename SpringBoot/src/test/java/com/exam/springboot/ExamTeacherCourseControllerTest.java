@@ -56,7 +56,7 @@ public class ExamTeacherCourseControllerTest {
         List<ExamTeacherCourse> teacherCourses = Arrays.asList(teacherCourse1, teacherCourse2);
         Mockito.when(examTeacherCourseService.getAllExamTeacherCourses()).thenReturn(teacherCourses);
 
-        mockMvc.perform(get("/bukaoSystem/teacherCourse"))
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/teacherCourse"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].teacherId").value(teacherCourse1.getTeacherId()))
@@ -68,7 +68,7 @@ public class ExamTeacherCourseControllerTest {
         List<ExamTeacherCourse> teacherCourses = Arrays.asList(teacherCourse1);
         Mockito.when(examTeacherCourseService.getExamTeacherCoursesById(1L)).thenReturn(teacherCourses);
 
-        mockMvc.perform(get("/bukaoSystem/teacherCourse/getById")
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/teacherCourse/getById")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(teacherCourse1)))
                 .andExpect(status().isOk())
@@ -81,7 +81,7 @@ public class ExamTeacherCourseControllerTest {
         List<ExamTeacherCourse> teacherCourses = Arrays.asList(teacherCourse1);
         Mockito.when(examTeacherCourseService.getExamTeacherCoursesByTeacherId(101L)).thenReturn(teacherCourses);
 
-        mockMvc.perform(get("/bukaoSystem/teacherCourse/getByTeacherId")
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/teacherCourse/getByTeacherId")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(teacherCourse1)))
                 .andExpect(status().isOk())
@@ -94,7 +94,7 @@ public class ExamTeacherCourseControllerTest {
         List<ExamTeacherCourse> teacherCourses = Arrays.asList(teacherCourse1);
         Mockito.when(examTeacherCourseService.getExamTeacherCoursesByCourseId(201L)).thenReturn(teacherCourses);
 
-        mockMvc.perform(get("/bukaoSystem/teacherCourse/getByCourseId")
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/teacherCourse/getByCourseId")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(teacherCourse1)))
                 .andExpect(status().isOk())
@@ -104,7 +104,7 @@ public class ExamTeacherCourseControllerTest {
 
     @Test
     public void testCreateExamTeacherCourse() throws Exception {
-        mockMvc.perform(post("/bukaoSystem/teacherCourse/create")
+        mockMvc.perform(post("http://localhost:8080/bukaoSystem/teacherCourse/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(teacherCourse1)))
                 .andExpect(status().isOk());
@@ -114,7 +114,7 @@ public class ExamTeacherCourseControllerTest {
 
     @Test
     public void testUpdateExamTeacherCourse() throws Exception {
-        mockMvc.perform(post("/bukaoSystem/teacherCourse/update")
+        mockMvc.perform(post("http://localhost:8080/bukaoSystem/teacherCourse/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(teacherCourse1)))
                 .andExpect(status().isOk());
@@ -124,7 +124,7 @@ public class ExamTeacherCourseControllerTest {
 
     @Test
     public void testDeleteExamTeacherCourse() throws Exception {
-        mockMvc.perform(post("/bukaoSystem/teacherCourse/delete")
+        mockMvc.perform(post("http://localhost:8080/bukaoSystem/teacherCourse/delete")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(teacherCourse1)))
                 .andExpect(status().isOk());

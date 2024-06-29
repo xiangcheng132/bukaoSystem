@@ -51,7 +51,7 @@ public class ExamCourseControllerTest {
     public void testGetAllExamCourses() throws Exception {
         when(examCourseService.getAllExamCourses()).thenReturn(examCourseList);
 
-        mockMvc.perform(get("/bukaoSystem/course")
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/course")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(examCourse.getId()))
@@ -65,7 +65,7 @@ public class ExamCourseControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String examCourseJson = objectMapper.writeValueAsString(examCourse);
 
-        mockMvc.perform(post("/bukaoSystem/course/create")
+        mockMvc.perform(post("http://localhost:8080/bukaoSystem/course/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(examCourseJson))
                 .andExpect(status().isOk());
@@ -80,7 +80,7 @@ public class ExamCourseControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String examCourseJson = objectMapper.writeValueAsString(examCourse);
 
-        mockMvc.perform(get("/bukaoSystem/course/getById")
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/course/getById")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(examCourseJson))
                 .andExpect(status().isOk())
@@ -97,7 +97,7 @@ public class ExamCourseControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String examCourseJson = objectMapper.writeValueAsString(examCourse);
 
-        mockMvc.perform(get("/bukaoSystem/course/getByName")
+        mockMvc.perform(get("http://localhost:8080/bukaoSystem/course/getByName")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(examCourseJson))
                 .andExpect(status().isOk())
@@ -112,7 +112,7 @@ public class ExamCourseControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String examCourseJson = objectMapper.writeValueAsString(examCourse);
 
-        mockMvc.perform(post("/bukaoSystem/course/update")
+        mockMvc.perform(post("http://localhost:8080/bukaoSystem/course/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(examCourseJson))
                 .andExpect(status().isOk());
@@ -125,7 +125,7 @@ public class ExamCourseControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String examCourseJson = objectMapper.writeValueAsString(examCourse);
 
-        mockMvc.perform(post("/bukaoSystem/course/delete")
+        mockMvc.perform(post("http://localhost:8080/bukaoSystem/course/delete")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(examCourseJson))
                 .andExpect(status().isOk());
