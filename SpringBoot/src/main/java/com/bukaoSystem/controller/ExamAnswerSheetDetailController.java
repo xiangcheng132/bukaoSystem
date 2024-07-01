@@ -49,7 +49,7 @@ public class ExamAnswerSheetDetailController {
     public ResponseEntity<String> deleteExamAnswerSheetDetail(@RequestBody ExamAnswerSheetDetail examAnswerSheetDetail) {
         try {
             examAnswerSheetDetailService.deleteExamAnswerSheetDetail(examAnswerSheetDetail.getId());
-            return new ResponseEntity<>("User delete successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>("successfully", HttpStatus.CREATED);
         } catch (ForeignKeyConstraintViolationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }

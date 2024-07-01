@@ -53,14 +53,19 @@ public class ExamExamController {
     public ResponseEntity<String>  deleteExamExam(@RequestBody ExamExam examExam) {
         try {
             examExamService.deleteExamExam(examExam.getId());
-            return new ResponseEntity<>("User delete successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>("successfully", HttpStatus.CREATED);
         } catch (ForeignKeyConstraintViolationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
 
-    @PostMapping("/getByUserId")
-    public List<ExamExam> getExamExamByUserId(@RequestBody ExamUser examUser) {
-        return examExamService.getExamExamsByUserId(examUser.getId());
+    @PostMapping("/getByStuId")
+    public List<ExamExam> getExamExamsByStuId(@RequestBody ExamUser examUser) {
+        return examExamService.getExamExamsByStuId(examUser.getId());
+    }
+
+    @PostMapping("/getByTeaId")
+    public List<ExamExam> getExamExamsByTeaId(@RequestBody ExamUser examUser) {
+        return examExamService.getExamExamsByTeaId(examUser.getId());
     }
 }

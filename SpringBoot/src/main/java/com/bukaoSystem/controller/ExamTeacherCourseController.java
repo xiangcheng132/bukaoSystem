@@ -51,7 +51,7 @@ public class ExamTeacherCourseController {
     public ResponseEntity<String> deleteExamTeacherCourse(@RequestBody ExamTeacherCourse examTeacherCourse) {
         try {
             examTeacherCourseService.deleteExamTeacherCourse(examTeacherCourse.getTeacherId(), examTeacherCourse.getCourseId());
-            return new ResponseEntity<>("User delete successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>("successfully", HttpStatus.CREATED);
         } catch (ForeignKeyConstraintViolationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }

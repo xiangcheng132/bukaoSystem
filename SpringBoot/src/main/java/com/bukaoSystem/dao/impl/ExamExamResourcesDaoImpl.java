@@ -58,8 +58,9 @@ public class ExamExamResourcesDaoImpl implements ExamExamResourcesDao {
     @Override
     public void deleteExamExamResources(Long examId, Long resourceId) {
         String sql = "DELETE FROM exam_exam_resources WHERE examId = ? AND resourceId = ?";
+        jdbcTemplate.update(sql, examId, resourceId);
+
         try {
-            jdbcTemplate.update(sql, examId, resourceId);
         } catch (DataIntegrityViolationException e) {
             throw new ForeignKeyConstraintViolationException("无法删除examId: " + examId + "resourceId: " + resourceId + "的信息，该id下有关联信息。");
         }

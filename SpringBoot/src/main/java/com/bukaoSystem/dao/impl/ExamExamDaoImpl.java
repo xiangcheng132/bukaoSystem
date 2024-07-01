@@ -11,7 +11,10 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ExamExamDaoImpl implements ExamExamDao {
@@ -77,7 +80,7 @@ public class ExamExamDaoImpl implements ExamExamDao {
         try {
             jdbcTemplate.update(sql, id);
         } catch (DataIntegrityViolationException e) {
-            throw new ForeignKeyConstraintViolationException("Cannot delete exam class with id: " + id + " as it is referenced by other records.");
+            throw new ForeignKeyConstraintViolationException("无法删除id: "+ id + "的信息，该id下有关联信息。");
         }
     }
 
@@ -97,7 +100,7 @@ public class ExamExamDaoImpl implements ExamExamDao {
         }
     }
     @Override
-    public List<ExamExam> findByUserId(long userId) {
+    public List<ExamExam> findByStuId(long userId) {
         String sql = "SELECT DISTINCT  e.* " +
                 "FROM exam_user u " +
                 "JOIN exam_class_student cs ON u.id = cs.studentId " +
@@ -106,4 +109,62 @@ public class ExamExamDaoImpl implements ExamExamDao {
                 "WHERE u.id = ?";
         return jdbcTemplate.query(sql, new Object[]{userId}, new ExamExamRowMapper());
     }
+
+    @Override
+    public List<ExamExam> findByTeaId(long userId) {
+        String sql = "SELECT DISTINCT  e.* " +
+                "FROM exam_user u " +
+                "JOIN exam_teacher_course tc ON u.id = tc.teacherId " +
+                "JOIN exam_exam e ON tc.courseId = e.courseId " +
+                "WHERE u.id = ?";
+        return jdbcTemplate.query(sql, new Object[]{userId}, new ExamExamRowMapper());
+    }
+    @Override
+    public void gradeExams() {
+        String sql = "SELECT a.id as answerId, d.id as detailId, d.answerId, d.resourceId, d.userKey, r.key as correctKey, r.score " +
+                "FROM exam_exam e " +
+                "JOIN exam_answer_sheet a ON e.id = a.examId " +
+                "JOIN exam_answer_sheet_detail d ON a.id = d.answerId " +
+                "JOIN exam_resources r ON d.resourceId = r.id " +
+                "WHERE e.endTime <= ? AND a.isGraded = 0";
+
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        List<Map<String, Object>> results = jdbcTemplate.queryForList(sql, currentTime);
+
+        if (results.isEmpty()) {
+            return;
+        }
+
+        Map<Long, Map<Long, Integer>> examScores = new HashMap<>(); // examId -> (userId -> totalScore)
+
+        for (Map<String, Object> row : results) {
+            Long answerId = (Long) row.get("answerId");
+            Long userId = (Long) row.get("userId");
+            String userKey = (String) row.get("userKey");
+            String correctKey = (String) row.get("correctKey");
+            Integer score = (Integer) row.get("score");
+
+            examScores.computeIfAbsent(answerId, k -> new HashMap<>())
+                    .merge(userId, correctKey.equals(userKey) ? score : 0, Integer::sum);
+        }
+
+        for (Map.Entry<Long, Map<Long, Integer>> examEntry : examScores.entrySet()) {
+            Long examId = examEntry.getKey();
+            Map<Long, Integer> userScores = examEntry.getValue();
+
+            for (Map.Entry<Long, Integer> userEntry : userScores.entrySet()) {
+                Long userId = userEntry.getKey();
+                Integer totalScore = userEntry.getValue();
+
+                String updateSql = "UPDATE exam_answer_sheet SET score = ? WHERE examId = ? AND userId = ?";
+                jdbcTemplate.update(updateSql, totalScore, examId, userId);
+            }
+
+            // 标记该试卷已批改
+            String updateExamSql = "UPDATE exam_exam SET isGraded = 1 WHERE id = ?";
+            jdbcTemplate.update(updateExamSql, examId);
+        }
+    }
+
+
 }

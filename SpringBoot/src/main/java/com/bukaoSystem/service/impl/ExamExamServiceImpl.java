@@ -4,9 +4,11 @@ import com.bukaoSystem.dao.ExamExamDao;
 import com.bukaoSystem.model.ExamExam;
 import com.bukaoSystem.service.ExamExamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -54,7 +56,18 @@ public class ExamExamServiceImpl implements ExamExamService {
     }
 
     @Override
-    public List<ExamExam> getExamExamsByUserId(Long userId)  {
-        return examExamDao.findByUserId(userId);
+    public List<ExamExam> getExamExamsByStuId(Long userId)  {
+        return examExamDao.findByStuId(userId);
+    }
+
+    @Override
+    public List<ExamExam> getExamExamsByTeaId(Long userId)  {
+        return examExamDao.findByTeaId(userId);
+    }
+
+    @Scheduled(fixedRate = 60000) // 每分钟执行一次
+    @Override
+    public void gradeExams() {
+        examExamDao.gradeExams();
     }
 }
