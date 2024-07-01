@@ -1,10 +1,12 @@
 package com.bukaoSystem.dao.impl;
 
 import com.bukaoSystem.dao.ExamResourcesDao;
+import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
 import com.bukaoSystem.model.ExamResources;
 import com.bukaoSystem.model.ExamResources.Type;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -76,7 +78,11 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
     @Override
     public void delete(Long id) {
         String sql = "DELETE FROM exam_resources WHERE id = ?";
-        jdbcTemplate.update(sql, id);
+        try {
+            jdbcTemplate.update(sql, id);
+        } catch (DataIntegrityViolationException e) {
+            throw new ForeignKeyConstraintViolationException("无法删除id: " + id + "的信息，该id下有关联信息。");
+        }
     }
 
     @Override

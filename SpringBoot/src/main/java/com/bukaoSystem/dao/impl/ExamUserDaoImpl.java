@@ -2,9 +2,11 @@ package com.bukaoSystem.dao.impl;
 
 import com.bukaoSystem.dao.ExamUserDao;
 import com.bukaoSystem.exception.AccountAlreadyRegisteredException;
+import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
 import com.bukaoSystem.model.ExamUser;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -131,7 +133,11 @@ public class ExamUserDaoImpl implements ExamUserDao {
     @Override
     public void delete(Long id) {
         String sql = "DELETE FROM exam_user WHERE id = ?";
-        jdbcTemplate.update(sql, id);
+        try {
+            jdbcTemplate.update(sql, id);
+        } catch (DataIntegrityViolationException e) {
+            throw new ForeignKeyConstraintViolationException("无法删除id: " + id + "的信息，该id下有关联信息。");
+        }
     }
 
 

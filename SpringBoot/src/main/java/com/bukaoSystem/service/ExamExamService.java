@@ -14,4 +14,5 @@ public interface ExamExamService {
     void saveExamExam(ExamExam examExam);
     void updateExamExam(ExamExam examExam);
     void deleteExamExam(Long id);
+    List<ExamExam> getExamExamsByUserId(Long userId);
 }

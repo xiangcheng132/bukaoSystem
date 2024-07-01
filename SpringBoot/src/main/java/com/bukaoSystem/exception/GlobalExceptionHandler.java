@@ -9,8 +9,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccountAlreadyRegisteredException.class)
-    public ResponseEntity<String> handleAccountAlreadyRegisteredException(AccountAlreadyRegisteredException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    public ResponseEntity<String> handleAccountAlreadyRegisteredException(AccountAlreadyRegisteredException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ForeignKeyConstraintViolationException.class)
+    public ResponseEntity<String> handleForeignKeyConstraintViolation(ForeignKeyConstraintViolationException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
     }
 
 }

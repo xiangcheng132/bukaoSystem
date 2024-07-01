@@ -11,4 +11,5 @@ public interface ExamCourseChapterDao {
     void deleteExamCourseChapter(Long id);
     ExamCourseChapter getExamCourseChapterById(Long id);
     List<ExamCourseChapter> getAllExamCourseChapters();
+    List<ExamCourseChapter> getAllExamCourseChaptersByCourseId(Long id);
 }

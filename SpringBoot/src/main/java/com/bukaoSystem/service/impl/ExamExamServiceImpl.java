@@ -52,4 +52,9 @@ public class ExamExamServiceImpl implements ExamExamService {
     public void deleteExamExam(Long id) {
         examExamDao.delete(id);
     }
+
+    @Override
+    public List<ExamExam> getExamExamsByUserId(Long userId)  {
+        return examExamDao.findByUserId(userId);
+    }
 }

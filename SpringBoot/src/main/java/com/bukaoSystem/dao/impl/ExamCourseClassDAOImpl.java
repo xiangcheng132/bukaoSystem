@@ -1,8 +1,10 @@
 package com.bukaoSystem.dao.impl;
 
 import com.bukaoSystem.dao.ExamCourseClassDAO;
+import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
 import com.bukaoSystem.model.ExamCourseClass;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -42,6 +44,10 @@ public class ExamCourseClassDAOImpl implements ExamCourseClassDAO {
     @Override
     public void deleteExamCourseClass(Long id) {
         String sql = "DELETE FROM exam_course_class WHERE id = ?";
-        jdbcTemplate.update(sql, id);
+        try {
+            jdbcTemplate.update(sql, id);
+        } catch (DataIntegrityViolationException e) {
+            throw new ForeignKeyConstraintViolationException("无法删除id: " + id + "的信息，该id下有关联信息。");
+        }
     }
 }

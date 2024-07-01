@@ -1,8 +1,10 @@
 package com.bukaoSystem.dao.impl;
 
 import com.bukaoSystem.dao.ExamExamResourcesDao;
+import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
 import com.bukaoSystem.model.ExamExamResources;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -56,6 +58,10 @@ public class ExamExamResourcesDaoImpl implements ExamExamResourcesDao {
     @Override
     public void deleteExamExamResources(Long examId, Long resourceId) {
         String sql = "DELETE FROM exam_exam_resources WHERE examId = ? AND resourceId = ?";
-        jdbcTemplate.update(sql, examId, resourceId);
+        try {
+            jdbcTemplate.update(sql, examId, resourceId);
+        } catch (DataIntegrityViolationException e) {
+            throw new ForeignKeyConstraintViolationException("无法删除examId: " + examId + "resourceId: " + resourceId + "的信息，该id下有关联信息。");
+        }
     }
 }

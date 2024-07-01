@@ -1,6 +1,7 @@
 package com.bukaoSystem.controller;
 
 import com.bukaoSystem.exception.AccountAlreadyRegisteredException;
+import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
 import com.bukaoSystem.model.ExamUser;
 import com.bukaoSystem.service.impl.ExamUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,12 +49,17 @@ public class ExamUserController {
 
     // 删除用户
     @PostMapping("/delete")
-    public void deleteUser(@RequestBody ExamUser user) {
-        examUserServiceImpl.deleteUser(user.getId());
+    public ResponseEntity<String> deleteUser(@RequestBody ExamUser user) {
+        try {
+            examUserServiceImpl.deleteUser(user.getId());
+            return new ResponseEntity<>("User delete successfully", HttpStatus.CREATED);
+        } catch (ForeignKeyConstraintViolationException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
     }
 
     @PostMapping("/login")
-    public ExamUser login(@RequestBody ExamUser user) {
-        return examUserServiceImpl.login(user.getAccount());
+    public boolean login(@RequestBody ExamUser user) {
+        return examUserServiceImpl.login(user.getAccount(),user.getPassword());
     }
 }

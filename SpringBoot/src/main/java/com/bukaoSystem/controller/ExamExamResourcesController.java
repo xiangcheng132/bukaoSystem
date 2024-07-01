@@ -1,8 +1,11 @@
 package com.bukaoSystem.controller;
 
+import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
 import com.bukaoSystem.model.ExamExamResources;
 import com.bukaoSystem.service.ExamExamResourcesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,7 +47,12 @@ public class ExamExamResourcesController {
     }
 
     @PostMapping("/delete")
-    public void deleteExamExamResources(@RequestBody ExamExamResources examExamResources) {
-        examExamResourcesService.deleteExamExamResources(examExamResources.getExamId(), examExamResources.getResourceId());
+    public ResponseEntity<String> deleteExamExamResources(@RequestBody ExamExamResources examExamResources) {
+        try {
+            examExamResourcesService.deleteExamExamResources(examExamResources.getExamId(), examExamResources.getResourceId());
+            return new ResponseEntity<>("User delete successfully", HttpStatus.CREATED);
+        } catch (ForeignKeyConstraintViolationException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
     }
 }

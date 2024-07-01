@@ -2,6 +2,7 @@ package com.bukaoSystem.service.impl;
 
 
 import com.bukaoSystem.dao.ExamCourseChapterDao;
+import com.bukaoSystem.model.ExamCourse;
 import com.bukaoSystem.model.ExamCourseChapter;
 import com.bukaoSystem.service.ExamCourseChapterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,4 +40,10 @@ public class ExamCourseChapterServiceImpl implements ExamCourseChapterService {
     public List<ExamCourseChapter> getAllExamCourseChapters() {
         return examCourseChapterDao.getAllExamCourseChapters();
     }
+
+    @Override
+    public List<ExamCourseChapter> getExamCourseChapterByCourseId(Long id) {
+        return examCourseChapterDao.getAllExamCourseChaptersByCourseId(id);
+    }
+
 }

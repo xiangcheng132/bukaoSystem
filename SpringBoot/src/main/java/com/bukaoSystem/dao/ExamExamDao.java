@@ -12,4 +12,6 @@ public interface ExamExamDao {
     void save(ExamExam examExam);
     void update(ExamExam examExam);
     void delete(Long id);
+
+    List<ExamExam> findByUserId(long userId);
 }

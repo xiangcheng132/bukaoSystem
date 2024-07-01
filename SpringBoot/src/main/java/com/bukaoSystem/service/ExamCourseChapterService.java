@@ -10,4 +10,6 @@ public interface ExamCourseChapterService {
     void deleteExamCourseChapter(Long id);
     ExamCourseChapter getExamCourseChapterById(Long id);
     List<ExamCourseChapter> getAllExamCourseChapters();
+
+    List<ExamCourseChapter> getExamCourseChapterByCourseId(Long id);
 }

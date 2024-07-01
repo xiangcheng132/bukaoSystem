@@ -35,7 +35,13 @@ public class ExamUserServiceImpl implements ExamUserService {
         examUserDao.delete(id);
     }
 
-    public ExamUser login(String account) {
-        return examUserDao.login(account);
+    public boolean login(String account,String password) {
+        ExamUser examUser = examUserDao.login(account);
+        if (examUser == null)
+            return false;
+        if (examUser.getPassword().equals(password))
+            return true;
+
+        return false;
     }
 }

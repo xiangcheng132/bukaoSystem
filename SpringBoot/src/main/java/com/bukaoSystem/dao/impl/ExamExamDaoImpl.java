@@ -1,8 +1,10 @@
 package com.bukaoSystem.dao.impl;
 
 import com.bukaoSystem.dao.ExamExamDao;
+import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
 import com.bukaoSystem.model.ExamExam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -72,7 +74,11 @@ public class ExamExamDaoImpl implements ExamExamDao {
     @Override
     public void delete(Long id) {
         String sql = "DELETE FROM exam_exam WHERE id = ?";
-        jdbcTemplate.update(sql, id);
+        try {
+            jdbcTemplate.update(sql, id);
+        } catch (DataIntegrityViolationException e) {
+            throw new ForeignKeyConstraintViolationException("Cannot delete exam class with id: " + id + " as it is referenced by other records.");
+        }
     }
 
     private static class ExamExamRowMapper implements RowMapper<ExamExam> {
@@ -89,5 +95,15 @@ public class ExamExamDaoImpl implements ExamExamDao {
             examExam.setCreateTime(rs.getString("createTime"));
             return examExam;
         }
+    }
+    @Override
+    public List<ExamExam> findByUserId(long userId) {
+        String sql = "SELECT DISTINCT  e.* " +
+                "FROM exam_user u " +
+                "JOIN exam_class_student cs ON u.id = cs.studentId " +
+                "JOIN exam_exam_class ec ON cs.classId = ec.classId " +
+                "JOIN exam_exam e ON ec.examId = e.id " +
+                "WHERE u.id = ?";
+        return jdbcTemplate.query(sql, new Object[]{userId}, new ExamExamRowMapper());
     }
 }
