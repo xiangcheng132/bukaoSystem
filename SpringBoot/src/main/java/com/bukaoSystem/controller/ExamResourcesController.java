@@ -19,17 +19,17 @@ public class ExamResourcesController {
         return examResourcesService.getExamResourcesByCourseId(null,"ASC");
     }
 
-    @GetMapping("/getByCourseId")
+    @PostMapping("/getByCourseId")
     public List<ExamResources> getExamResourcesByCourseId(@RequestBody ExamResources examResources,@RequestParam(defaultValue = "ASC") String sort) {
         return examResourcesService.getExamResourcesByCourseId(examResources.getCourseId(),sort);
     }
 
-    @GetMapping("/getByChapterId")
+    @PostMapping("/getByChapterId")
     public List<ExamResources> getExamResourcesByChapterId(@RequestBody ExamResources examResources,@RequestParam(defaultValue = "ASC") String sort) {
         return examResourcesService.getExamResourcesByChapterId(examResources.getChapterId(),sort);
     }
 
-    @GetMapping("/getById")
+    @PostMapping("/getById")
     public ExamResources getExamResourcesById(@RequestBody ExamResources examResources) {
         return examResourcesService.getExamResourcesById(examResources.getId());
     }

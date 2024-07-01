@@ -1,9 +1,11 @@
 package com.bukaoSystem.dao.impl;
 
 import com.bukaoSystem.dao.ExamUserDao;
+import com.bukaoSystem.exception.AccountAlreadyRegisteredException;
 import com.bukaoSystem.model.ExamUser;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +22,12 @@ public class ExamUserDaoImpl implements ExamUserDao {
 
     @Override
     public void save(ExamUser user) {
+        ExamUser existingUser = login(user.getAccount());
+        if (existingUser != null) {
+            throw new AccountAlreadyRegisteredException("Account already registered: " + user.getAccount());
+        }
+
+
         StringBuilder sql = new StringBuilder("INSERT INTO exam_user (username, account, password");
         StringBuilder values = new StringBuilder(" VALUES (?, ?, ?");
 
@@ -140,4 +148,15 @@ public class ExamUserDaoImpl implements ExamUserDao {
         user.setCreateTime(rs.getString("createTime"));
         return user;
     }
+
+    @Override
+    public ExamUser login(String account) {
+        try {
+            String sql = "SELECT * FROM exam_user WHERE account = ?";
+            return jdbcTemplate.queryForObject(sql, new Object[]{account}, this::mapRowToExamUser);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
 }

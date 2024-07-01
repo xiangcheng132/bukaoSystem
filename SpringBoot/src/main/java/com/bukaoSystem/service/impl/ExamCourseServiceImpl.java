@@ -2,6 +2,7 @@ package com.bukaoSystem.service.impl;
 
 import com.bukaoSystem.dao.ExamCourseDao;
 import com.bukaoSystem.model.ExamCourse;
+import com.bukaoSystem.model.ExamUser;
 import com.bukaoSystem.service.ExamCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,8 @@ public class ExamCourseServiceImpl implements ExamCourseService {
 
 
     @Override
-    public List<ExamCourse> getAllExamCourses() {
-        return examCourseDao.findAll();
+    public List<ExamCourse> getAllExamCourses(ExamUser examUser) {
+        return examCourseDao.findAll(examUser);
     }
     @Override
     public List<ExamCourse> getExamCoursesByName(String name) {

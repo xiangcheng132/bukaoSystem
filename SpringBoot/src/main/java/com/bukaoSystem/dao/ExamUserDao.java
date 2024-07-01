@@ -10,4 +10,6 @@ public interface ExamUserDao {
     List<ExamUser> findAll();
     void update(ExamUser user);
     void delete(Long id);
+
+    ExamUser login(String account);
 }

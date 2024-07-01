@@ -34,4 +34,8 @@ public class ExamUserServiceImpl implements ExamUserService {
     public void deleteUser(Long id) {
         examUserDao.delete(id);
     }
+
+    public ExamUser login(String account) {
+        return examUserDao.login(account);
+    }
 }

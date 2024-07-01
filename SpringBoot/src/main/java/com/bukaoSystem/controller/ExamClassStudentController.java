@@ -19,12 +19,12 @@ public class ExamClassStudentController {
         return examClassStudentService.getAllExamClassStudents();
     }
 
-    @GetMapping("/getById")
+    @PostMapping("/getById")
     public List<ExamClassStudent> getExamClassStudentsById(@RequestBody ExamClassStudent examClassStudent) {
         return examClassStudentService.getExamClassStudentsById(examClassStudent.getId());
     }
 
-    @GetMapping("/getByClassId")
+    @PostMapping("/getByClassId")
     public List<ExamClassStudent> getExamClassStudentsByClassId(@RequestBody ExamClassStudent examClassStudent) {
         return examClassStudentService.getExamClassStudentsByClassId(examClassStudent.getClassId());
     }

@@ -2,6 +2,7 @@ package com.bukaoSystem.dao.impl;
 
 import com.bukaoSystem.dao.ExamCourseDao;
 import com.bukaoSystem.model.ExamCourse;
+import com.bukaoSystem.model.ExamUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -53,9 +54,11 @@ public class ExamCourseDaoImpl implements ExamCourseDao {
 
 
     @Override
-    public List<ExamCourse> findAll() {
-        String sql = "SELECT * FROM exam_course";
-        return jdbcTemplate.query(sql, this::mapRowToExamCourse);
+    public List<ExamCourse> findAll(ExamUser examUser) {
+        String sql = "SELECT ec.* FROM exam_course ec " +
+                "JOIN exam_teacher_course etc ON ec.id = etc.courseId " +
+                "WHERE etc.teacherId = ?";
+        return jdbcTemplate.query(sql, new Object[]{examUser.getId()}, this::mapRowToExamCourse);
     }
 
     @Override

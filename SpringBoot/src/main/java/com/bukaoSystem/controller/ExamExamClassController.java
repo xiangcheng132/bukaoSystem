@@ -18,17 +18,17 @@ public class ExamExamClassController {
     public List<ExamExamClass> getAllExamExamClasses() {
         return examExamClassService.getAllExamExamClasses();
     }
-    @GetMapping("/getById")
+    @PostMapping("/getById")
     public List<ExamExamClass> getExamExamClassesById(@RequestBody ExamExamClass examExamClass) {
         return examExamClassService.getExamExamClassesById(examExamClass.getId());
     }
 
-    @GetMapping("/getByExamId")
+    @PostMapping("/getByExamId")
     public List<ExamExamClass> getExamExamClassesByExamId(@RequestBody ExamExamClass examExamClass) {
         return examExamClassService.getExamExamClassesByExamId(examExamClass.getExamId());
     }
 
-    @GetMapping("/getByClassId")
+    @PostMapping("/getByClassId")
     public List<ExamExamClass> getExamExamClassesByClassId(@RequestBody ExamExamClass examExamClass) {
         return examExamClassService.getExamExamClassesByClassId(examExamClass.getClassId());
     }

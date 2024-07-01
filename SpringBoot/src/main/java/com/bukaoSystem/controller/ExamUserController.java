@@ -1,8 +1,11 @@
 package com.bukaoSystem.controller;
 
+import com.bukaoSystem.exception.AccountAlreadyRegisteredException;
 import com.bukaoSystem.model.ExamUser;
 import com.bukaoSystem.service.impl.ExamUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,15 +24,20 @@ public class ExamUserController {
     }
 
     // 根据ID获取特定用户
-    @GetMapping("/getById")
+    @PostMapping("/getById")
     public ExamUser getUserById(@RequestBody ExamUser user) {
         return examUserServiceImpl.getUserById(user.getId());
     }
 
     // 创建用户
     @PostMapping("/create")
-    public void createUser(@RequestBody ExamUser user) {
-        examUserServiceImpl.saveUser(user);
+    public ResponseEntity<String> createExamUser(@RequestBody ExamUser examUser) {
+        try {
+            examUserServiceImpl.saveUser(examUser);
+            return new ResponseEntity<>("User created successfully", HttpStatus.CREATED);
+        } catch (AccountAlreadyRegisteredException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+        }
     }
 
     // 更新用户
@@ -42,5 +50,10 @@ public class ExamUserController {
     @PostMapping("/delete")
     public void deleteUser(@RequestBody ExamUser user) {
         examUserServiceImpl.deleteUser(user.getId());
+    }
+
+    @PostMapping("/login")
+    public ExamUser login(@RequestBody ExamUser user) {
+        return examUserServiceImpl.login(user.getAccount());
     }
 }

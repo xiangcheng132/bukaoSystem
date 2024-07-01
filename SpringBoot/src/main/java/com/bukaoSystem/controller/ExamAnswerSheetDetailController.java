@@ -19,17 +19,17 @@ public class ExamAnswerSheetDetailController {
         return examAnswerSheetDetailService.getAllExamAnswerSheetDetails();
     }
 
-    @GetMapping("/getById")
+    @PostMapping("/getById")
     public List<ExamAnswerSheetDetail> getExamAnswerSheetDetailsById(@RequestBody ExamAnswerSheetDetail examAnswerSheetDetail) {
         return examAnswerSheetDetailService.getExamAnswerSheetDetailsById(examAnswerSheetDetail.getId());
     }
 
-    @GetMapping("/getByAnswerId")
+    @PostMapping("/getByAnswerId")
     public List<ExamAnswerSheetDetail> getExamAnswerSheetDetailsByAnswerId(@RequestBody ExamAnswerSheetDetail examAnswerSheetDetail) {
         return examAnswerSheetDetailService.getExamAnswerSheetDetailsByAnswerId(examAnswerSheetDetail.getAnswerId());
     }
 
-    @GetMapping("/getByResourceId")
+    @PostMapping("/getByResourceId")
     public List<ExamAnswerSheetDetail> getExamAnswerSheetDetailsByResourceId(@RequestBody ExamAnswerSheetDetail examAnswerSheetDetail) {
         return examAnswerSheetDetailService.getExamAnswerSheetDetailsByResourceId(examAnswerSheetDetail.getResourceId());
     }

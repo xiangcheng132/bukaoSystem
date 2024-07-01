@@ -19,7 +19,7 @@ public class ExamCourseClassController {
         return examCourseClassService.getAllExamCourseClasses();
     }
 
-    @GetMapping("/getById")
+    @PostMapping("/getById")
     public ExamCourseClass getExamCourseClassById(@RequestBody ExamCourseClass examCourseClass) {
         return examCourseClassService.getExamCourseClassById(examCourseClass.getId());
     }

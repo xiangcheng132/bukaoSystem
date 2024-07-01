@@ -1,6 +1,7 @@
 package com.bukaoSystem.controller;
 
 import com.bukaoSystem.model.ExamCourse;
+import com.bukaoSystem.model.ExamUser;
 import com.bukaoSystem.service.ExamCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,9 @@ public class ExamCourseController {
     @Autowired
     private ExamCourseService examCourseService;
 
-    @GetMapping
-    public List<ExamCourse> getAllExamCourses() {
-        return examCourseService.getAllExamCourses();
+    @PostMapping
+    public List<ExamCourse> getAllExamCourses(@RequestBody ExamUser examUser) {
+        return examCourseService.getAllExamCourses(examUser);
     }
 
     @PostMapping("/create")
@@ -24,12 +25,12 @@ public class ExamCourseController {
         examCourseService.saveExamCourse(examCourse);
     }
 
-    @GetMapping("/getById")
+    @PostMapping("/postById")
     public ExamCourse getExamCourseById(@RequestBody ExamCourse examCourse) {
         return examCourseService.getExamCourseById(examCourse.getId());
     }
 
-    @GetMapping("/getByName")
+    @PostMapping("/postByName")
     public List<ExamCourse> getExamCourseByName(@RequestBody ExamCourse examCourse) {
         return examCourseService.getExamCoursesByName(examCourse.getName());
     }
