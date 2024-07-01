@@ -6,7 +6,7 @@
 
 <script>
     export default {
-        // eslint-disable-next-line vue/multi-word-component-names
+        // eslint-disable-next-line vue/multi-word-component-names123
         name: "Home"
     }
 </script>
