@@ -3,15 +3,19 @@ package com.bukaoSystem.dao.impl;
 import com.bukaoSystem.dao.ExamExamDao;
 import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
 import com.bukaoSystem.model.ExamExam;
+import com.bukaoSystem.service.BatchUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,13 +41,13 @@ public class ExamExamDaoImpl implements ExamExamDao {
     @Override
     public List<ExamExam> findByCourseId(Long id) {
         String sql = "SELECT * FROM exam_exam WHERE courseId = ?";
-        return jdbcTemplate.query(sql, new ExamExamRowMapper(),id);
+        return jdbcTemplate.query(sql, new ExamExamRowMapper(), id);
     }
 
     @Override
     public List<ExamExam> findByName(String name) {
         String sql = "SELECT * FROM exam_exam WHERE name = ?";
-        return jdbcTemplate.query(sql, new ExamExamRowMapper(),name);
+        return jdbcTemplate.query(sql, new ExamExamRowMapper(), name);
     }
 
 
@@ -80,7 +84,7 @@ public class ExamExamDaoImpl implements ExamExamDao {
         try {
             jdbcTemplate.update(sql, id);
         } catch (DataIntegrityViolationException e) {
-            throw new ForeignKeyConstraintViolationException("无法删除id: "+ id + "的信息，该id下有关联信息。");
+            throw new ForeignKeyConstraintViolationException("无法删除id: " + id + "的信息，该id下有关联信息。");
         }
     }
 
@@ -99,6 +103,7 @@ public class ExamExamDaoImpl implements ExamExamDao {
             return examExam;
         }
     }
+
     @Override
     public List<ExamExam> findByStuId(long userId) {
         String sql = "SELECT DISTINCT  e.* " +
@@ -119,9 +124,10 @@ public class ExamExamDaoImpl implements ExamExamDao {
                 "WHERE u.id = ?";
         return jdbcTemplate.query(sql, new Object[]{userId}, new ExamExamRowMapper());
     }
+
     @Override
     public void gradeExams() {
-        String sql = "SELECT a.id as answerId, d.id as detailId, d.answerId, d.resourceId, d.userKey, r.key as correctKey, r.score " +
+        String sql = "SELECT a.id as answerId, d.id as detailId, d.userKey as userKey, r.key as correctKey, r.score as score " +
                 "FROM exam_exam e " +
                 "JOIN exam_answer_sheet a ON e.id = a.examId " +
                 "JOIN exam_answer_sheet_detail d ON a.id = d.answerId " +
@@ -135,36 +141,42 @@ public class ExamExamDaoImpl implements ExamExamDao {
             return;
         }
 
-        Map<Long, Map<Long, Integer>> examScores = new HashMap<>(); // examId -> (userId -> totalScore)
+        Map<Long, Integer> answerSheetScores = new HashMap<>(); // answerId -> totalScore
+        Map<Long, Integer> answerSheetDetailTrue = new HashMap<>(); // detailId -> isTrue
 
         for (Map<String, Object> row : results) {
             Long answerId = (Long) row.get("answerId");
-            Long userId = (Long) row.get("userId");
+            Long detailId = (Long) row.get("detailId");
             String userKey = (String) row.get("userKey");
             String correctKey = (String) row.get("correctKey");
             Integer score = (Integer) row.get("score");
 
-            examScores.computeIfAbsent(answerId, k -> new HashMap<>())
-                    .merge(userId, correctKey.equals(userKey) ? score : 0, Integer::sum);
+            int isTrue = userKey.equals(correctKey) ? 1 : 2; // 1 for correct, 2 for incorrect
+            answerSheetScores.merge(answerId, isTrue==1?score:0, Integer::sum);
+            answerSheetDetailTrue.put(detailId, isTrue);
         }
 
-        for (Map.Entry<Long, Map<Long, Integer>> examEntry : examScores.entrySet()) {
-            Long examId = examEntry.getKey();
-            Map<Long, Integer> userScores = examEntry.getValue();
+        List<Object[]> updateParamsForAnswerSheet = new ArrayList<>();
+        List<Object[]> updateParamsForAnswerSheetDetail = new ArrayList<>();
 
-            for (Map.Entry<Long, Integer> userEntry : userScores.entrySet()) {
-                Long userId = userEntry.getKey();
-                Integer totalScore = userEntry.getValue();
-
-                String updateSql = "UPDATE exam_answer_sheet SET score = ? WHERE examId = ? AND userId = ?";
-                jdbcTemplate.update(updateSql, totalScore, examId, userId);
-            }
-
-            // 标记该试卷已批改
-            String updateExamSql = "UPDATE exam_exam SET isGraded = 1 WHERE id = ?";
-            jdbcTemplate.update(updateExamSql, examId);
+        for (Long answerId : answerSheetScores.keySet()) {
+            int totalScore = answerSheetScores.get(answerId);
+            updateParamsForAnswerSheet.add(new Object[]{totalScore, answerId});
         }
+
+        for (Long detailId : answerSheetDetailTrue.keySet()) {
+            int isTrue = answerSheetDetailTrue.get(detailId);
+            updateParamsForAnswerSheetDetail.add(new Object[]{isTrue, detailId});
+        }
+
+        String updateASSql = "UPDATE exam_answer_sheet SET score = ?, isGraded = 1 WHERE id = ?";
+        String updateASDSql = "UPDATE exam_answer_sheet_detail SET isTrue = ? WHERE id = ?";
+        BatchUpdateService batchUpdateService = new BatchUpdateService();
+        batchUpdateService.batchUpdate(jdbcTemplate, updateASSql, updateParamsForAnswerSheet);
+
+        batchUpdateService.batchUpdate(jdbcTemplate, updateASDSql, updateParamsForAnswerSheetDetail);
     }
-
-
 }
+
+
+
