@@ -65,8 +65,8 @@ public class ExamExamServiceImpl implements ExamExamService {
         return examExamDao.findByTeaId(userId);
     }
 
-    @Scheduled(fixedRate = 60000) // 每分钟执行一次
     @Override
+    @Scheduled(fixedRate = 60000) // 每分钟执行一次
     public void gradeExams() {
         examExamDao.gradeExams();
     }
