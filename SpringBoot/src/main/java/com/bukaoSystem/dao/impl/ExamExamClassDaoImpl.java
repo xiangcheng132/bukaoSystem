@@ -46,8 +46,14 @@ public class ExamExamClassDaoImpl implements ExamExamClassDao {
 
     @Override
     public void saveExamExamClass(ExamExamClass examExamClass) {
-        String sql = "INSERT INTO exam_exam_class (examId, classId, createTime) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, examExamClass.getExamId(), examExamClass.getClassId(), examExamClass.getCreateTime());
+        if (examExamClass.getCreateTime()==null){
+            String sql = "INSERT INTO exam_exam_class (examId, classId) VALUES (?, ?)";
+            jdbcTemplate.update(sql, examExamClass.getExamId(), examExamClass.getClassId());
+        }else {
+            String sql = "INSERT INTO exam_exam_class (examId, classId, createTime) VALUES (?, ?, ?)";
+            jdbcTemplate.update(sql, examExamClass.getExamId(), examExamClass.getClassId(), examExamClass.getCreateTime());
+        }
+
     }
 
     @Override

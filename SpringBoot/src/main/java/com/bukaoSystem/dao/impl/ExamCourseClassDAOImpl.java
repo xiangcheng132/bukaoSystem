@@ -31,14 +31,26 @@ public class ExamCourseClassDAOImpl implements ExamCourseClassDAO {
 
     @Override
     public void saveExamCourseClass(ExamCourseClass courseClass) {
-        String sql = "INSERT INTO exam_course_class (id, class_id, course_id, create_time) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, courseClass.getId(), courseClass.getClassId(), courseClass.getCourseId(), courseClass.getCreateTime());
+        if (courseClass.getCreateTime()==null){
+            String sql = "INSERT INTO exam_course_class (id, class_id, course_id) VALUES (?, ?, ?)";
+            jdbcTemplate.update(sql, courseClass.getId(), courseClass.getClassId(), courseClass.getCourseId());
+        }else {
+            String sql = "INSERT INTO exam_course_class (id, class_id, course_id, create_time) VALUES (?, ?, ?, ?)";
+            jdbcTemplate.update(sql, courseClass.getId(), courseClass.getClassId(), courseClass.getCourseId(), courseClass.getCreateTime());
+        }
+
     }
 
     @Override
     public void updateExamCourseClass(ExamCourseClass courseClass) {
-        String sql = "UPDATE exam_course_class SET class_id = ?, course_id = ?, create_time = ? WHERE id = ?";
-        jdbcTemplate.update(sql, courseClass.getClassId(), courseClass.getCourseId(), courseClass.getCreateTime(), courseClass.getId());
+        if (courseClass.getCreateTime()==null){
+            String sql = "UPDATE exam_course_class SET class_id = ?, course_id = ? WHERE id = ?";
+            jdbcTemplate.update(sql, courseClass.getClassId(), courseClass.getCourseId(), courseClass.getId());
+        }else {
+            String sql = "UPDATE exam_course_class SET class_id = ?, course_id = ?, create_time = ? WHERE id = ?";
+            jdbcTemplate.update(sql, courseClass.getClassId(), courseClass.getCourseId(), courseClass.getCreateTime(), courseClass.getId());
+        }
+
     }
 
     @Override

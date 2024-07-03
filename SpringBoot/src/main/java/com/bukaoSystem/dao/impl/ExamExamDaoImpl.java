@@ -53,29 +53,54 @@ public class ExamExamDaoImpl implements ExamExamDao {
 
     @Override
     public void save(ExamExam examExam) {
-        String sql = "INSERT INTO exam_exam (courseId, name, comment, place, beginTime, endTime, createTime) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql,
-                examExam.getCourseId(),
-                examExam.getName(),
-                examExam.getComment(),
-                examExam.getPlace(),
-                examExam.getBeginTime(),
-                examExam.getEndTime(),
-                examExam.getCreateTime());
+        if (examExam.getCreateTime()==null){
+            String sql = "INSERT INTO exam_exam (courseId, name, comment, place, beginTime, endTime) VALUES (?, ?, ?, ?, ?, ?)";
+            jdbcTemplate.update(sql,
+                    examExam.getCourseId(),
+                    examExam.getName(),
+                    examExam.getComment(),
+                    examExam.getPlace(),
+                    examExam.getBeginTime(),
+                    examExam.getEndTime());
+        }else {
+            String sql = "INSERT INTO exam_exam (courseId, name, comment, place, beginTime, endTime, createTime) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            jdbcTemplate.update(sql,
+                    examExam.getCourseId(),
+                    examExam.getName(),
+                    examExam.getComment(),
+                    examExam.getPlace(),
+                    examExam.getBeginTime(),
+                    examExam.getEndTime(),
+                    examExam.getCreateTime());
+        }
+
     }
 
     @Override
     public void update(ExamExam examExam) {
-        String sql = "UPDATE exam_exam SET courseId = ?, name = ?, comment = ?, place = ?, beginTime = ?, endTime = ?, createTime = ? WHERE id = ?";
-        jdbcTemplate.update(sql,
-                examExam.getCourseId(),
-                examExam.getName(),
-                examExam.getComment(),
-                examExam.getPlace(),
-                examExam.getBeginTime(),
-                examExam.getEndTime(),
-                examExam.getCreateTime(),
-                examExam.getId());
+        if (examExam.getCreateTime()==null){
+            String sql = "UPDATE exam_exam SET courseId = ?, name = ?, comment = ?, place = ?, beginTime = ?, endTime = ? WHERE id = ?";
+            jdbcTemplate.update(sql,
+                    examExam.getCourseId(),
+                    examExam.getName(),
+                    examExam.getComment(),
+                    examExam.getPlace(),
+                    examExam.getBeginTime(),
+                    examExam.getEndTime(),
+                    examExam.getId());
+        }else {
+            String sql = "UPDATE exam_exam SET courseId = ?, name = ?, comment = ?, place = ?, beginTime = ?, endTime = ?, createTime = ? WHERE id = ?";
+            jdbcTemplate.update(sql,
+                    examExam.getCourseId(),
+                    examExam.getName(),
+                    examExam.getComment(),
+                    examExam.getPlace(),
+                    examExam.getBeginTime(),
+                    examExam.getEndTime(),
+                    examExam.getCreateTime(),
+                    examExam.getId());
+        }
+
     }
 
     @Override
@@ -141,7 +166,7 @@ public class ExamExamDaoImpl implements ExamExamDao {
             return;
         }
 
-        Map<Long, Integer> answerSheetScores = new HashMap<>(); // answerId -> totalScore
+        Map<Long, Double> answerSheetScores = new HashMap<>(); // answerId -> totalScore
         Map<Long, Integer> answerSheetDetailTrue = new HashMap<>(); // detailId -> isTrue
 
         for (Map<String, Object> row : results) {
@@ -149,10 +174,10 @@ public class ExamExamDaoImpl implements ExamExamDao {
             Long detailId = (Long) row.get("detailId");
             String userKey = (String) row.get("userKey");
             String correctKey = (String) row.get("correctKey");
-            Integer score = (Integer) row.get("score");
+            double score = (Integer) row.get("score");
 
             int isTrue = userKey.equals(correctKey) ? 1 : 2; // 1 for correct, 2 for incorrect
-            answerSheetScores.merge(answerId, isTrue==1?score:0, Integer::sum);
+            answerSheetScores.merge(answerId, isTrue==1?score:0, Double::sum);
             answerSheetDetailTrue.put(detailId, isTrue);
         }
 
@@ -160,7 +185,7 @@ public class ExamExamDaoImpl implements ExamExamDao {
         List<Object[]> updateParamsForAnswerSheetDetail = new ArrayList<>();
 
         for (Long answerId : answerSheetScores.keySet()) {
-            int totalScore = answerSheetScores.get(answerId);
+            double totalScore = answerSheetScores.get(answerId);
             updateParamsForAnswerSheet.add(new Object[]{totalScore, answerId});
         }
 

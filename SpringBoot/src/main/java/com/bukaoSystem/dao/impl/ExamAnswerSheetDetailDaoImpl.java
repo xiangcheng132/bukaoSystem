@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -46,15 +47,58 @@ public class ExamAnswerSheetDetailDaoImpl implements ExamAnswerSheetDetailDao {
 
     @Override
     public void saveExamAnswerSheetDetail(ExamAnswerSheetDetail examAnswerSheetDetail) {
-        String sql = "INSERT INTO exam_answer_sheet_detail (answerId, resourceId, userKey, isTrue, createTime) VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, examAnswerSheetDetail.getAnswerId(), examAnswerSheetDetail.getResourceId(), examAnswerSheetDetail.getUserKey(), examAnswerSheetDetail.getIsTrue(), examAnswerSheetDetail.getCreateTime());
+        StringBuilder sql = new StringBuilder("INSERT INTO exam_answer_sheet_detail (answerId, resourceId, userKey");
+        StringBuilder values = new StringBuilder(" VALUES (?, ?, ?");
+
+        List<Object> params = new ArrayList<>();
+        params.add(examAnswerSheetDetail.getAnswerId());
+        params.add(examAnswerSheetDetail.getResourceId());
+        params.add(examAnswerSheetDetail.getUserKey());
+
+        if (examAnswerSheetDetail.getIsTrue() != null) {
+            sql.append(", isTrue");
+            values.append(", ?");
+            params.add(examAnswerSheetDetail.getIsTrue());
+        }
+
+        if (examAnswerSheetDetail.getCreateTime() != null) {
+            sql.append(", createTime");
+            values.append(", ?");
+            params.add(examAnswerSheetDetail.getCreateTime());
+        }
+
+        sql.append(")");
+        values.append(")");
+
+        sql.append(values);
+        jdbcTemplate.update(sql.toString(), params.toArray());
     }
+
 
     @Override
     public void updateExamAnswerSheetDetail(ExamAnswerSheetDetail examAnswerSheetDetail) {
-        String sql = "UPDATE exam_answer_sheet_detail SET answerId = ?, resourceId = ?, userKey = ?, isTrue = ?, createTime = ? WHERE id = ?";
-        jdbcTemplate.update(sql, examAnswerSheetDetail.getAnswerId(), examAnswerSheetDetail.getResourceId(), examAnswerSheetDetail.getUserKey(), examAnswerSheetDetail.getIsTrue(), examAnswerSheetDetail.getCreateTime(), examAnswerSheetDetail.getId());
+        StringBuilder sql = new StringBuilder("UPDATE exam_answer_sheet_detail SET answerId = ?, resourceId = ?, userKey = ?");
+        List<Object> params = new ArrayList<>();
+        params.add(examAnswerSheetDetail.getAnswerId());
+        params.add(examAnswerSheetDetail.getResourceId());
+        params.add(examAnswerSheetDetail.getUserKey());
+
+        if (examAnswerSheetDetail.getIsTrue() != null) {
+            sql.append(", isTrue = ?");
+            params.add(examAnswerSheetDetail.getIsTrue());
+        }
+
+        if (examAnswerSheetDetail.getCreateTime() != null) {
+            sql.append(", createTime = ?");
+            params.add(examAnswerSheetDetail.getCreateTime());
+        }
+
+        sql.append(" WHERE id = ?");
+        params.add(examAnswerSheetDetail.getId());
+
+        jdbcTemplate.update(sql.toString(), params.toArray());
     }
+
 
     @Override
     public void deleteExamAnswerSheetDetail(Long id) {

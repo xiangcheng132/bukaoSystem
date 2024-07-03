@@ -45,8 +45,13 @@ public class ExamExamResourcesDaoImpl implements ExamExamResourcesDao {
 
     @Override
     public void saveExamExamResources(ExamExamResources examExamResources) {
-        String sql = "INSERT INTO exam_exam_resources (examId, resourceId, createTime) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, examExamResources.getExamId(), examExamResources.getResourceId(), examExamResources.getCreateTime());
+        if (examExamResources.getCreateTime()==null){
+            String sql = "INSERT INTO exam_exam_resources (examId, resourceId) VALUES (?, ?)";
+            jdbcTemplate.update(sql, examExamResources.getExamId(), examExamResources.getResourceId());
+        }else {
+            String sql = "INSERT INTO exam_exam_resources (examId, resourceId, createTime) VALUES (?, ?, ?)";
+            jdbcTemplate.update(sql, examExamResources.getExamId(), examExamResources.getResourceId(), examExamResources.getCreateTime());
+        }
     }
 
     @Override

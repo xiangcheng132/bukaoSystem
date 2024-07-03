@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -48,32 +49,75 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
 
     @Override
     public void save(ExamResources examResources) {
-        String sql = "INSERT INTO exam_resources (courseId, question, type, options, key, analysis, score, createTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql,
-                examResources.getCourseId(),
-                examResources.getQuestion(),
-                examResources.getType() != null ? examResources.getType().name() : null,
-                examResources.getOptions() != null ? examResources.getOptions().toString() : null,
-                examResources.getKey(),
-                examResources.getAnalysis(),
-                examResources.getScore(),
-                examResources.getCreateTime());
+        StringBuilder sql = new StringBuilder("INSERT INTO exam_resources (courseId, chapterId, question, `key`, analysis, score");
+        StringBuilder values = new StringBuilder(" VALUES (?, ?, ?, ?, ?, ?");
+
+        List<Object> params = new ArrayList<>();
+        params.add(examResources.getCourseId());
+        params.add(examResources.getChapterId());
+        params.add(examResources.getQuestion());
+        params.add(examResources.getKey());
+        params.add(examResources.getAnalysis());
+        params.add(examResources.getScore());
+
+        if (examResources.getType() != null) {
+            sql.append(", type");
+            values.append(", ?");
+            params.add(examResources.getType().name());
+        }
+
+        if (examResources.getOptions() != null) {
+            sql.append(", options");
+            values.append(", ?");
+            params.add(examResources.getOptions().toString());
+        }
+
+        if (examResources.getCreateTime() != null) {
+            sql.append(", createTime");
+            values.append(", ?");
+            params.add(examResources.getCreateTime());
+        }
+
+        sql.append(")");
+        values.append(")");
+
+        sql.append(values);
+        jdbcTemplate.update(sql.toString(), params.toArray());
     }
+
 
     @Override
     public void update(ExamResources examResources) {
-        String sql = "UPDATE exam_resources SET courseId = ?, question = ?, type = ?, options = ?, key = ?, analysis = ?, score = ?, createTime = ? WHERE id = ?";
-        jdbcTemplate.update(sql,
-                examResources.getCourseId(),
-                examResources.getQuestion(),
-                examResources.getType() != null ? examResources.getType().name() : null,
-                examResources.getOptions() != null ? examResources.getOptions().toString() : null,
-                examResources.getKey(),
-                examResources.getAnalysis(),
-                examResources.getScore(),
-                examResources.getCreateTime(),
-                examResources.getId());
+        StringBuilder sql = new StringBuilder("UPDATE exam_resources SET courseId = ?, chapterId = ?, question = ?, `key` = ?, analysis = ?, score = ?");
+        List<Object> params = new ArrayList<>();
+        params.add(examResources.getCourseId());
+        params.add(examResources.getChapterId());
+        params.add(examResources.getQuestion());
+        params.add(examResources.getKey());
+        params.add(examResources.getAnalysis());
+        params.add(examResources.getScore());
+
+        if (examResources.getType() != null) {
+            sql.append(", type = ?");
+            params.add(examResources.getType().name());
+        }
+
+        if (examResources.getOptions() != null) {
+            sql.append(", options = ?");
+            params.add(examResources.getOptions().toString());
+        }
+
+        if (examResources.getCreateTime() != null) {
+            sql.append(", createTime = ?");
+            params.add(examResources.getCreateTime());
+        }
+
+        sql.append(" WHERE id = ?");
+        params.add(examResources.getId());
+
+        jdbcTemplate.update(sql.toString(), params.toArray());
     }
+
 
     @Override
     public void delete(Long id) {

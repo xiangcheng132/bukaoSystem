@@ -46,14 +46,26 @@ public class ExamAnswerSheetDaoImpl implements ExamAnswerSheetDao {
 
     @Override
     public void saveExamAnswerSheet(ExamAnswerSheet examAnswerSheet) {
-        String sql = "INSERT INTO exam_answer_sheet (examId, userId, score, createTime) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, examAnswerSheet.getExamId(), examAnswerSheet.getUserId(), examAnswerSheet.getScore(), examAnswerSheet.getCreateTime());
+        if(examAnswerSheet.getCreateTime()==null){
+            String sql = "INSERT INTO exam_answer_sheet (examId, userId, score) VALUES (?, ?, ?)";
+            jdbcTemplate.update(sql, examAnswerSheet.getExamId(), examAnswerSheet.getUserId(), examAnswerSheet.getScore(), examAnswerSheet.getCreateTime());
+        }else {
+            String sql = "INSERT INTO exam_answer_sheet (examId, userId, score, createTime) VALUES (?, ?, ?, ?)";
+            jdbcTemplate.update(sql, examAnswerSheet.getExamId(), examAnswerSheet.getUserId(), examAnswerSheet.getScore(), examAnswerSheet.getCreateTime());
+        }
+
     }
 
     @Override
     public void updateExamAnswerSheet(ExamAnswerSheet examAnswerSheet) {
-        String sql = "UPDATE exam_answer_sheet SET examId = ?, userId = ?, score = ?, createTime = ? WHERE id = ?";
-        jdbcTemplate.update(sql, examAnswerSheet.getExamId(), examAnswerSheet.getUserId(), examAnswerSheet.getScore(), examAnswerSheet.getCreateTime(), examAnswerSheet.getId());
+        if(examAnswerSheet.getCreateTime()==null){
+            String sql = "UPDATE exam_answer_sheet SET examId = ?, userId = ?, score = ? WHERE id = ?";
+            jdbcTemplate.update(sql, examAnswerSheet.getExamId(), examAnswerSheet.getUserId(), examAnswerSheet.getScore(), examAnswerSheet.getId());
+        }else {
+            String sql = "UPDATE exam_answer_sheet SET examId = ?, userId = ?, score = ?, createTime = ? WHERE id = ?";
+            jdbcTemplate.update(sql, examAnswerSheet.getExamId(), examAnswerSheet.getUserId(), examAnswerSheet.getScore(), examAnswerSheet.getCreateTime(), examAnswerSheet.getId());
+        }
+
     }
 
     @Override

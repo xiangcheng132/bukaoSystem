@@ -46,14 +46,27 @@ public class ExamClassStudentDaoImpl implements ExamClassStudentDao {
 
     @Override
     public void saveExamClassStudent(ExamClassStudent examClassStudent) {
-        String sql = "INSERT INTO exam_class_student (classId, studentId, createTime) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, examClassStudent.getClassId(), examClassStudent.getStudentId(), examClassStudent.getCreateTime());
+        if (examClassStudent.getCreateTime()==null){
+            String sql = "INSERT INTO exam_class_student (classId, studentId) VALUES (?, ?)";
+            jdbcTemplate.update(sql, examClassStudent.getClassId(), examClassStudent.getStudentId());
+        }else {
+            String sql = "INSERT INTO exam_class_student (classId, studentId, createTime) VALUES (?, ?, ?)";
+            jdbcTemplate.update(sql, examClassStudent.getClassId(), examClassStudent.getStudentId(), examClassStudent.getCreateTime());
+        }
+
     }
 
     @Override
     public void updateExamClassStudent(ExamClassStudent examClassStudent) {
-        String sql = "UPDATE exam_class_student SET classId = ?, studentId = ?, createTime = ? WHERE id = ?";
-        jdbcTemplate.update(sql, examClassStudent.getClassId(), examClassStudent.getStudentId(), examClassStudent.getCreateTime(), examClassStudent.getId());
+        if (examClassStudent.getCreateTime()==null){
+            String sql = "UPDATE exam_class_student SET classId = ?, studentId = ? WHERE id = ?";
+            jdbcTemplate.update(sql, examClassStudent.getClassId(), examClassStudent.getStudentId(), examClassStudent.getId());
+
+        }else {
+            String sql = "UPDATE exam_class_student SET classId = ?, studentId = ?, createTime = ? WHERE id = ?";
+            jdbcTemplate.update(sql, examClassStudent.getClassId(), examClassStudent.getStudentId(), examClassStudent.getCreateTime(), examClassStudent.getId());
+
+        }
     }
 
     @Override
