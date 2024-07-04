@@ -1,4 +1,4 @@
-import request from '@/utils/request.js'
+import request from "@/utils/axios"
 
 //获取所有用户
 export function getAllUser() {
