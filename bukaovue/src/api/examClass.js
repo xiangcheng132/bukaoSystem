@@ -1,4 +1,4 @@
-import request from "@/utils/request";
+import request from "@/utils/axios.js"
 
 //获取所有班级
 export function getAllClass() {

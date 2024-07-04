@@ -1,4 +1,4 @@
-import request from "@/utils/request";
+import request from "@/utils/axios"
 
 //获取所有 ExamExamResources
 export function getAllExamExamResources() {
