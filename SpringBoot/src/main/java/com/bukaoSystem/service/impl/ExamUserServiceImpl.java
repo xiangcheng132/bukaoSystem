@@ -18,30 +18,32 @@ public class ExamUserServiceImpl implements ExamUserService {
     public void saveUser(ExamUser user) {
         examUserDao.save(user);
     }
+
     @Override
     public ExamUser getUserById(Long id) {
         return examUserDao.findById(id);
     }
+
     @Override
     public List<ExamUser> getAllUsers() {
         return examUserDao.findAll();
     }
+
     @Override
     public void updateUser(ExamUser user) {
         examUserDao.update(user);
     }
+
     @Override
     public void deleteUser(Long id) {
         examUserDao.delete(id);
     }
 
-    public boolean login(String account,String password) {
+    public ExamUser login(String account, String password) {
         ExamUser examUser = examUserDao.login(account);
-        if (examUser == null)
-            return false;
-        if (examUser.getPassword().equals(password))
-            return true;
+        if (examUser != null && examUser.getPassword().equals(password))
+            return examUser;
 
-        return false;
+        return null;
     }
 }

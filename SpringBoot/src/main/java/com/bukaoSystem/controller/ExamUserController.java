@@ -59,7 +59,7 @@ public class ExamUserController {
     }
 
     @PostMapping("/login")
-    public boolean login(@RequestBody ExamUser user) {
+    public ExamUser login(@RequestBody ExamUser user) {
         return examUserServiceImpl.login(user.getAccount(),user.getPassword());
     }
 }
