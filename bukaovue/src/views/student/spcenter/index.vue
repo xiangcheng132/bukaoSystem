@@ -1,12 +1,14 @@
 <template>
   <div>
-    教师端首页
+    个人中心页
   </div>
-  <router-view/>
 </template>
-
-<script setup>
-
+    
+<script>
+    
+export default {
+    
+}
 </script>
     
 <style lang = 'less'>

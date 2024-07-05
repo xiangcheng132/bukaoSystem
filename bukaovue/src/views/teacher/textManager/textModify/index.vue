@@ -1,8 +1,7 @@
 <template>
   <div>
-    教师端首页
+    试卷信息修改页
   </div>
-  <router-view/>
 </template>
 
 <script setup>
