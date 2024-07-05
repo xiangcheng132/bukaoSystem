@@ -1,6 +1,5 @@
 import router from "./router/index.js";
 import store from "@/store";
-import { userLogin } from "@/api/examUser.js";
 
 // 因为响应的数据是模拟返回来的 对象, 即便对象内定义状态码为失败的，但axios依旧会认为是成功
 /*
@@ -12,23 +11,16 @@ import { userLogin } from "@/api/examUser.js";
 const whiteList = ["/login"];
 // 定义前置守卫
 router.beforeEach(async (to, from, next)=>{
+  console.log(to.path," ",from.path);
   if(store.state.user.token){
-    if(/\/login/i.test(to.path)){
-      return next("/");
-    }
-    if(store.state.user.userInfo.length === 0 || !store.state.user.userInfo){
-
-      // 拿到用户信息的权限值
-      let permission = await userLogin().then(permission => permission).catch(()=>{console.log("返回 permission 失败");});
-
-
-      return router.push(to.path);
-    }
+    // if(/\/login/i.test(to.path)){
+    //   console.log("经过loginto匹配分支");
+    //   return next();
+    // }
+    
     next();
   }else{
-    
      return whiteList.includes(to.path) ? next() : next("/login");
   }
-  // next();
 })
 
