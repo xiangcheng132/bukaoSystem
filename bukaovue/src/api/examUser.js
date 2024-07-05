@@ -12,7 +12,6 @@ export function getAllUserById(id) {
 
 //创建用户
 export function createUser(userInfoList) {
-    console.log(userInfoList);
     return request.post('/bukaoSystem/users/create', {...userInfoList})
 }
 

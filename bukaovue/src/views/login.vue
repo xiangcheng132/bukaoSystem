@@ -8,13 +8,13 @@
 					<div class="btitle">账户登录</div>
 					<div class="bform">
 						<div>
-							<span>用户名: &nbsp;</span><input type="text" placeholder="用户名" v-model="form.username" required>
+							<span>账号名: &nbsp;</span><input type="text" placeholder="账号名" v-model="form.account" required>
 						</div>
 						<div>
 							<span>密码: &nbsp;&nbsp;</span><input type="password" placeholder="密码" v-model="form.password" required>
 						</div>
 					</div>
-					<button class="bbutton" ><el-button @click="submitLogin">登录</el-button></button>
+					<button class="bbutton" ><el-button @click="login">登录</el-button></button>
 				</div>
 				<!-- 注册表单 -->
 				<div class="big-contain" key="bigContainRegister" v-else>
@@ -38,15 +38,28 @@
 						</div>
 						<div>
 							<span>身份:  &nbsp;&nbsp;&nbsp;</span>
-							<input type="text" placeholder="身份信息" v-model="form.role" required>
+							  <el-select v-model="form.role" placeholder="请选择您的身份信息" style="width: 264px">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </el-select>
 						</div>
             <div>
 							<span>电话:  &nbsp;&nbsp;&nbsp;</span>
 							<input type="text" placeholder="电话" v-model="form.phone" required>
 						</div>
             <div>
-							<span>性别: &nbsp;&nbsp;&nbsp;</span>
-              <input type="text" placeholder="性别" v-model="form.sex" required>
+							
+            <div class="my-2 flex items-center text-sm">
+              <span style="position:relative; left:-81px">性别: &nbsp;&nbsp;&nbsp;</span>
+              <el-radio-group v-model="form.sex" class="ml-4">
+                <el-radio value="男">男</el-radio>
+                <el-radio value="女">女</el-radio>
+              </el-radio-group>
+           </div>
 						</div>
 					</div>
 						<button class="bbutton" ><el-button  @click="submitRegister">注册</el-button></button>
@@ -71,15 +84,33 @@
 
 <script setup>
 import { useRoute,useRouter } from "vue-router";
-import { onMounted, reactive, ref , toRefs, toRaw} from "vue";
+import { onMounted, reactive, ref , toRefs, toRaw, h } from "vue";
 import { userLogin, createUser } from "@/api/examUser.js";
-import { h } from "vue";
+import {useStore} from "vuex"
 import { ElMessage } from "element-plus";
+import {setStorage,getStorage} from "@/utils/storage.js";
+
 const regEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const phoneRegex = /^(\+\d{1,3}[- ]?)?\(?(\d{3})\)?[-. ]?(\d{3})[-. ]?(\d{5})$/;
 let route = useRoute();
 let router = useRouter();
+let store = useStore();
+
 let change = ref(true);
+const options = [
+  {
+    value: 'student',
+    label: '学生',
+  },
+  {
+    value: 'teacher',
+    label: '教师',
+  },
+  {
+    value: 'admin',
+    label: '管理员',
+  }
+]
 let form = reactive({
   username: "",
   email: "",
@@ -89,6 +120,7 @@ let form = reactive({
   sex: "",
   account:""
 });
+//转换视图
 function changeType() {
   // console.log(change);
   change.value = !change.value;
@@ -100,21 +132,59 @@ function changeType() {
   form.sex = "";
   form.account="";
 }
-function submitLogin() {
-  if(form.email != "" && form.password != ""){
+
+
+// let loginSuccessful = computed(() => store.state.user.loginSuccessful);
+
+
+let loginSuccessfulInfo = {};
+// 用户登录
+async function submitLogin() {
+  if(form.account != "" && form.password != ""){
+     const userInfo = toRaw(form);
+     const {account,password} = userInfo;
+       loginSuccessfulInfo = await userLogin({account,password}).then(res =>{
+      if(res.data == ""){
+        ElMessage("账号不存在");
+        return null;
+      }else{
+        ElMessage("登录成功");
+        return res.data;
+      }
     
+      }).catch(err=>{
+        // console.log(err);
+        return null;
+      })
+      return true;
+  }else{
+    ElMessage("用户信息不完全");
+    return false;
   }
- 
 }
+
+async function login(){
+    const k = await submitLogin();
+    console.log(k);
+    if(k){
+      store.dispatch("user/loginSuccessful",loginSuccessfulInfo);
+    }else{
+      ElMessage("登录失败");
+      return;
+    }
+}
+
+
+//用户注册
 function submitRegister() {
 
   if(form.email == "" ||(form.email != "" && !regEmail.test(form.email))){
     ElMessage("邮箱输入错误");
     return;
   }
-  // else if(form.role != "教师" && form.role != "学生" && form.role != "" || form.role == ""){
-  //   ElMessage("身份信息只能是教师或学生，且不为空");
-  // } 
+  else if(form.role != "teacher" && form.role != "student" && form.role!="admin" && form.role != "" || form.role == ""){
+    ElMessage("身份信息只能是教师或学生，且不为空");
+  } 
   else if(form.phone == "" ||(form.phone != "" && !phoneRegex.test(form.phone))){
     ElMessage("电话输入错误");
     return;
@@ -133,9 +203,10 @@ function submitRegister() {
     console.log(userInfo);
     createUser(userInfo).then(res=>{
       console.log(res);
-      ElMessage("注册成功");
+      ElMessage(res.data);
       changeType();
     }).catch(err=>{
+      ElMessage("注册失败");
       console.log(err);
     })
     
@@ -212,6 +283,7 @@ function submitRegister() {
 }
 .bform > div {
   width: 480px;
+  margin-bottom: 5px;
 }
 .bform input {
   width: 50%;
@@ -289,5 +361,10 @@ function submitRegister() {
   border-bottom-right-radius: inherit;
   transform: translateX(-100%);
   transition: all 1s;
+}
+.el-radio-group {
+    position: relative;
+    left: -78px;
+    top: 2px;
 }
 </style>

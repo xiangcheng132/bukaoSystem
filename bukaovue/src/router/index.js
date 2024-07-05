@@ -12,11 +12,7 @@ const routes = [
     name: 'login',
     component: Login
   },
-  {
-    path: '/register',
-    name: 'register',
-    component: () => import( '@/views/register.vue')
-  },
+
 
   //学生端路由
   {

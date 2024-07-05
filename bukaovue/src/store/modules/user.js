@@ -1,6 +1,6 @@
 import {setStorage,getStorage} from "@/utils/storage.js";
 import router from "@/router";
-// import {userInfoRequest} from "@/api/user.js";
+import {getAllUserById} from "@/api/examUser.js";
 export default{
   namespaced: true,
   state: {
@@ -17,6 +17,7 @@ export default{
     },
     // 设置用户信息
     setUserInfo(state,userInfo){
+      console.log(userInfo);
      state.userInfo = userInfo;
     }
   },
@@ -25,15 +26,27 @@ export default{
     async loginSuccessful(context,data){
       // console.log(data);
           // console.log(data.token);
-          await context.commit("setTokenData",data.token);
-          router.push("/");
+          await context.commit("setTokenData",data.id);
+          await context.commit("setUserInfo",data);
+          if(context.state.userInfo.role == "student"){
+             router.push("/student");
+           
+          }
+          if(context.state.userInfo.role == "teacher"){
+             router.push("/teacher");
+            
+          }
+          if(context.state.userInfo.role == "admin"){
+             router.push("/manager");
+            
+          }
       },
     // 获取用户的信息
     async getUserInfo(context){
-      return userInfoRequest({token: context.state.token}).then(data => {
+      return getAllUserById({id:context.state.token}).then(data => {
                 // console.log(data);
-                context.commit("setUserInfo",data.data.data);
-                return Promise.resolve(data.data.data.permission)
+                context.commit("setUserInfo",data.data);
+                return Promise.resolve("获取用户信息成功")
             })
              .catch(()=>{
                 return Promise.reject("获取用户信息失败");
