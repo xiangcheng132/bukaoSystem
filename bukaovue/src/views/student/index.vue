@@ -2,6 +2,7 @@
   <div>
     学生端首页
   </div>
+  <router-view/>
 </template>
     
 <script>

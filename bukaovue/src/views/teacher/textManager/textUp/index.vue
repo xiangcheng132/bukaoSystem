@@ -2,7 +2,6 @@
   <div>
     教师端首页
   </div>
-  <router-view/>
 </template>
 
 <script setup>

@@ -1,8 +1,7 @@
 <template>
   <div>
-    教师端首页
+    资源管理页
   </div>
-  <router-view/>
 </template>
 
 <script setup>

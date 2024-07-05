@@ -2,6 +2,7 @@
   <div>
       管理端首页
   </div>
+   <router-view/>
 </template>
     
 <script>
