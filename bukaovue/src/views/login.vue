@@ -151,7 +151,6 @@ async function submitLogin() {
         ElMessage("登录成功");
         return res.data;
       }
-    
       }).catch(err=>{
         // console.log(err);
         return null;
@@ -366,5 +365,8 @@ function submitRegister() {
     position: relative;
     left: -78px;
     top: 2px;
+}
+.login-register{
+  text-align: center
 }
 </style>
