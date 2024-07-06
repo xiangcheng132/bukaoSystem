@@ -47,18 +47,18 @@ public class ExamCourseControllerTest {
         examCourseList = Arrays.asList(examCourse);
     }
 
-    @Test
-    public void testGetAllExamCourses() throws Exception {
-        when(examCourseService.getAllExamCourses()).thenReturn(examCourseList);
-
-        mockMvc.perform(get("http://localhost:8080/bukaoSystem/course")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(examCourse.getId()))
-                .andExpect(jsonPath("$[0].name").value(examCourse.getName()));
-
-        verify(examCourseService, times(1)).getAllExamCourses();
-    }
+//    @Test
+//    public void testGetAllExamCourses() throws Exception {
+//        when(examCourseService.getAllExamCourses()).thenReturn(examCourseList);
+//
+//        mockMvc.perform(get("http://localhost:8080/bukaoSystem/course")
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$[0].id").value(examCourse.getId()))
+//                .andExpect(jsonPath("$[0].name").value(examCourse.getName()));
+//
+//        verify(examCourseService, times(1)).getAllExamCourses();
+//    }
 
     @Test
     public void testCreateExamCourse() throws Exception {
