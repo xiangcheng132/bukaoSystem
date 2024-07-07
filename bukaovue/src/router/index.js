@@ -111,7 +111,7 @@ const routes = [
         name: 'tCourseManager',
         component:() => import( '@/views/teacher/tCourseManager'),
         meta:{
-          title:'教师课程管理页'
+          title:'课程管理页'
         }
       },
       {
@@ -119,7 +119,7 @@ const routes = [
         name: 'tResourceManager',
         component:() => import( '@/views/teacher/tResourceManager'),
         meta:{
-          title:'教师资源管理页'
+          title:'资源管理页'
         }
       }
     ]
