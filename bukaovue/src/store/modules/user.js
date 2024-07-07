@@ -1,11 +1,12 @@
 import {setStorage,getStorage} from "@/utils/storage.js";
 import router from "@/router";
 import {getAllUserById} from "@/api/examUser.js";
+import { userInfoRefrsh } from "@/utils/userInfoRefrsh";
 export default{
   namespaced: true,
   state: {
     token: getStorage("token") || "",
-    userInfo: [] || ""
+    userInfo: userInfoRefrsh("token") || ""
   },
   mutations: {
     setTokenData(state,token){
