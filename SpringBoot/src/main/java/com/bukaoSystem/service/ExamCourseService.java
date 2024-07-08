@@ -6,7 +6,7 @@ import com.bukaoSystem.model.ExamUser;
 import java.util.List;
 
 public interface ExamCourseService {
-    void saveExamCourse(ExamCourse examCourse);
+    Long saveExamCourse(ExamCourse examCourse);
     ExamCourse getExamCourseById(Long id);
 
     List<ExamCourse> getAllExamCourses(ExamUser examUser);

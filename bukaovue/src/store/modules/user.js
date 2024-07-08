@@ -1,11 +1,12 @@
 import {setStorage,getStorage} from "@/utils/storage.js";
 import router from "@/router";
 import {getAllUserById} from "@/api/examUser.js";
+import { userInfoRefrsh } from "@/utils/userInfoRefrsh";
 export default{
   namespaced: true,
   state: {
     token: getStorage("token") || "",
-    userInfo: []
+    userInfo: userInfoRefrsh("token") || ""
   },
   mutations: {
     setTokenData(state,token){
@@ -21,13 +22,24 @@ export default{
      state.userInfo = userInfo;
     }
   },
+  getters: {
+    // 当前播放的歌曲对象
+    // currentSong(state){
+    //   return state.musicPlayList[state.currentIndex] || {}
+    // }
+  },
   actions: {
     // 发起登录请求后的操作
     async loginSuccessful(context,data){
       // console.log(data);
           // console.log(data.token);
-          await context.commit("setTokenData",data.id);
-          await context.commit("setUserInfo",data);
+          try{
+            await context.commit("setTokenData",data.id);
+            await context.commit("setUserInfo",data);
+          }catch{
+            console.log("id获取失败");
+          }
+    
           if(context.state.userInfo.role == "student"){
              router.push("/student");
            

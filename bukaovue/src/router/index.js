@@ -73,7 +73,7 @@ const routes = [
   {
     path: '/teacher',
     name: 'teacher',
-    redirect:'/teacher/textManager',
+    redirect:'/teacher/tCourseManager',
     component:() => import( '@/views/teacher'),
     meta:{
       title:'教师管理页'
@@ -105,6 +105,22 @@ const routes = [
               }
             }
         ]
+      },
+      {
+        path: '/teacher/tCourseManager',
+        name: 'tCourseManager',
+        component:() => import( '@/views/teacher/tCourseManager'),
+        meta:{
+          title:'课程管理页'
+        }
+      },
+      {
+        path: '/teacher/tResourceManager',
+        name: 'tResourceManager',
+        component:() => import( '@/views/teacher/tResourceManager'),
+        meta:{
+          title:'资源管理页'
+        }
       }
     ]
   },

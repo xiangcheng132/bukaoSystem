@@ -136,7 +136,7 @@ function changeType() {
 
 // let loginSuccessful = computed(() => store.state.user.loginSuccessful);
 
-
+let k = false;
 let loginSuccessfulInfo = {};
 // 用户登录
 async function submitLogin() {
@@ -146,26 +146,26 @@ async function submitLogin() {
        loginSuccessfulInfo = await userLogin({account,password}).then(res =>{
       if(res.data == ""){
         ElMessage("账号不存在");
+        k = false;
         return null;
       }else{
         ElMessage("登录成功");
+        k = true;
         return res.data;
       }
-    
       }).catch(err=>{
         // console.log(err);
+        k = false;
         return null;
       })
-      return true;
   }else{
     ElMessage("用户信息不完全");
-    return false;
+    k = false;
   }
 }
 
-async function login(){
-    const k = await submitLogin();
-    console.log(k);
+async function login(){ 
+    await submitLogin();
     if(k){
       store.dispatch("user/loginSuccessful",loginSuccessfulInfo);
     }else{
@@ -366,5 +366,8 @@ function submitRegister() {
     position: relative;
     left: -78px;
     top: 2px;
+}
+.login-register{
+  text-align: center
 }
 </style>

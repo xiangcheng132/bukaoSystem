@@ -19,7 +19,7 @@ public class ExamResourcesController {
 
     @GetMapping
     public List<ExamResources> getAllExamResources() {
-        return examResourcesService.getExamResourcesByCourseId(null,"ASC");
+        return examResourcesService.getExamResourcesAll();
     }
 
     @PostMapping("/getByCourseId")

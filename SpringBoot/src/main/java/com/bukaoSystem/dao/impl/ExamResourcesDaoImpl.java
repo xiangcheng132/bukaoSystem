@@ -32,6 +32,7 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
             ExamResources examResources = new ExamResources();
             examResources.setId(rs.getLong("id"));
             examResources.setCourseId(rs.getLong("courseId"));
+            examResources.setChapterId(rs.getLong("chapterId"));
             examResources.setQuestion(rs.getString("question"));
             examResources.setType(Type.valueOf(rs.getString("type")));
             try {
@@ -134,6 +135,12 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
         String sql = "SELECT * FROM exam_resources WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, rowMapper);
     }
+    @Override
+    public List<ExamResources> findAll() {
+        String sql = "SELECT * FROM exam_resources ORDER BY id";
+        return jdbcTemplate.query(sql, rowMapper);
+    }
+
     //根据课程id寻找资源
     @Override
     public List<ExamResources> findByCourseId(Long courseId, String sort) {
