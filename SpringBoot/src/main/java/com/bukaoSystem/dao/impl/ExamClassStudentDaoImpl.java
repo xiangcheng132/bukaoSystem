@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -46,28 +47,43 @@ public class ExamClassStudentDaoImpl implements ExamClassStudentDao {
 
     @Override
     public void saveExamClassStudent(ExamClassStudent examClassStudent) {
-        if (examClassStudent.getCreateTime()==null){
-            String sql = "INSERT INTO exam_class_student (classId, studentId) VALUES (?, ?)";
-            jdbcTemplate.update(sql, examClassStudent.getClassId(), examClassStudent.getStudentId());
-        }else {
-            String sql = "INSERT INTO exam_class_student (classId, studentId, createTime) VALUES (?, ?, ?)";
-            jdbcTemplate.update(sql, examClassStudent.getClassId(), examClassStudent.getStudentId(), examClassStudent.getCreateTime());
+        StringBuilder sql = new StringBuilder("INSERT INTO exam_class_student (classId, studentId");
+        StringBuilder values = new StringBuilder(" VALUES (?, ?");
+        List<Object> params = new ArrayList<>();
+        params.add(examClassStudent.getClassId());
+        params.add(examClassStudent.getStudentId());
+
+        if (examClassStudent.getCreateTime() != null) {
+            sql.append(", createTime");
+            values.append(", ?");
+            params.add(examClassStudent.getCreateTime());
         }
 
+        sql.append(")");
+        values.append(")");
+        sql.append(values);
+
+        jdbcTemplate.update(sql.toString(), params.toArray());
     }
 
     @Override
     public void updateExamClassStudent(ExamClassStudent examClassStudent) {
-        if (examClassStudent.getCreateTime()==null){
-            String sql = "UPDATE exam_class_student SET classId = ?, studentId = ? WHERE id = ?";
-            jdbcTemplate.update(sql, examClassStudent.getClassId(), examClassStudent.getStudentId(), examClassStudent.getId());
+        StringBuilder sql = new StringBuilder("UPDATE exam_class_student SET classId = ?, studentId = ?");
+        List<Object> params = new ArrayList<>();
+        params.add(examClassStudent.getClassId());
+        params.add(examClassStudent.getStudentId());
 
-        }else {
-            String sql = "UPDATE exam_class_student SET classId = ?, studentId = ?, createTime = ? WHERE id = ?";
-            jdbcTemplate.update(sql, examClassStudent.getClassId(), examClassStudent.getStudentId(), examClassStudent.getCreateTime(), examClassStudent.getId());
-
+        if (examClassStudent.getCreateTime() != null) {
+            sql.append(", createTime = ?");
+            params.add(examClassStudent.getCreateTime());
         }
+
+        sql.append(" WHERE id = ?");
+        params.add(examClassStudent.getId());
+
+        jdbcTemplate.update(sql.toString(), params.toArray());
     }
+
 
     @Override
     public void deleteExamClassStudent(Long id) {

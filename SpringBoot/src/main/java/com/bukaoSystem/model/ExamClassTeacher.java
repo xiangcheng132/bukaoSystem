@@ -4,15 +4,13 @@ public class ExamClassTeacher {
     private Long id;
     private Long classId;
     private Long teacherId;
-    private String createTime;
 
     public ExamClassTeacher() {
     }
-    public ExamClassTeacher(Long id, Long classId, Long teacherId, String createTime) {
+    public ExamClassTeacher(Long id, Long classId, Long teacherId) {
         this.id = id;
         this.classId = classId;
         this.teacherId = teacherId;
-        this.createTime = createTime;
     }
 
     // Getters and setters for all fields
@@ -40,11 +38,5 @@ public class ExamClassTeacher {
         this.teacherId = teacherId;
     }
 
-    public String getCreateTime() {
-        return createTime;
-    }
 
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
 }

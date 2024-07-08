@@ -37,24 +37,14 @@ public class ExamClassTeacherDAOImpl implements ExamClassTeacherDAO {
 
     @Override
     public void saveExamClassTeacher(ExamClassTeacher examClassTeacher) {
-        if (examClassTeacher.getCreateTime()==null){
-            String sql = "INSERT INTO exam_class_teacher (class_id, teacher_id) VALUES (?, ?)";
-            jdbcTemplate.update(sql, examClassTeacher.getClassId(), examClassTeacher.getTeacherId());
-        }else {
-            String sql = "INSERT INTO exam_class_teacher (class_id, teacher_id, create_time) VALUES (?, ?, ?)";
-            jdbcTemplate.update(sql, examClassTeacher.getClassId(), examClassTeacher.getTeacherId(), examClassTeacher.getCreateTime());
-        }
+        String sql = "INSERT INTO exam_class_teacher (class_id, teacher_id) VALUES (?, ?)";
+        jdbcTemplate.update(sql, examClassTeacher.getClassId(), examClassTeacher.getTeacherId());
     }
 
     @Override
     public void updateExamClassTeacher(ExamClassTeacher examClassTeacher) {
-        if (examClassTeacher.getCreateTime()==null){
-            String sql = "UPDATE exam_class_teacher SET class_id = ?, teacher_id = ? WHERE id = ?";
-            jdbcTemplate.update(sql, examClassTeacher.getClassId(), examClassTeacher.getTeacherId(), examClassTeacher.getId());
-        }else {
-            String sql = "UPDATE exam_class_teacher SET class_id = ?, teacher_id = ?, create_time = ? WHERE id = ?";
-            jdbcTemplate.update(sql, examClassTeacher.getClassId(), examClassTeacher.getTeacherId(), examClassTeacher.getCreateTime(), examClassTeacher.getId());
-        }
+        String sql = "UPDATE exam_class_teacher SET class_id = ?, teacher_id = ? WHERE id = ?";
+        jdbcTemplate.update(sql, examClassTeacher.getClassId(), examClassTeacher.getTeacherId(), examClassTeacher.getId());
     }
 
     @Override

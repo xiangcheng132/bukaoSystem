@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -45,15 +46,42 @@ public class ExamTeacherCourseDaoImpl implements ExamTeacherCourseDao {
 
     @Override
     public void saveExamTeacherCourse(ExamTeacherCourse examTeacherCourse) {
-        String sql = "INSERT INTO exam_teacher_course (teacherId, courseId, createTime) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, examTeacherCourse.getTeacherId(), examTeacherCourse.getCourseId(), examTeacherCourse.getCreateTime());
+        StringBuilder sql = new StringBuilder("INSERT INTO exam_teacher_course (teacherId, courseId");
+        StringBuilder values = new StringBuilder(" VALUES (?, ?");
+        List<Object> params = new ArrayList<>();
+        params.add(examTeacherCourse.getTeacherId());
+        params.add(examTeacherCourse.getCourseId());
+
+        if (examTeacherCourse.getCreateTime() != null) {
+            sql.append(", createTime");
+            values.append(", ?");
+            params.add(examTeacherCourse.getCreateTime());
+        }
+
+        sql.append(")");
+        values.append(")");
+        sql.append(values);
+
+        jdbcTemplate.update(sql.toString(), params.toArray());
     }
 
     @Override
     public void updateExamTeacherCourse(ExamTeacherCourse examTeacherCourse) {
-        String sql = "UPDATE exam_teacher_course SET createTime = ? WHERE teacherId = ? AND courseId = ?";
-        jdbcTemplate.update(sql, examTeacherCourse.getCreateTime(), examTeacherCourse.getTeacherId(), examTeacherCourse.getCourseId());
+        StringBuilder sql = new StringBuilder("UPDATE exam_teacher_course SET ");
+        List<Object> params = new ArrayList<>();
+
+        if (examTeacherCourse.getCreateTime() != null) {
+            sql.append("createTime = ?");
+            params.add(examTeacherCourse.getCreateTime());
+        }
+
+        sql.append(" WHERE teacherId = ? AND courseId = ?");
+        params.add(examTeacherCourse.getTeacherId());
+        params.add(examTeacherCourse.getCourseId());
+
+        jdbcTemplate.update(sql.toString(), params.toArray());
     }
+
 
     @Override
     public void deleteExamTeacherCourse(Long teacherId, Long courseId) {

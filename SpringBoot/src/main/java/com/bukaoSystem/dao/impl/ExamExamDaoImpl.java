@@ -53,55 +53,51 @@ public class ExamExamDaoImpl implements ExamExamDao {
 
     @Override
     public void save(ExamExam examExam) {
-        if (examExam.getCreateTime()==null){
-            String sql = "INSERT INTO exam_exam (courseId, name, comment, place, beginTime, endTime) VALUES (?, ?, ?, ?, ?, ?)";
-            jdbcTemplate.update(sql,
-                    examExam.getCourseId(),
-                    examExam.getName(),
-                    examExam.getComment(),
-                    examExam.getPlace(),
-                    examExam.getBeginTime(),
-                    examExam.getEndTime());
-        }else {
-            String sql = "INSERT INTO exam_exam (courseId, name, comment, place, beginTime, endTime, createTime) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            jdbcTemplate.update(sql,
-                    examExam.getCourseId(),
-                    examExam.getName(),
-                    examExam.getComment(),
-                    examExam.getPlace(),
-                    examExam.getBeginTime(),
-                    examExam.getEndTime(),
-                    examExam.getCreateTime());
+        StringBuilder sql = new StringBuilder("INSERT INTO exam_exam (courseId, name, comment, place, beginTime, endTime");
+        StringBuilder values = new StringBuilder(" VALUES (?, ?, ?, ?, ?, ?");
+        List<Object> params = new ArrayList<>();
+        params.add(examExam.getCourseId());
+        params.add(examExam.getName());
+        params.add(examExam.getComment());
+        params.add(examExam.getPlace());
+        params.add(examExam.getBeginTime());
+        params.add(examExam.getEndTime());
+
+        if (examExam.getCreateTime() != null) {
+            sql.append(", createTime");
+            values.append(", ?");
+            params.add(examExam.getCreateTime());
         }
 
+        sql.append(")");
+        values.append(")");
+        sql.append(values);
+
+        jdbcTemplate.update(sql.toString(), params.toArray());
     }
 
     @Override
     public void update(ExamExam examExam) {
-        if (examExam.getCreateTime()==null){
-            String sql = "UPDATE exam_exam SET courseId = ?, name = ?, comment = ?, place = ?, beginTime = ?, endTime = ? WHERE id = ?";
-            jdbcTemplate.update(sql,
-                    examExam.getCourseId(),
-                    examExam.getName(),
-                    examExam.getComment(),
-                    examExam.getPlace(),
-                    examExam.getBeginTime(),
-                    examExam.getEndTime(),
-                    examExam.getId());
-        }else {
-            String sql = "UPDATE exam_exam SET courseId = ?, name = ?, comment = ?, place = ?, beginTime = ?, endTime = ?, createTime = ? WHERE id = ?";
-            jdbcTemplate.update(sql,
-                    examExam.getCourseId(),
-                    examExam.getName(),
-                    examExam.getComment(),
-                    examExam.getPlace(),
-                    examExam.getBeginTime(),
-                    examExam.getEndTime(),
-                    examExam.getCreateTime(),
-                    examExam.getId());
+        StringBuilder sql = new StringBuilder("UPDATE exam_exam SET courseId = ?, name = ?, comment = ?, place = ?, beginTime = ?, endTime = ?");
+        List<Object> params = new ArrayList<>();
+        params.add(examExam.getCourseId());
+        params.add(examExam.getName());
+        params.add(examExam.getComment());
+        params.add(examExam.getPlace());
+        params.add(examExam.getBeginTime());
+        params.add(examExam.getEndTime());
+
+        if (examExam.getCreateTime() != null) {
+            sql.append(", createTime = ?");
+            params.add(examExam.getCreateTime());
         }
 
+        sql.append(" WHERE id = ?");
+        params.add(examExam.getId());
+
+        jdbcTemplate.update(sql.toString(), params.toArray());
     }
+
 
     @Override
     public void delete(Long id) {
