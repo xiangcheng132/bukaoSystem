@@ -11,4 +11,5 @@ public interface ExamResourcesDao {
     ExamResources findById(Long id);
     List<ExamResources> findByCourseId(Long courseId, String sort);
     List<ExamResources> findByChapterId(Long chapterId, String sort);
+    List<ExamResources> findAll();
 }

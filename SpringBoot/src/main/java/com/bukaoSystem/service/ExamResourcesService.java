@@ -11,4 +11,5 @@ public interface ExamResourcesService {
     ExamResources getExamResourcesById(Long id);
     List<ExamResources> getExamResourcesByCourseId(Long courseId, String sort);
     List<ExamResources> getExamResourcesByChapterId(Long chapterId, String sort);
+    List<ExamResources> getExamResourcesAll();
 }

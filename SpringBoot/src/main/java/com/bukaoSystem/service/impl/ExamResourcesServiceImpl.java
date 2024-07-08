@@ -41,6 +41,11 @@ public class ExamResourcesServiceImpl implements ExamResourcesService {
 
     @Override
     public List<ExamResources> getExamResourcesByChapterId(Long chapterId, String sort) {
-        return examResourcesDao.findByCourseId(chapterId, sort);
+        return examResourcesDao.findByChapterId(chapterId, sort);
+    }
+
+    @Override
+    public List<ExamResources> getExamResourcesAll() {
+        return examResourcesDao.findAll();
     }
 }

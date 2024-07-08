@@ -134,6 +134,11 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
         String sql = "SELECT * FROM exam_resources WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, rowMapper);
     }
+    @Override
+    public List<ExamResources> findAll() {
+        String sql = "SELECT * FROM exam_resources ORDER BY id";
+        return jdbcTemplate.query(sql, rowMapper);
+    }
 
     @Override
     public List<ExamResources> findByCourseId(Long courseId, String sort) {
