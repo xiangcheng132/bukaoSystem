@@ -32,6 +32,7 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
             ExamResources examResources = new ExamResources();
             examResources.setId(rs.getLong("id"));
             examResources.setCourseId(rs.getLong("courseId"));
+            examResources.setChapterId(rs.getLong("chapterId"));
             examResources.setQuestion(rs.getString("question"));
             examResources.setType(Type.valueOf(rs.getString("type")));
             try {
