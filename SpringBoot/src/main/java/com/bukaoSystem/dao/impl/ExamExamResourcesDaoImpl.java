@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -47,21 +48,44 @@ public class ExamExamResourcesDaoImpl implements ExamExamResourcesDao {
     //根据试卷id得到试卷详情（资源id，课程id）
     @Override
     public void saveExamExamResources(ExamExamResources examExamResources) {
-        if (examExamResources.getCreateTime()==null){
-            String sql = "INSERT INTO exam_exam_resources (examId, resourceId) VALUES (?, ?)";
-            jdbcTemplate.update(sql, examExamResources.getExamId(), examExamResources.getResourceId());
-        }else {
-            String sql = "INSERT INTO exam_exam_resources (examId, resourceId, createTime) VALUES (?, ?, ?)";
-            jdbcTemplate.update(sql, examExamResources.getExamId(), examExamResources.getResourceId(), examExamResources.getCreateTime());
+        StringBuilder sql = new StringBuilder("INSERT INTO exam_exam_resources (examId, resourceId");
+        StringBuilder values = new StringBuilder(" VALUES (?, ?");
+        List<Object> params = new ArrayList<>();
+        params.add(examExamResources.getExamId());
+        params.add(examExamResources.getResourceId());
+
+        if (examExamResources.getCreateTime() != null) {
+            sql.append(", createTime");
+            values.append(", ?");
+            params.add(examExamResources.getCreateTime());
         }
+
+        sql.append(")");
+        values.append(")");
+        sql.append(values);
+
+        jdbcTemplate.update(sql.toString(), params.toArray());
     }
     //更新
     @Override
     public void updateExamExamResources(ExamExamResources examExamResources) {
-        String sql = "UPDATE exam_exam_resources SET createTime = ? WHERE examId = ? AND resourceId = ?";
-        jdbcTemplate.update(sql, examExamResources.getCreateTime(), examExamResources.getExamId(), examExamResources.getResourceId());
+        StringBuilder sql = new StringBuilder("UPDATE exam_exam_resources SET ");
+        List<Object> params = new ArrayList<>();
+
+        if (examExamResources.getCreateTime() != null) {
+            sql.append("createTime = ?");
+            params.add(examExamResources.getCreateTime());
+        }
+
+        sql.append(" WHERE examId = ? AND resourceId = ?");
+        params.add(examExamResources.getExamId());
+        params.add(examExamResources.getResourceId());
+
+        jdbcTemplate.update(sql.toString(), params.toArray());
     }
     //删除
+
+
     @Override
     public void deleteExamExamResources(Long examId, Long resourceId) {
         String sql = "DELETE FROM exam_exam_resources WHERE examId = ? AND resourceId = ?";

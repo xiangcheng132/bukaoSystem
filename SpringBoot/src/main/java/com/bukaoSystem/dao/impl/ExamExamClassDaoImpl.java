@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -46,21 +47,45 @@ public class ExamExamClassDaoImpl implements ExamExamClassDao {
 
     @Override
     public void saveExamExamClass(ExamExamClass examExamClass) {
-        if (examExamClass.getCreateTime()==null){
-            String sql = "INSERT INTO exam_exam_class (examId, classId) VALUES (?, ?)";
-            jdbcTemplate.update(sql, examExamClass.getExamId(), examExamClass.getClassId());
-        }else {
-            String sql = "INSERT INTO exam_exam_class (examId, classId, createTime) VALUES (?, ?, ?)";
-            jdbcTemplate.update(sql, examExamClass.getExamId(), examExamClass.getClassId(), examExamClass.getCreateTime());
+        StringBuilder sql = new StringBuilder("INSERT INTO exam_exam_class (examId, classId");
+        StringBuilder values = new StringBuilder(" VALUES (?, ?");
+        List<Object> params = new ArrayList<>();
+        params.add(examExamClass.getExamId());
+        params.add(examExamClass.getClassId());
+
+        if (examExamClass.getCreateTime() != null) {
+            sql.append(", createTime");
+            values.append(", ?");
+            params.add(examExamClass.getCreateTime());
         }
 
+        sql.append(")");
+        values.append(")");
+        sql.append(values);
+
+        jdbcTemplate.update(sql.toString(), params.toArray());
     }
 
     @Override
     public void updateExamExamClass(ExamExamClass examExamClass) {
-        String sql = "UPDATE exam_exam_class SET createTime = ? WHERE examId = ? AND classId = ?";
-        jdbcTemplate.update(sql, examExamClass.getCreateTime(), examExamClass.getExamId(), examExamClass.getClassId());
+        StringBuilder sql = new StringBuilder("UPDATE exam_exam_class SET");
+        List<Object> params = new ArrayList<>();
+
+        if (examExamClass.getCreateTime() != null) {
+            sql.append(" createTime = ?");
+            params.add(examExamClass.getCreateTime());
+        } else {
+            // 如果 createTime 是 null，则可以选择在这里处理，或者忽略该字段的更新
+            // 在此示例中，我们选择忽略该字段的更新
+        }
+
+        sql.append(" WHERE examId = ? AND classId = ?");
+        params.add(examExamClass.getExamId());
+        params.add(examExamClass.getClassId());
+
+        jdbcTemplate.update(sql.toString(), params.toArray());
     }
+
 
     @Override
     public void deleteExamExamClass(Long examId, Long classId) {

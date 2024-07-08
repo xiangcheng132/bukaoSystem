@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -46,27 +47,45 @@ public class ExamAnswerSheetDaoImpl implements ExamAnswerSheetDao {
 
     @Override
     public void saveExamAnswerSheet(ExamAnswerSheet examAnswerSheet) {
-        if(examAnswerSheet.getCreateTime()==null){
-            String sql = "INSERT INTO exam_answer_sheet (examId, userId, score) VALUES (?, ?, ?)";
-            jdbcTemplate.update(sql, examAnswerSheet.getExamId(), examAnswerSheet.getUserId(), examAnswerSheet.getScore(), examAnswerSheet.getCreateTime());
-        }else {
-            String sql = "INSERT INTO exam_answer_sheet (examId, userId, score, createTime) VALUES (?, ?, ?, ?)";
-            jdbcTemplate.update(sql, examAnswerSheet.getExamId(), examAnswerSheet.getUserId(), examAnswerSheet.getScore(), examAnswerSheet.getCreateTime());
+        StringBuilder sql = new StringBuilder("INSERT INTO exam_answer_sheet (examId, userId, score");
+        StringBuilder values = new StringBuilder(" VALUES (?, ?, ?");
+        List<Object> params = new ArrayList<>();
+        params.add(examAnswerSheet.getExamId());
+        params.add(examAnswerSheet.getUserId());
+        params.add(examAnswerSheet.getScore());
+
+        if (examAnswerSheet.getCreateTime() != null) {
+            sql.append(", createTime");
+            values.append(", ?");
+            params.add(examAnswerSheet.getCreateTime());
         }
 
+        sql.append(")");
+        values.append(")");
+        sql.append(values);
+
+        jdbcTemplate.update(sql.toString(), params.toArray());
     }
 
     @Override
     public void updateExamAnswerSheet(ExamAnswerSheet examAnswerSheet) {
-        if(examAnswerSheet.getCreateTime()==null){
-            String sql = "UPDATE exam_answer_sheet SET examId = ?, userId = ?, score = ? WHERE id = ?";
-            jdbcTemplate.update(sql, examAnswerSheet.getExamId(), examAnswerSheet.getUserId(), examAnswerSheet.getScore(), examAnswerSheet.getId());
-        }else {
-            String sql = "UPDATE exam_answer_sheet SET examId = ?, userId = ?, score = ?, createTime = ? WHERE id = ?";
-            jdbcTemplate.update(sql, examAnswerSheet.getExamId(), examAnswerSheet.getUserId(), examAnswerSheet.getScore(), examAnswerSheet.getCreateTime(), examAnswerSheet.getId());
+        StringBuilder sql = new StringBuilder("UPDATE exam_answer_sheet SET examId = ?, userId = ?, score = ?");
+        List<Object> params = new ArrayList<>();
+        params.add(examAnswerSheet.getExamId());
+        params.add(examAnswerSheet.getUserId());
+        params.add(examAnswerSheet.getScore());
+
+        if (examAnswerSheet.getCreateTime() != null) {
+            sql.append(", createTime = ?");
+            params.add(examAnswerSheet.getCreateTime());
         }
 
+        sql.append(" WHERE id = ?");
+        params.add(examAnswerSheet.getId());
+
+        jdbcTemplate.update(sql.toString(), params.toArray());
     }
+
 
     @Override
     public void deleteExamAnswerSheet(Long id) {
