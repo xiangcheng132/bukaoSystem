@@ -1,15 +1,12 @@
 <template>
   <div>
-      管理端首页
+    试卷发布页
   </div>
    <router-view/>
 </template>
-    
-<script>
-    
-export default {
-    
-}
+
+<script setup>
+
 </script>
     
 <style lang = 'less'>

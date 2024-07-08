@@ -1,17 +1,12 @@
 <template>
   <div>
-      管理端首页
+    ASIDE
   </div>
-   <router-view/>
 </template>
     
-<script>
-    
-export default {
-    
-}
+<script setup>
+
 </script>
-    
 <style lang = 'less'>
     
 </style>

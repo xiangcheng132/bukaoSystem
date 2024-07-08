@@ -1,6 +1,6 @@
 <template>
   <div>
-    注册页
+      管理端课程管理页
   </div>
 </template>
     

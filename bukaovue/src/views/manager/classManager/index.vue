@@ -1,8 +1,7 @@
 <template>
   <div>
-      管理端首页
+      班级管理页
   </div>
-   <router-view/>
 </template>
     
 <script>

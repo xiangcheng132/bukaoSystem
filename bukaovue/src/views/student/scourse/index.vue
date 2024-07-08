@@ -1,8 +1,8 @@
 <template>
   <div>
-      管理端首页
+    课程中心页
   </div>
-   <router-view/>
+  <router-view/>
 </template>
     
 <script>

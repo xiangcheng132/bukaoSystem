@@ -1,8 +1,7 @@
 <template>
   <div>
-      管理端首页
+    考试通知页
   </div>
-   <router-view/>
 </template>
     
 <script>
