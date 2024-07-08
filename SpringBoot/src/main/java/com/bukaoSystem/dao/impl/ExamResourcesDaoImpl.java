@@ -46,7 +46,7 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
             return examResources;
         }
     };
-
+    //添加保存
     @Override
     public void save(ExamResources examResources) {
         StringBuilder sql = new StringBuilder("INSERT INTO exam_resources (courseId, chapterId, question, `key`, analysis, score");
@@ -85,7 +85,7 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
         jdbcTemplate.update(sql.toString(), params.toArray());
     }
 
-
+    //更新资源
     @Override
     public void update(ExamResources examResources) {
         StringBuilder sql = new StringBuilder("UPDATE exam_resources SET courseId = ?, chapterId = ?, question = ?, `key` = ?, analysis = ?, score = ?");
@@ -118,7 +118,7 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
         jdbcTemplate.update(sql.toString(), params.toArray());
     }
 
-
+    //删除资源
     @Override
     public void delete(Long id) {
         String sql = "DELETE FROM exam_resources WHERE id = ?";
@@ -128,22 +128,27 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
             throw new ForeignKeyConstraintViolationException("无法删除id: " + id + "的信息，该id下有关联信息。");
         }
     }
-
+    //根据资源id寻找资源
     @Override
     public ExamResources findById(Long id) {
         String sql = "SELECT * FROM exam_resources WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, rowMapper);
     }
-
+    //根据课程id寻找资源
     @Override
     public List<ExamResources> findByCourseId(Long courseId, String sort) {
         String sql = "SELECT * FROM exam_resources WHERE courseId = ? ORDER BY id " + sort;
         return jdbcTemplate.query(sql, new Object[]{courseId}, rowMapper);
     }
-
+    //根据章节找资源
     @Override
     public List<ExamResources> findByChapterId(Long chapterId, String sort) {
         String sql = "SELECT * FROM exam_resources WHERE chapterId = ? ORDER BY courseId " + sort;
         return jdbcTemplate.query(sql, new Object[]{chapterId}, rowMapper);
+    }
+    //返回对应数量的资源题目
+    public List<ExamResources> findRandomResourcesByChapterAndType(Long chapterId, String questionType, int count) {
+        String sql = "SELECT * FROM exam_resources WHERE chapterId = ? AND question = ? ORDER BY RAND() LIMIT ?";
+        return jdbcTemplate.query(sql, new Object[]{chapterId, questionType, count},rowMapper);
     }
 }
