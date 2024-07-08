@@ -24,8 +24,8 @@ public class ExamCourseController {
     }
 
     @PostMapping("/create")
-    public void createExamCourse(@RequestBody ExamCourse examCourse) {
-        examCourseService.saveExamCourse(examCourse);
+    public Long createExamCourse(@RequestBody ExamCourse examCourse) {
+        return examCourseService.saveExamCourse(examCourse);
     }
 
     @PostMapping("/postById")

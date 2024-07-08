@@ -16,8 +16,8 @@ public class ExamCourseServiceImpl implements ExamCourseService {
     private ExamCourseDao examCourseDao;
 
     @Override
-    public void saveExamCourse(ExamCourse examCourse) {
-        examCourseDao.save(examCourse);
+    public Long saveExamCourse(ExamCourse examCourse) {
+        return examCourseDao.save(examCourse);
     }
 
     @Override

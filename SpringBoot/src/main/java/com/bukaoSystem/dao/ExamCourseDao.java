@@ -6,7 +6,7 @@ import com.bukaoSystem.model.ExamUser;
 import java.util.List;
 
 public interface ExamCourseDao {
-    void save(ExamCourse examCourse);
+    Long save(ExamCourse examCourse);
     ExamCourse findById(Long id);
     List<ExamCourse> findAll(ExamUser examUser);
     List<ExamCourse> findByName(String name);

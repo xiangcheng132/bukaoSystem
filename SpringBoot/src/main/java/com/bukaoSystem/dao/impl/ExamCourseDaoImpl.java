@@ -7,10 +7,14 @@ import com.bukaoSystem.model.ExamUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +25,7 @@ public class ExamCourseDaoImpl implements ExamCourseDao {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void save(ExamCourse examCourse) {
+    public Long save(ExamCourse examCourse) {
         StringBuilder sql = new StringBuilder("INSERT INTO exam_course (name");
         StringBuilder values = new StringBuilder(" VALUES (?");
 
@@ -44,7 +48,17 @@ public class ExamCourseDaoImpl implements ExamCourseDao {
         values.append(")");
 
         sql.append(values);
-        jdbcTemplate.update(sql.toString(), params.toArray());
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+            return ps;
+        }, keyHolder);
+
+        return keyHolder.getKey().longValue();
     }
 
 
