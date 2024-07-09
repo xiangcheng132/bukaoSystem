@@ -105,7 +105,7 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
 
         if (examResources.getOptions() != null) {
             sql.append(", options = ?");
-            params.add(examResources.getOptions().toString());
+            params.add(examResources.getOptions());
         }
 
         if (examResources.getCreateTime() != null) {
