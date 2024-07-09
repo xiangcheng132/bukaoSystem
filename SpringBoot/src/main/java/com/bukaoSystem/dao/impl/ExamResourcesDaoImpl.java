@@ -68,8 +68,7 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
         }
 
         if (examResources.getOptions() != null) {
-            sql.append(", options");
-            values.append(", ?");
+            sql.append(", options = ?");
             String jsonString = examResources.getOptions().toString();
             // 去除头尾引号
             if (jsonString.startsWith("\"") && jsonString.endsWith("\"")) {
@@ -130,6 +129,7 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
         }
 
         sql.append(" WHERE id = ?");
+        params.add(examResources.getId());
         jdbcTemplate.update(sql.toString(), params.toArray());
     }
 
