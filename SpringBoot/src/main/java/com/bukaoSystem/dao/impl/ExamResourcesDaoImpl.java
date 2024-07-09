@@ -70,7 +70,15 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
         if (examResources.getOptions() != null) {
             sql.append(", options");
             values.append(", ?");
-            params.add(examResources.getOptions().toString());
+            String jsonString = examResources.getOptions().toString();
+            // 去除头尾引号
+            if (jsonString.startsWith("\"") && jsonString.endsWith("\"")) {
+                jsonString = jsonString.substring(1, jsonString.length() - 1);
+            }
+
+            // 去除反斜杠
+            jsonString = jsonString.replace("\\\"", "\"");
+            params.add(jsonString);
         }
 
         if (examResources.getCreateTime() != null) {
@@ -105,7 +113,15 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
 
         if (examResources.getOptions() != null) {
             sql.append(", options = ?");
-            params.add(examResources.getOptions());
+            String jsonString = examResources.getOptions().toString();
+            // 去除头尾引号
+            if (jsonString.startsWith("\"") && jsonString.endsWith("\"")) {
+                jsonString = jsonString.substring(1, jsonString.length() - 1);
+            }
+
+            // 去除反斜杠
+            jsonString = jsonString.replace("\\\"", "\"");
+            params.add(jsonString);
         }
 
         if (examResources.getCreateTime() != null) {
@@ -114,8 +130,6 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
         }
 
         sql.append(" WHERE id = ?");
-        params.add(examResources.getId());
-
         jdbcTemplate.update(sql.toString(), params.toArray());
     }
 
