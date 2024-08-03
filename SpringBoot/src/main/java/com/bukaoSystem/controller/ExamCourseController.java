@@ -2,6 +2,7 @@ package com.bukaoSystem.controller;
 
 import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
 import com.bukaoSystem.model.ExamCourse;
+import com.bukaoSystem.model.ExamCourseDto;
 import com.bukaoSystem.model.ExamUser;
 import com.bukaoSystem.service.ExamCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,10 @@ public class ExamCourseController {
     @PostMapping
     public List<ExamCourse> getAllExamCourses(@RequestBody ExamUser examUser) {
         return examCourseService.getAllExamCourses(examUser);
+    }
+    @GetMapping
+    public List<ExamCourseDto> getAllExamCourses() {
+        return examCourseService.getAllExamCourses();
     }
 
     @PostMapping("/create")

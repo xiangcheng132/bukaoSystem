@@ -68,16 +68,9 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
         }
 
         if (examResources.getOptions() != null) {
-            sql.append(", options = ?");
-            String jsonString = examResources.getOptions().toString();
-            // 去除头尾引号
-            if (jsonString.startsWith("\"") && jsonString.endsWith("\"")) {
-                jsonString = jsonString.substring(1, jsonString.length() - 1);
-            }
-
-            // 去除反斜杠
-            jsonString = jsonString.replace("\\\"", "\"");
-            params.add(jsonString);
+            sql.append(", options");
+            values.append(", ?");
+            params.add(examResources.getOptions().toString());
         }
 
         if (examResources.getCreateTime() != null) {
@@ -112,15 +105,7 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
 
         if (examResources.getOptions() != null) {
             sql.append(", options = ?");
-            String jsonString = examResources.getOptions().toString();
-            // 去除头尾引号
-            if (jsonString.startsWith("\"") && jsonString.endsWith("\"")) {
-                jsonString = jsonString.substring(1, jsonString.length() - 1);
-            }
-
-            // 去除反斜杠
-            jsonString = jsonString.replace("\\\"", "\"");
-            params.add(jsonString);
+            params.add(examResources.getOptions().toString());
         }
 
         if (examResources.getCreateTime() != null) {
@@ -130,6 +115,7 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
 
         sql.append(" WHERE id = ?");
         params.add(examResources.getId());
+
         jdbcTemplate.update(sql.toString(), params.toArray());
     }
 
@@ -167,9 +153,6 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
         String sql = "SELECT * FROM exam_resources WHERE chapterId = ? ORDER BY courseId " + sort;
         return jdbcTemplate.query(sql, new Object[]{chapterId}, rowMapper);
     }
-    //返回对应数量的资源题目
-    public List<ExamResources> findRandomResourcesByChapterAndType(Long chapterId, String questionType, int count) {
-        String sql = "SELECT * FROM exam_resources WHERE chapterId = ? AND question = ? ORDER BY RAND() LIMIT ?";
-        return jdbcTemplate.query(sql, new Object[]{chapterId, questionType, count},rowMapper);
-    }
+
+
 }
