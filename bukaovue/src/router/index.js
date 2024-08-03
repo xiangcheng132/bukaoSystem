@@ -138,7 +138,15 @@ const routes = [
       {
         path: '/manager/userManager',
         name: 'userManager',
-        component:() => import( '@/views/manager/userManager'),
+        component:() => import( '@/views/manager/userManager/list.vue'),
+        meta:{
+          title:'用户列表页'
+        }
+      },
+      {
+        path: '/manager/userModify',
+        name: 'userModify',
+        component:() => import( '@/views/manager/userModify/edit.vue'),
         meta:{
           title:'用户管理页'
         }
@@ -146,7 +154,7 @@ const routes = [
       {
         path: '/manager/mCourseManager',
         name: 'mCourseManager',
-        component:() => import( '@/views/manager/mCourseManager'),
+        component:() => import( '@/views/manager/mCourseManager/index.vue'),
         meta:{
           title:'管理端课程管理页'
         }
