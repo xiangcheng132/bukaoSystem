@@ -19,7 +19,7 @@ export function getAllCourseByCId(id){
 // 根据课程名获取课程信息
 export function getTCoursesByCName(name){
   return request({
-    url:'/bukaoSystem/course/getByName',
+    url:'/bukaoSystem/course/postByName',
     method: 'post',
     data:{name}
   })
@@ -33,11 +33,11 @@ export function createCourse(name,comment){
   })
 } 
 //更新课程
-export function updateCourse(id,name,comment){
+export function updateCourse(courseInfo){
   return request({
     url:'/bukaoSystem/course/update',
     method: 'post',
-    data:{name,comment,createTime}
+    data:{...courseInfo}
   })
 } 
 //删除课程

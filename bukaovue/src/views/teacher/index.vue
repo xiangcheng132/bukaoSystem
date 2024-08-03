@@ -5,7 +5,6 @@
         <el-menu 
         :default-openeds="['1', '2','3']"
         router
-
         >
           <el-sub-menu index="1">
             <template #title>
@@ -66,7 +65,7 @@ import { removeStorge } from "@/utils/storage";
 let router = useRouter();
 let route = useRoute();
 const store = useStore();
-
+const cc = "cccc"
 //退出登录
 function exit(command) {
   removeStorge("token");
@@ -76,6 +75,7 @@ function exit(command) {
 </script>
     
 <style lang = 'less'>
+
 .layout-container-demo .el-header {
   position: relative;
   /* background-color: var(--el-color-primary-light-7); */

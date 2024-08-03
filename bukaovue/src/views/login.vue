@@ -167,6 +167,7 @@ async function submitLogin() {
 async function login(){ 
     await submitLogin();
     if(k){
+      console.log("k为ture");
       store.dispatch("user/loginSuccessful",loginSuccessfulInfo);
     }else{
       ElMessage("登录失败");

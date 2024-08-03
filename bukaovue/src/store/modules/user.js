@@ -45,6 +45,7 @@ export default{
            
           }
           if(context.state.userInfo.role == "teacher"){
+            console.log("进入教师端");
              router.push("/teacher");
             
           }
