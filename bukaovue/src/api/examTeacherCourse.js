@@ -21,7 +21,7 @@ export function getExamTeacherCourseByCourseId(courseId) {
 }
 
 //创建新的 ExamTeacherCourse
-export function createNewExamTeacherCourse(courseInfo) {
+export function createExamTeacherCourse(courseInfo) {
     return request.post('/bukaoSystem/teacherCourse/create', {...courseInfo})
 }
 
