@@ -5,6 +5,16 @@ export function getAllUser() {
     return request.get('/bukaoSystem/users')
 }
 
+//根据用户名获取特定用户
+export function getAllUserByUsername(username) {
+    return request.post('/bukaoSystem/users/getAllUserByUsername', {username})
+}
+
+//根据ID和用户名获取特定用户
+export function getUserByIdAndUsername(id,username) {
+    return request.post('/bukaoSystem/users/getUserByIdAndUsername', {id,username})
+}
+
 //根据ID获取特定用户
 export function getAllUserById(id) {
     return request.post('/bukaoSystem/users/getById', {id})
