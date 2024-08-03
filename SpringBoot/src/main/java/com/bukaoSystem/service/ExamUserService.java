@@ -8,6 +8,10 @@ public interface  ExamUserService {
     public void saveUser(ExamUser user);
     public ExamUser getUserById(Long id);
 
+    List<ExamUser> getUserByusername(String username);
+
+    ExamUser getUserByIdAndUsername(Long id, String username);
+
     public List<ExamUser> getAllUsers();
 
     public void updateUser(ExamUser user);

@@ -25,32 +25,48 @@ public class ExamExamDaoImpl implements ExamExamDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    private RowMapper<ExamExam> ExamRowMapper = new RowMapper<ExamExam>(){
+        @Override
+        public ExamExam mapRow(ResultSet rs, int rowNum) throws SQLException {
+            ExamExam examExam = new ExamExam();
+            examExam.setId(rs.getLong("id"));
+            examExam.setCourseId(rs.getLong("courseId"));
+            examExam.setName(rs.getString("name"));
+            examExam.setComment(rs.getString("comment"));
+            examExam.setPlace(rs.getString("place"));
+            examExam.setBeginTime(rs.getString("beginTime"));
+            examExam.setEndTime(rs.getString("endTime"));
+            examExam.setCreateTime(rs.getString("createTime"));
+            return examExam;
+        }
+    };
+
 
     @Override
     public List<ExamExam> findAll() {
         String sql = "SELECT * FROM exam_exam";
-        return jdbcTemplate.query(sql, new ExamExamRowMapper());
+        return jdbcTemplate.query(sql, ExamRowMapper);
     }
 
     @Override
     public ExamExam findById(Long id) {
         String sql = "SELECT * FROM exam_exam WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new ExamExamRowMapper(), id);
+        return jdbcTemplate.queryForObject(sql,new Object[]{id}, ExamRowMapper);
     }
 
     @Override
     public List<ExamExam> findByCourseId(Long id) {
         String sql = "SELECT * FROM exam_exam WHERE courseId = ?";
-        return jdbcTemplate.query(sql, new ExamExamRowMapper(), id);
+        return jdbcTemplate.query(sql,new Object[]{id}, ExamRowMapper);
     }
 
     @Override
     public List<ExamExam> findByName(String name) {
         String sql = "SELECT * FROM exam_exam WHERE name = ?";
-        return jdbcTemplate.query(sql, new ExamExamRowMapper(), name);
+        return jdbcTemplate.query(sql,new Object[]{name}, ExamRowMapper);
     }
 
-
+    //添加
     @Override
     public void save(ExamExam examExam) {
         StringBuilder sql = new StringBuilder("INSERT INTO exam_exam (courseId, name, comment, place, beginTime, endTime");
@@ -98,7 +114,6 @@ public class ExamExamDaoImpl implements ExamExamDao {
         jdbcTemplate.update(sql.toString(), params.toArray());
     }
 
-
     @Override
     public void delete(Long id) {
         String sql = "DELETE FROM exam_exam WHERE id = ?";
@@ -106,22 +121,6 @@ public class ExamExamDaoImpl implements ExamExamDao {
             jdbcTemplate.update(sql, id);
         } catch (DataIntegrityViolationException e) {
             throw new ForeignKeyConstraintViolationException("无法删除id: " + id + "的信息，该id下有关联信息。");
-        }
-    }
-
-    private static class ExamExamRowMapper implements RowMapper<ExamExam> {
-        @Override
-        public ExamExam mapRow(ResultSet rs, int rowNum) throws SQLException {
-            ExamExam examExam = new ExamExam();
-            examExam.setId(rs.getLong("id"));
-            examExam.setCourseId(rs.getLong("courseId"));
-            examExam.setName(rs.getString("name"));
-            examExam.setComment(rs.getString("comment"));
-            examExam.setPlace(rs.getString("place"));
-            examExam.setBeginTime(rs.getString("beginTime"));
-            examExam.setEndTime(rs.getString("endTime"));
-            examExam.setCreateTime(rs.getString("createTime"));
-            return examExam;
         }
     }
 
@@ -133,7 +132,7 @@ public class ExamExamDaoImpl implements ExamExamDao {
                 "JOIN exam_exam_class ec ON cs.classId = ec.classId " +
                 "JOIN exam_exam e ON ec.examId = e.id " +
                 "WHERE u.id = ?";
-        return jdbcTemplate.query(sql, new Object[]{userId}, new ExamExamRowMapper());
+        return jdbcTemplate.query(sql, new Object[]{userId}, ExamRowMapper);
     }
 
     @Override
@@ -143,7 +142,7 @@ public class ExamExamDaoImpl implements ExamExamDao {
                 "JOIN exam_teacher_course tc ON u.id = tc.teacherId " +
                 "JOIN exam_exam e ON tc.courseId = e.courseId " +
                 "WHERE u.id = ?";
-        return jdbcTemplate.query(sql, new Object[]{userId}, new ExamExamRowMapper());
+        return jdbcTemplate.query(sql, new Object[]{userId}, ExamRowMapper);
     }
 
     @Override
@@ -157,11 +156,9 @@ public class ExamExamDaoImpl implements ExamExamDao {
 
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         List<Map<String, Object>> results = jdbcTemplate.queryForList(sql, currentTime);
-
         if (results.isEmpty()) {
             return;
         }
-
         Map<Long, Double> answerSheetScores = new HashMap<>(); // answerId -> totalScore
         Map<Long, Integer> answerSheetDetailTrue = new HashMap<>(); // detailId -> isTrue
 
@@ -197,7 +194,10 @@ public class ExamExamDaoImpl implements ExamExamDao {
 
         batchUpdateService.batchUpdate(jdbcTemplate, updateASDSql, updateParamsForAnswerSheetDetail);
     }
+
 }
+
+
 
 
 

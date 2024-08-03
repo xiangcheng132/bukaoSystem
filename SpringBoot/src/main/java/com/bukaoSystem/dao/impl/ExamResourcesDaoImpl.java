@@ -47,7 +47,7 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
             return examResources;
         }
     };
-
+    //添加保存
     @Override
     public void save(ExamResources examResources) {
         StringBuilder sql = new StringBuilder("INSERT INTO exam_resources (courseId, chapterId, question, `key`, analysis, score");
@@ -68,16 +68,9 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
         }
 
         if (examResources.getOptions() != null) {
-            sql.append(", options = ?");
-            String jsonString = examResources.getOptions().toString();
-            // 去除头尾引号
-            if (jsonString.startsWith("\"") && jsonString.endsWith("\"")) {
-                jsonString = jsonString.substring(1, jsonString.length() - 1);
-            }
-
-            // 去除反斜杠
-            jsonString = jsonString.replace("\\\"", "\"");
-            params.add(jsonString);
+            sql.append(", options");
+            values.append(", ?");
+            params.add(examResources.getOptions().toString());
         }
 
         if (examResources.getCreateTime() != null) {
@@ -93,7 +86,7 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
         jdbcTemplate.update(sql.toString(), params.toArray());
     }
 
-
+    //更新资源
     @Override
     public void update(ExamResources examResources) {
         StringBuilder sql = new StringBuilder("UPDATE exam_resources SET courseId = ?, chapterId = ?, question = ?, `key` = ?, analysis = ?, score = ?");
@@ -112,15 +105,7 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
 
         if (examResources.getOptions() != null) {
             sql.append(", options = ?");
-            String jsonString = examResources.getOptions().toString();
-            // 去除头尾引号
-            if (jsonString.startsWith("\"") && jsonString.endsWith("\"")) {
-                jsonString = jsonString.substring(1, jsonString.length() - 1);
-            }
-
-            // 去除反斜杠
-            jsonString = jsonString.replace("\\\"", "\"");
-            params.add(jsonString);
+            params.add(examResources.getOptions().toString());
         }
 
         if (examResources.getCreateTime() != null) {
@@ -130,10 +115,11 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
 
         sql.append(" WHERE id = ?");
         params.add(examResources.getId());
+
         jdbcTemplate.update(sql.toString(), params.toArray());
     }
 
-
+    //删除资源
     @Override
     public void delete(Long id) {
         String sql = "DELETE FROM exam_resources WHERE id = ?";
@@ -143,7 +129,7 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
             throw new ForeignKeyConstraintViolationException("无法删除id: " + id + "的信息，该id下有关联信息。");
         }
     }
-
+    //根据资源id寻找资源
     @Override
     public ExamResources findById(Long id) {
         String sql = "SELECT * FROM exam_resources WHERE id = ?";
@@ -155,15 +141,18 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
         return jdbcTemplate.query(sql, rowMapper);
     }
 
+    //根据课程id寻找资源
     @Override
     public List<ExamResources> findByCourseId(Long courseId, String sort) {
         String sql = "SELECT * FROM exam_resources WHERE courseId = ? ORDER BY id " + sort;
         return jdbcTemplate.query(sql, new Object[]{courseId}, rowMapper);
     }
-
+    //根据章节找资源
     @Override
     public List<ExamResources> findByChapterId(Long chapterId, String sort) {
         String sql = "SELECT * FROM exam_resources WHERE chapterId = ? ORDER BY courseId " + sort;
         return jdbcTemplate.query(sql, new Object[]{chapterId}, rowMapper);
     }
+
+
 }

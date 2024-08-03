@@ -48,4 +48,8 @@ public class ExamAnswerSheetDetailServiceImpl implements ExamAnswerSheetDetailSe
     public void deleteExamAnswerSheetDetail(Long id) {
         examAnswerSheetDetailDao.deleteExamAnswerSheetDetail(id);
     }
+    @Override
+    public void reviewExamAnswerSheet(Long Id,String isTrue) {
+        examAnswerSheetDetailDao.updateExamAnswerSheetReviewStatus(Id, isTrue);
+    }
 }

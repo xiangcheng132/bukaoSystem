@@ -1,19 +1,56 @@
 package com.bukaoSystem.model;
 
-public class ExamExam {
+import java.util.List;
+
+public class ExamPaperDto {
     private Long id;
     private Long courseId;
     private String name;
     private String comment;
     private String place;
-
     private int state;
     private String beginTime;
     private String endTime;
     private String createTime;
+    private List<Long> resourceIds;
+    private List<Long> chapterIds;
+    private List<String> type;
+    private int limit;
+    private List<Integer> score;
 
-    // Getters and Setters
-    public long getId() {
+    public List<Integer> getScore() {
+        return score;
+    }
+
+    public void setScore(List<Integer> score) {
+        this.score = score;
+    }
+
+    public List<Long> getChapterIds() {
+        return chapterIds;
+    }
+
+    public void setChapterIds(List<Long> chapterIds) {
+        this.chapterIds = chapterIds;
+    }
+
+    public List<String> getType() {
+        return type;
+    }
+
+    public void setType(List<String> type) {
+        this.type = type;
+    }
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
+    public Long getId() {
         return id;
     }
 
@@ -84,4 +121,13 @@ public class ExamExam {
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
+
+    public List<Long> getResourceIds() {
+        return resourceIds;
+    }
+
+    public void setResourceIds(List<Long> resourceIds) {
+        this.resourceIds = resourceIds;
+    }
 }
+

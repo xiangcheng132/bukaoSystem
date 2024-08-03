@@ -11,4 +11,5 @@ public interface ExamAnswerSheetDetailDao {
     void saveExamAnswerSheetDetail(ExamAnswerSheetDetail examAnswerSheetDetail);
     void updateExamAnswerSheetDetail(ExamAnswerSheetDetail examAnswerSheetDetail);
     void deleteExamAnswerSheetDetail(Long id);
+    void updateExamAnswerSheetReviewStatus(Long id, String isTrue);
 }
