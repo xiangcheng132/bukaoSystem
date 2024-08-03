@@ -82,16 +82,6 @@ public class ExamUserDaoImpl implements ExamUserDao {
         String sql = "SELECT * FROM exam_user WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, this::mapRowToExamUser);
     }
-    @Override
-    public List<ExamUser> findByUsername(String username) {
-        String sql = "SELECT * FROM exam_user WHERE username = ?";
-        return jdbcTemplate.query(sql, new Object[]{username}, this::mapRowToExamUser);
-    }
-    @Override
-    public ExamUser findByIdAndUsername(Long id, String username) {
-        String sql = "SELECT * FROM exam_user WHERE id = ? AND username = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id, username}, this::mapRowToExamUser);
-    }
 
     @Override
     public List<ExamUser> findAll() {
@@ -103,6 +93,7 @@ public class ExamUserDaoImpl implements ExamUserDao {
     public void update(ExamUser user) {
         StringBuilder sql = new StringBuilder("UPDATE exam_user SET username = ?, account = ?, password = ?");
         List<Object> params = new ArrayList<>();
+
         params.add(user.getUsername());
         params.add(user.getAccount());
         params.add(user.getPassword());

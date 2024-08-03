@@ -23,14 +23,7 @@ public class ExamUserServiceImpl implements ExamUserService {
     public ExamUser getUserById(Long id) {
         return examUserDao.findById(id);
     }
-    @Override
-    public List<ExamUser> getUserByusername(String username) {
-        return examUserDao.findByUsername(username);
-    }
-    @Override
-    public ExamUser getUserByIdAndUsername(Long id, String username) {
-        return examUserDao.findByIdAndUsername(id, username);
-    }
+
     @Override
     public List<ExamUser> getAllUsers() {
         return examUserDao.findAll();

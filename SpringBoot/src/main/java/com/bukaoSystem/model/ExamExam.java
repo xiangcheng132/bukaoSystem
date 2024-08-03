@@ -1,5 +1,7 @@
 package com.bukaoSystem.model;
 
+import java.time.LocalDateTime;
+
 public class ExamExam {
     private Long id;
     private Long courseId;
@@ -7,13 +9,14 @@ public class ExamExam {
     private String comment;
     private String place;
 
+
     private int state;
     private String beginTime;
     private String endTime;
     private String createTime;
 
     // Getters and Setters
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

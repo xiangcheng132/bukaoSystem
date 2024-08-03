@@ -194,7 +194,6 @@ public class ExamExamDaoImpl implements ExamExamDao {
 
         batchUpdateService.batchUpdate(jdbcTemplate, updateASDSql, updateParamsForAnswerSheetDetail);
     }
-
 }
 
 

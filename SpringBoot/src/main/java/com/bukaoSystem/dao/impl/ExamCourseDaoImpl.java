@@ -3,7 +3,6 @@ package com.bukaoSystem.dao.impl;
 import com.bukaoSystem.dao.ExamCourseDao;
 import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
 import com.bukaoSystem.model.ExamCourse;
-import com.bukaoSystem.model.ExamCourseDto;
 import com.bukaoSystem.model.ExamUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -77,13 +76,6 @@ public class ExamCourseDaoImpl implements ExamCourseDao {
                 "WHERE etc.teacherId = ?";
         return jdbcTemplate.query(sql, new Object[]{examUser.getId()}, this::mapRowToExamCourse);
     }
-    @Override
-    public List<ExamCourseDto> findAll() {
-        String sql = "SELECT ec.* , eu.username FROM exam_course ec " +
-                "JOIN exam_teacher_course etc ON ec.id = etc.courseId " +
-                "JOIN exam_user eu ON etc.teacherId = eu.Id ";
-        return jdbcTemplate.query(sql,this::mapRowToExamCourseDto);
-    }
 
     @Override
     public List<ExamCourse> findByName(String name) {
@@ -131,14 +123,5 @@ public class ExamCourseDaoImpl implements ExamCourseDao {
         examCourse.setComment(rs.getString("comment"));
         examCourse.setCreateTime(rs.getString("createTime"));
         return examCourse;
-    }
-    private ExamCourseDto mapRowToExamCourseDto(ResultSet rs, int rowNum) throws SQLException {
-        ExamCourseDto examCourseDto = new ExamCourseDto();
-        examCourseDto.setId(rs.getLong("id"));
-        examCourseDto.setName(rs.getString("name"));
-        examCourseDto.setComment(rs.getString("comment"));
-        examCourseDto.setCreateTime(rs.getString("createTime"));
-        examCourseDto.setUsername(rs.getString("username"));
-        return examCourseDto;
     }
 }

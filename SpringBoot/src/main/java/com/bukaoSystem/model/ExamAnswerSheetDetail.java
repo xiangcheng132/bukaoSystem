@@ -5,7 +5,7 @@ public class ExamAnswerSheetDetail {
     private Long answerId;
     private Long resourceId;
     private String userKey;
-    private String isTrue;
+    private Boolean isTrue;
     private String createTime;
 
     // Getters and setters
@@ -41,12 +41,12 @@ public class ExamAnswerSheetDetail {
         this.userKey = userKey;
     }
 
-    public String getIsTrue() {
+    public Boolean getIsTrue() {
         return isTrue;
     }
 
     public void setIsTrue(Boolean isTrue) {
-        this.isTrue = String.valueOf(isTrue);
+        this.isTrue = isTrue;
     }
 
     public String getCreateTime() {
