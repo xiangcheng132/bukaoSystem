@@ -2,6 +2,7 @@ package com.bukaoSystem.service.impl;
 
 import com.bukaoSystem.dao.ExamCourseDao;
 import com.bukaoSystem.model.ExamCourse;
+import com.bukaoSystem.model.ExamCourseDto;
 import com.bukaoSystem.model.ExamUser;
 import com.bukaoSystem.service.ExamCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ public class ExamCourseServiceImpl implements ExamCourseService {
 
     @Autowired
     private ExamCourseDao examCourseDao;
+
 
     @Override
     public Long saveExamCourse(ExamCourse examCourse) {
@@ -30,6 +32,11 @@ public class ExamCourseServiceImpl implements ExamCourseService {
     public List<ExamCourse> getAllExamCourses(ExamUser examUser) {
         return examCourseDao.findAll(examUser);
     }
+    @Override
+    public List<ExamCourseDto> getAllExamCourses() {
+        return examCourseDao.findAll();
+    }
+
     @Override
     public List<ExamCourse> getExamCoursesByName(String name) {
         return examCourseDao.findByName(name);

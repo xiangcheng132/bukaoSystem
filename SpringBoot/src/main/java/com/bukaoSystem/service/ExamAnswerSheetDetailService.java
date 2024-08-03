@@ -11,4 +11,6 @@ public interface ExamAnswerSheetDetailService {
     void saveExamAnswerSheetDetail(ExamAnswerSheetDetail examAnswerSheetDetail);
     void updateExamAnswerSheetDetail(ExamAnswerSheetDetail examAnswerSheetDetail);
     void deleteExamAnswerSheetDetail(Long id);
+
+    void reviewExamAnswerSheet(Long id, String isTrue);
 }

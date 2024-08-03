@@ -54,5 +54,9 @@ public class ExamAnswerSheetDetailController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
+    @PostMapping("/review")
+    public void reviewExamAnswerSheet(@RequestParam Long id,@RequestParam String isTrue) {
+        examAnswerSheetDetailService.reviewExamAnswerSheet(id,isTrue);
+    }
 }
 

@@ -29,7 +29,16 @@ public class ExamUserController {
     public ExamUser getUserById(@RequestBody ExamUser user) {
         return examUserServiceImpl.getUserById(user.getId());
     }
-
+    // 根据用户名获取特定用户
+    @PostMapping("/getByUsername")
+    public List<ExamUser> getUserByUsername(@RequestBody ExamUser user) {
+        return examUserServiceImpl.getUserByusername(user.getUsername());
+    }
+    // 根据用户名和id获取特定用户
+    @PostMapping("/getUserByIdAndUsername")
+    public ExamUser getUserByIdAndUsername(@RequestBody ExamUser user) {
+        return examUserServiceImpl.getUserByIdAndUsername(user.getId(),user.getUsername());
+    }
     // 创建用户
     @PostMapping("/create")
     public ResponseEntity<String> createExamUser(@RequestBody ExamUser examUser) {

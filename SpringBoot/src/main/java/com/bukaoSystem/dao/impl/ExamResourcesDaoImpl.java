@@ -153,9 +153,6 @@ public class ExamResourcesDaoImpl implements ExamResourcesDao {
         String sql = "SELECT * FROM exam_resources WHERE chapterId = ? ORDER BY courseId " + sort;
         return jdbcTemplate.query(sql, new Object[]{chapterId}, rowMapper);
     }
-    //返回对应数量的资源题目
-    public List<ExamResources> findRandomResourcesByChapterAndType(Long chapterId, String questionType, int count) {
-        String sql = "SELECT * FROM exam_resources WHERE chapterId = ? AND question = ? ORDER BY RAND() LIMIT ?";
-        return jdbcTemplate.query(sql, new Object[]{chapterId, questionType, count},rowMapper);
-    }
+
+
 }
