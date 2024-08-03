@@ -1,8 +1,7 @@
 <template>
   <div>
-      管理端首页
+      用户管理页
   </div>
-   <router-view/>
 </template>
     
 <script>
