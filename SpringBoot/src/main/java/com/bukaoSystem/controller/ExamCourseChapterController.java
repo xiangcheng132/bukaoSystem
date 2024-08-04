@@ -50,7 +50,7 @@ public class ExamCourseChapterController {
 
     @PostMapping("/getByCourseId")
     public List<ExamCourseChapter> getExamCourseChapterByCourseId(@RequestBody ExamCourse examCourse) {
-        return examCourseChapterService.getExamCourseChapterByCourseId(examCourse.getId());
+        return examCourseChapterService.getExamCourseChapterByCourseId(examCourse.getCourseId());
 
     }
 }
