@@ -1,7 +1,7 @@
 <template>
   <el-button type="primary" @click="addResource">新建资源</el-button>
   <div>
-    <el-table :data="item.value" style="width: 100%" border ref="paragraph">
+    <el-table :data="item" style="width: 100%" border ref="paragraph">
       <!-- <el-table-column fixed prop="id" label="Id" width="300" /> -->
       <el-table-column prop="question" label="问题" width="200" />
       <el-table-column prop="A" label="选项一" width="150" show-overflow-tooltip />
@@ -78,7 +78,8 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, toRaw, nextTick } from "vue";
+import { ref, reactive, onMounted, toRaw, nextTick} from "vue";
+import { useRoute,useRouter } from "vue-router";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { Action } from "element-plus";
 import {
@@ -93,6 +94,8 @@ import {
 import { createExamTeacherCourse } from "@/api/examTeacherCourse";
 import { getTCoursesByCName } from "@/api/examCourse";
 import { createExamCourseChappter } from "@/api/examCourseChapter";
+import { getAllCourseByUId } from "@/api/examCourse";
+import {setStorage,getStorage} from "@/utils/storage.js";
 import { useStore } from "vuex";
 import {
   dealResourceOptionsInfo,
@@ -103,6 +106,7 @@ import {
   typeReserve,
 } from "@/utils/resourceDeal.js";
 const store = useStore();
+const router = useRouter();
 let item = reactive([]); // 展示的数据
 // const paragraph = ref(null);
 const debounce = (fn, delay) => {
@@ -173,7 +177,7 @@ const deleteRow = (index) => {
     type: "warning",
   })
     .then(() => {
-      deleteExamResource(item.value[index].id)
+      deleteExamResource(item[index].id)
         .then((res) => {
           if ((res.status = "201")) {
             refreshCourseInfo();
@@ -204,22 +208,22 @@ const modifyRow = (index) => {
   console.log("修改记录:", index);
   formChange.value = true;
   dialogFormVisible.value = true; // 修改框显示
-  form.id = item.value[index].id;
-  form.courseId = item.value[index].courseId;
-  form.chapterId = item.value[index].chapterId;
-  form.A = item.value[index].A;
-  form.B = item.value[index].B;
-  form.C = item.value[index].C;
-  form.D = item.value[index].D;
-  form.E = item.value[index].E;
-  form.analysis = item.value[index].analysis;
-  form.chapterName = item.value[index].chapterName;
-  form.courseName = item.value[index].courseName;
-  form.key = item.value[index].key;
-  form.question = item.value[index].question;
-  form.score = item.value[index].score;
-  form.type = item.value[index].type;
-  form.createTime = item.value[index].createTime;
+  form.id = item[index].id;
+  form.courseId = item[index].courseId;
+  form.chapterId = item[index].chapterId;
+  form.A = item[index].A;
+  form.B = item[index].B;
+  form.C = item[index].C;
+  form.D = item[index].D;
+  form.E = item[index].E;
+  form.analysis = item[index].analysis;
+  form.chapterName = item[index].chapterName;
+  form.courseName = item[index].courseName;
+  form.key = item[index].key;
+  form.question = item[index].question;
+  form.score = item[index].score;
+  form.type = item[index].type;
+  form.createTime = item[index].createTime;
   //处理修改
   // dialogFormVisible.value = false;
   // item.value.splice(index, 1)
@@ -270,7 +274,7 @@ function handleModify() {
 
 // 添加资源
 function addResource() {
-  
+  router.push("/teacher/addResource")
 }
 // 创建资源
 function createNewResource() {
@@ -278,23 +282,32 @@ function createNewResource() {
 }
 //刷新课程信息
 function refreshCourseInfo() {
-  getExamResourceByCId(5)
-    .then((res) => {
-      console.log("刷新资源信息成功");
-      console.log(res);
-      // item.value = res.data;
-      dealResourceInfo(res.data);
-    })
-    .catch((err) => {});
+  item.splice(0, item.length);
+  getAllCourseByUId(getStorage("token")).then(v=>{
+      v.data.forEach(e=>{
+    getExamResourceByCId(e.id)
+      .then((res) => {
+        console.log("刷新资源信息成功");
+        // console.log(res);
+        // item.value = res.data;
+        dealResourceInfo(res.data);
+      })
+      .catch((err) => {});
+        })
+  })
+
 }
 // 处理资源信息
 function dealResourceInfo(data) {
   // 获取数据后加上如下代码
   let tempItem = dealResourceOptionsInfo(data);
-  //  console.log(item);
+   console.log("tempItem",tempItem);
   
   setTimeout(()=>{
-    item.value = tempItem;
+    tempItem.forEach(e=>{
+      item.push(e);
+    })
+    // item.value = tempItem;
     // console.log("等待3秒");
   },500)
 

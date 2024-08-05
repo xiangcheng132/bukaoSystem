@@ -121,6 +121,14 @@ const routes = [
         meta:{
           title:'资源管理页'
         }
+      },
+      {
+        path: '/teacher/addResource',
+        name: 'addResource',
+        component:() => import( '@/views/teacher/tResourceManager/addResource'),
+        meta:{
+          title:'资源添加页'
+        }
       }
     ]
   },
