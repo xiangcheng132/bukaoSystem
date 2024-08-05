@@ -26,6 +26,6 @@ export function deleteExamCourseChapter(id) {
 }
 
 //根据courseId查询该课程下所有章节
-export function getCourseChapterByCourseId(courseId) {
-    return request.post('/bukaoSystem/courseChapter/getByCourseId', {courseId})
+export function getCourseChapterByCourseId(id) {
+    return request.post('/bukaoSystem/courseChapter/getByCourseId', {id})
 }
