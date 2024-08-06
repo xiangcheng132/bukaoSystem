@@ -1,6 +1,6 @@
 <template>
   <div>
-    试卷信息修改页
+    答卷页
   </div>
 </template>
 

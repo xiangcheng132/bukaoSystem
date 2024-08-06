@@ -82,28 +82,52 @@ const routes = [
       {
         path:'/teacher/textManager',
         name:'textManager',
-        redirect:"/teacher/textManager/textModify",
+        redirect:"/teacher/textManager/textShow",
         component:()=>import("@/views/teacher/textManager"),
         meta:{
           title:'试卷管理页'
         },
         children:[
           {
-            path: '/teacher/textManager/textModify',
-            name: 'textModify',
-            component:() => import( '@/views/teacher/textManager/textModify'),
+            path: '/teacher/textManager/textUp',
+            name: 'textUp',
+            component:() => import( '@/views/teacher/textManager/textUp'),
             meta:{
-              title:'试卷修改页'
+              title:'试卷添加页'
             }
           },
-            {
-              path: '/teacher/textManager/textUp',
-              name: 'textUp',
-              component:() => import( '@/views/teacher/textManager/textUp'),
-              meta:{
-                title:'试卷上传页'
-              }
+          {
+            path: '/teacher/textManager/textShow',
+            name: 'textShow',
+            component:() => import( '@/views/teacher/textManager/textShow'),
+            meta:{
+              title:'试卷展示'
             }
+          },
+          {
+            path: '/teacher/textManager/textDetail',
+            name: 'textDetail',
+            component:() => import( '@/views/teacher/textManager/textDetail'),
+            meta:{
+              title:'试卷详情页'
+            }
+          },
+          {
+            path: '/teacher/textManager/answerSheets',
+            name: 'answerSheets',
+            component:() => import( '@/views/teacher/textManager/answerSheets'),
+            meta:{
+              title:'答卷界面'
+            }
+          },
+          {
+            path: '/teacher/textManager/answerSheet',
+            name: 'answerSheet',
+            component:() => import( '@/views/teacher/textManager/answerSheet'),
+            meta:{
+              title:'答卷详情'
+            }
+          }
         ]
       },
       {
