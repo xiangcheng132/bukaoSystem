@@ -16,8 +16,9 @@
             <template #title>
               <el-icon><Menu/></el-icon>考试管理
             </template>
-              <el-menu-item index="/teacher/textManager/textModify" >试卷批改</el-menu-item>
-              <el-menu-item index="/teacher/textManager/textUp" >试卷上传</el-menu-item>
+              <el-menu-item index="/teacher/textManager/textShow" >试卷展示</el-menu-item>
+              <el-menu-item index="/teacher/textManager/textUp" >试卷生成</el-menu-item>
+              <el-menu-item index="/teacher/textManager/answerSheets" >答卷展示</el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="3">
             <template #title>

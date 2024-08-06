@@ -1,6 +1,6 @@
 <template>
   <div>
-    试卷生成
+    试卷详情页
   </div>
 </template>
 
