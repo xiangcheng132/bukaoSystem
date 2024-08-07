@@ -69,7 +69,15 @@ export function deleteExamById(id){
 //根据学生id获取该用户的考试试卷信息
 export function getExamInfoBySId(id){
   return request({
-    url:' /bukaoSystem/exam/getByStuId',
+    url:'/bukaoSystem/exam/getByStuId',
+    method: 'post',
+    data:{id}
+  })
+} 
+//根据教师id获取该用户的考试试卷信息
+export function getExamInfoByTeaId(id){
+  return request({
+    url:'/bukaoSystem/exam/getByTeaId',
     method: 'post',
     data:{id}
   })
