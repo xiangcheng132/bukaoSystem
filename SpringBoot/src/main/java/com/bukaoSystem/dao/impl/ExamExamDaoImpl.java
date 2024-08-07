@@ -2,6 +2,7 @@ package com.bukaoSystem.dao.impl;
 
 import com.bukaoSystem.dao.ExamExamDao;
 import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
+import com.bukaoSystem.model.ExamClass;
 import com.bukaoSystem.model.ExamExam;
 import com.bukaoSystem.service.BatchUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +29,23 @@ public class ExamExamDaoImpl implements ExamExamDao {
     private RowMapper<ExamExam> ExamRowMapper = new RowMapper<ExamExam>(){
         @Override
         public ExamExam mapRow(ResultSet rs, int rowNum) throws SQLException {
-            ExamExam examExam = new ExamExam();
-            examExam.setId(rs.getLong("id"));
-            examExam.setCourseId(rs.getLong("courseId"));
-            examExam.setName(rs.getString("name"));
-            examExam.setComment(rs.getString("comment"));
-            examExam.setPlace(rs.getString("place"));
-            examExam.setBeginTime(rs.getString("beginTime"));
-            examExam.setEndTime(rs.getString("endTime"));
-            examExam.setCreateTime(rs.getString("createTime"));
-            return examExam;
+            ExamExam exam = new ExamExam();
+            exam.setId(rs.getLong("id"));
+            exam.setCourseId(rs.getLong("courseId"));
+            exam.setName(rs.getString("name"));
+            exam.setComment(rs.getString("comment"));
+            exam.setPlace(rs.getString("place"));
+            exam.setState(rs.getInt("state"));
+            exam.setBeginTime(rs.getString("beginTime"));
+            exam.setEndTime(rs.getString("endTime"));
+            exam.setCreateTime(rs.getString("createTime"));
+
+            // 设置班级信息
+            ExamClass examClass = new ExamClass();
+            examClass.setId(rs.getLong("classId"));
+            examClass.setName(rs.getString("className"));
+            exam.setExamClass(examClass);
+            return exam;
         }
     };
 
@@ -137,13 +145,16 @@ public class ExamExamDaoImpl implements ExamExamDao {
 
     @Override
     public List<ExamExam> findByTeaId(long userId) {
-        String sql = "SELECT DISTINCT  e.* " +
+        String sql = "SELECT e.*, ec.id as classId, ec.name as className " +
                 "FROM exam_user u " +
                 "JOIN exam_teacher_course tc ON u.id = tc.teacherId " +
                 "JOIN exam_exam e ON tc.courseId = e.courseId " +
+                "JOIN exam_exam_class eec ON e.id = eec.examId " +
+                "JOIN exam_class ec ON eec.classId = ec.id " +
                 "WHERE u.id = ?";
         return jdbcTemplate.query(sql, new Object[]{userId}, ExamRowMapper);
     }
+
 
     @Override
     public void gradeExams() {

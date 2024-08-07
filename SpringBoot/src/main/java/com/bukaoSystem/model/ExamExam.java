@@ -12,6 +12,8 @@ public class ExamExam {
     private String endTime;
     private String createTime;
 
+    private ExamClass examClass;
+
     // Getters and Setters
     public long getId() {
         return id;
@@ -83,5 +85,13 @@ public class ExamExam {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public ExamClass getExamClass() {
+        return examClass;
+    }
+
+    public void setExamClass(ExamClass examClass) {
+        this.examClass = examClass;
     }
 }
