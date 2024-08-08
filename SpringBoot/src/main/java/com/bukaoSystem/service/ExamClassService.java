@@ -1,6 +1,7 @@
 package com.bukaoSystem.service;
 
 import com.bukaoSystem.model.ExamClass;
+import com.bukaoSystem.model.ExamClassDto;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface ExamClassService {
     void updateExamClass(ExamClass examClass);
 
     void deleteExamClass(Long id);
+
+    List<ExamClassDto> getAllExamClassesAndteacher();
 }

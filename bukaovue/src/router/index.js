@@ -200,6 +200,14 @@ const routes = [
         }
       },
       {
+        path: '/manager/classAdd',
+        name: 'classAdd',
+        component:() => import( '@/views/manager/classAdd/edit.vue'),
+        meta:{
+          title:'班级添加页'
+        }
+      },
+      {
         path: '/manager/dataStatistics',
         name: 'dataStatistics',
         component:() => import( '@/views/manager/dataStatistics'),

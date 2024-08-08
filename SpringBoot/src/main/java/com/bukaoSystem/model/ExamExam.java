@@ -6,7 +6,6 @@ public class ExamExam {
     private String name;
     private String comment;
     private String place;
-
     private int state;
     private String beginTime;
     private String endTime;

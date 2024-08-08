@@ -23,7 +23,7 @@ public class ExamCourseController {
     public List<ExamCourse> getAllExamCourses(@RequestBody ExamUser examUser) {
         return examCourseService.getAllExamCourses(examUser);
     }
-    @GetMapping
+    @GetMapping("/getAll")
     public List<ExamCourseDto> getAllExamCourses() {
         return examCourseService.getAllExamCourses();
     }

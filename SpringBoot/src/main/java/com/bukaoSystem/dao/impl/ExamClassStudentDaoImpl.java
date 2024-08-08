@@ -3,6 +3,7 @@ package com.bukaoSystem.dao.impl;
 import com.bukaoSystem.dao.ExamClassStudentDao;
 import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
 import com.bukaoSystem.model.ExamClassStudent;
+import com.bukaoSystem.model.ExamClassStudentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -20,7 +21,7 @@ public class ExamClassStudentDaoImpl implements ExamClassStudentDao {
     private JdbcTemplate jdbcTemplate;
 
     private RowMapper<ExamClassStudent> rowMapper = new BeanPropertyRowMapper<>(ExamClassStudent.class);
-
+    private RowMapper<ExamClassStudentDto> rowMapper1 = new BeanPropertyRowMapper<>(ExamClassStudentDto.class);
     @Override
     public List<ExamClassStudent> getAllExamClassStudents() {
         String sql = "SELECT * FROM exam_class_student";
@@ -31,6 +32,13 @@ public class ExamClassStudentDaoImpl implements ExamClassStudentDao {
     public List<ExamClassStudent> getExamClassStudentsById(Long id) {
         String sql = "SELECT * FROM exam_class_student WHERE id = ?";
         return jdbcTemplate.query(sql, rowMapper, id);
+    }
+    @Override
+    public List<ExamClassStudentDto> getClassStudentsById(Long classId) {
+        String sql = "SELECT ecs.*, eu.username FROM exam_class_student ecs " +
+                "left join exam_user eu ON ecs.studentId = eu.id " +
+                "WHERE ecs.classId = ?";
+        return jdbcTemplate.query(sql, rowMapper1, classId);
     }
 
     @Override

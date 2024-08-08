@@ -2,6 +2,7 @@ package com.bukaoSystem.service.impl;
 
 import com.bukaoSystem.dao.ExamClassDao;
 import com.bukaoSystem.model.ExamClass;
+import com.bukaoSystem.model.ExamClassDto;
 import com.bukaoSystem.service.ExamClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,5 +38,10 @@ public class ExamClassServiceImpl implements ExamClassService {
     @Override
     public void deleteExamClass(Long id) {
         examClassDao.delete(id);
+    }
+
+    @Override
+    public List<ExamClassDto> getAllExamClassesAndteacher() {
+        return null;
     }
 }

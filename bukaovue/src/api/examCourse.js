@@ -2,7 +2,7 @@ import request from "@/utils/axios"
 
 //获取所有课程
 export function getAllCourse() {
-  return request.get('/bukaoSystem/course')
+  return request.get('/bukaoSystem/course/getAll')
 }
 
 // 根据用户获取该用户下的所有课程

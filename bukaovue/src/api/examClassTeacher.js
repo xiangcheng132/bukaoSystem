@@ -45,7 +45,7 @@ export function updateExamClassTeacher(id,classId,teacherId){
 } 
 
 // 删除 ExamClassTeacher
-export function updateExamClassTeacher(id){
+export function deleteExamClassTeacher(id){
   return request({
     url:'/bukaoSystem/classTeacher/delete',
     method: 'post',

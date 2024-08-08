@@ -2,6 +2,7 @@ package com.bukaoSystem.service.impl;
 
 import com.bukaoSystem.dao.ExamClassStudentDao;
 import com.bukaoSystem.model.ExamClassStudent;
+import com.bukaoSystem.model.ExamClassStudentDto;
 import com.bukaoSystem.service.ExamClassStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,10 @@ public class ExamClassStudentServiceImpl implements ExamClassStudentService {
     public List<ExamClassStudent> getExamClassStudentsById(Long id) {
         return examClassStudentDao.getExamClassStudentsById(id);
     }
-
+    @Override
+    public List<ExamClassStudentDto> getClassStudentsById(Long classId) {
+        return examClassStudentDao.getClassStudentsById(classId);
+    }
     @Override
     public List<ExamClassStudent> getExamClassStudentsByClassId(Long classId) {
         return examClassStudentDao.getExamClassStudentsByClassId(classId);
