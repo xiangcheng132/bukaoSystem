@@ -8,6 +8,15 @@ export function getExamClassTeacherById(){
   })
 } 
 
+// 根据 classIdID 获取 Student名字。
+export function getExamClassStudentsById(classId){
+  return request({
+    url:'/bukaoSystem/classStudent/getStudentByClassId',
+    method: 'POST',
+    data:{classId}
+  })
+} 
+
 // 根据 ID 获取 ExamClassStudent 记录。
 export function getExamClassStudentById(id){
   return request({

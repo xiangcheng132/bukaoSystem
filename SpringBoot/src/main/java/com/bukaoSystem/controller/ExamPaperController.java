@@ -20,33 +20,8 @@ public class ExamPaperController {
     private ExamPaperService examPaperService;
 
     @PostMapping
-    public ResponseEntity<ExamExam> createExamPaper(@RequestBody ExamPaperDto examPaperDto) {
-        ExamExam examPaper = new ExamExam();
-        // 从 DTO 中设置 examPaper 的属性
-        examPaper.setCourseId(examPaperDto.getCourseId());
-        examPaper.setName(examPaperDto.getName());
-        examPaper.setComment(examPaperDto.getComment());
-        examPaper.setPlace(examPaperDto.getPlace());
-        examPaper.setState(examPaperDto.getState());
-        examPaper.setBeginTime(examPaperDto.getBeginTime());
-        examPaper.setEndTime(examPaperDto.getEndTime());
-        examPaper.setCreateTime(String.valueOf(Timestamp.valueOf(LocalDateTime.now())));
-        List<Long> resourceIds = examPaperDto.getResourceIds();
-        ExamExam createdExamPaper = examPaperService.createExamPaper(examPaper, resourceIds);
-        return new ResponseEntity<>(createdExamPaper, HttpStatus.CREATED);
-    }
-    //得到相应试题
-    @GetMapping("/resources")
-    public ResponseEntity<List<ExamResources>> getRandomResources(@RequestBody ExamPaperDto examPaperDto) {
-        List<ExamResources> resources = examPaperService.getResources(
-                examPaperDto.getCourseId(),
-                examPaperDto.getChapterIds(),
-                examPaperDto.getType(),
-                examPaperDto.getLimit(),
-                examPaperDto.getScore()
-        );
-//        List<ExamResources> resources = examPaperService.getRandomResources(chapterId, question, limit);
-        return new ResponseEntity<>(resources, HttpStatus.OK);
+    public int createExamPaper(@RequestBody ExamPaperDto examPaperDto) {
+        return examPaperService.createExamPaper(examPaperDto);
     }
 
 }

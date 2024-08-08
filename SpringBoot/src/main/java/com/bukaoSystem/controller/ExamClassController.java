@@ -2,6 +2,7 @@ package com.bukaoSystem.controller;
 
 import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
 import com.bukaoSystem.model.ExamClass;
+import com.bukaoSystem.model.ExamClassDto;
 import com.bukaoSystem.service.ExamClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,10 @@ public class ExamClassController {
     public List<ExamClass> getAllExamClasses() {
         return examClassService.getAllExamClasses();
     }
-
+    @GetMapping
+    public List<ExamClassDto> getAllExamClassesAndteacher() {
+        return examClassService.getAllExamClassesAndteacher();
+    }
     @PostMapping("/getById")
     public ExamClass getExamClassById(@RequestBody ExamClass examClass) {
         return examClassService.getExamClassById(examClass.getId());

@@ -1,22 +1,18 @@
 package com.bukaoSystem.model;
 
-public class ExamCourseDto {
+public class ExamClassDto {
     private Long id;
     private String name;
-
-    private String username;
     private String comment;
+    private String teachername;
     private String createTime;
-    private String tid;
 
-    // Getters and setters
-
-    public String getTid() {
-        return tid;
-    }
-
-    public void setTid(String tid) {
-        this.tid = tid;
+    public ExamClassDto(Long id, String name, String comment, String teachername, String createTime) {
+        this.id = id;
+        this.name = name;
+        this.comment = comment;
+        this.teachername = teachername;
+        this.createTime = createTime;
     }
 
     public Long getId() {
@@ -26,15 +22,6 @@ public class ExamCourseDto {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
 
     public String getName() {
         return name;
@@ -50,6 +37,14 @@ public class ExamCourseDto {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getTeacher() {
+        return teachername;
+    }
+
+    public void setTeacher(String teacher) {
+        this.teachername = teacher;
     }
 
     public String getCreateTime() {

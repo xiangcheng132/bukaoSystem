@@ -31,7 +31,7 @@ public class ExamClassTeacherDAOImpl implements ExamClassTeacherDAO {
 
     @Override
     public List<ExamClassTeacher> getExamClassTeachersByClassId(Long classId) {
-        String sql = "SELECT * FROM exam_class_teacher WHERE class_id = ?";
+        String sql = "SELECT * FROM exam_class_teacher WHERE classId = ?";
         return jdbcTemplate.query(sql, new Object[]{classId}, new BeanPropertyRowMapper<>(ExamClassTeacher.class));
     }
 

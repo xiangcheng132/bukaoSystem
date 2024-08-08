@@ -3,6 +3,7 @@ package com.bukaoSystem.dao.impl;
 import com.bukaoSystem.dao.ExamClassDao;
 import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
 import com.bukaoSystem.model.ExamClass;
+import com.bukaoSystem.model.ExamClassDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -58,6 +59,13 @@ public class ExamClassDaoImpl implements ExamClassDao {
         String sql = "SELECT * FROM exam_class";
         return jdbcTemplate.query(sql, this::mapRowToExamClass);
     }
+    @Override
+    public List<ExamClassDto> findAllteacher() {
+        String sql = "SELECT exam_class.*, eu.username FROM exam_class " +
+                "LEFT JOIN exam_class_teacher ect ON exam_class.id = ect.classId " +
+                "LEFT JOIN exam_user eu ON ect.teacherId = eu.id ";
+        return jdbcTemplate.query(sql, this::mapRowToExamClassdto);
+    }
 
     @Override
     public void update(ExamClass examClass) {
@@ -98,6 +106,15 @@ public class ExamClassDaoImpl implements ExamClassDao {
                 rs.getLong("id"),
                 rs.getString("name"),
                 rs.getString("comment"),
+                rs.getString("createTime")
+        );
+    }
+    private ExamClassDto mapRowToExamClassdto(ResultSet rs, int rowNum) throws SQLException {
+        return new ExamClassDto(
+                rs.getLong("id"),
+                rs.getString("name"),
+                rs.getString("comment"),
+                rs.getString("teachername"),
                 rs.getString("createTime")
         );
     }

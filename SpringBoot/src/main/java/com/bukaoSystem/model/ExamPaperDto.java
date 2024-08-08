@@ -3,67 +3,23 @@ package com.bukaoSystem.model;
 import java.util.List;
 
 public class ExamPaperDto {
-    private Long id;
-    private Long courseId;
     private String name;
     private String comment;
     private String place;
-    private int state;
+    private Long courseId;
+    private String classId;
     private String beginTime;
     private String endTime;
-    private String createTime;
-    private List<Long> resourceIds;
-    private List<Long> chapterIds;
-    private List<String> type;
-    private int limit;
-    private List<Integer> score;
-
-    public List<Integer> getScore() {
-        return score;
+    private int singleChoiceCount;
+    private int trueFalseCount;
+    private int fillInBlankCount;
+    private int bigquestionCount;
+    public int getBigquestionCount() {
+        return bigquestionCount;
     }
 
-    public void setScore(List<Integer> score) {
-        this.score = score;
-    }
-
-    public List<Long> getChapterIds() {
-        return chapterIds;
-    }
-
-    public void setChapterIds(List<Long> chapterIds) {
-        this.chapterIds = chapterIds;
-    }
-
-    public List<String> getType() {
-        return type;
-    }
-
-    public void setType(List<String> type) {
-        this.type = type;
-    }
-
-    public int getLimit() {
-        return limit;
-    }
-
-    public void setLimit(int limit) {
-        this.limit = limit;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(Long courseId) {
-        this.courseId = courseId;
+    public void setBigquestionCount(int bigquestionCount) {
+        this.bigquestionCount = bigquestionCount;
     }
 
     public String getName() {
@@ -90,12 +46,20 @@ public class ExamPaperDto {
         this.place = place;
     }
 
-    public int getState() {
-        return state;
+    public Long getCourseId() {
+        return courseId;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
+    }
+
+    public String getClassId() {
+        return classId;
+    }
+
+    public void setClassId(String classId) {
+        this.classId = classId;
     }
 
     public String getBeginTime() {
@@ -114,20 +78,28 @@ public class ExamPaperDto {
         this.endTime = endTime;
     }
 
-    public String getCreateTime() {
-        return createTime;
+    public int getSingleChoiceCount() {
+        return singleChoiceCount;
     }
 
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
+    public void setSingleChoiceCount(int singleChoiceCount) {
+        this.singleChoiceCount = singleChoiceCount;
     }
 
-    public List<Long> getResourceIds() {
-        return resourceIds;
+    public int getTrueFalseCount() {
+        return trueFalseCount;
     }
 
-    public void setResourceIds(List<Long> resourceIds) {
-        this.resourceIds = resourceIds;
+    public void setTrueFalseCount(int trueFalseCount) {
+        this.trueFalseCount = trueFalseCount;
+    }
+
+    public int getFillInBlankCount() {
+        return fillInBlankCount;
+    }
+
+    public void setFillInBlankCount(int fillInBlankCount) {
+        this.fillInBlankCount = fillInBlankCount;
     }
 }
 

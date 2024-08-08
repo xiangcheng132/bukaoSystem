@@ -79,9 +79,9 @@ public class ExamCourseDaoImpl implements ExamCourseDao {
     }
     @Override
     public List<ExamCourseDto> findAll() {
-        String sql = "SELECT ec.* , eu.username FROM exam_course ec " +
-                "JOIN exam_teacher_course etc ON ec.id = etc.courseId " +
-                "JOIN exam_user eu ON etc.teacherId = eu.Id ";
+        String sql = "SELECT ec.*, eu.username,eu.id as tid FROM exam_course ec " +
+                "LEFT JOIN exam_teacher_course etc ON ec.id = etc.courseId " +
+                "LEFT JOIN exam_user eu ON etc.teacherId = eu.id";
         return jdbcTemplate.query(sql,this::mapRowToExamCourseDto);
     }
 
@@ -139,6 +139,7 @@ public class ExamCourseDaoImpl implements ExamCourseDao {
         examCourseDto.setComment(rs.getString("comment"));
         examCourseDto.setCreateTime(rs.getString("createTime"));
         examCourseDto.setUsername(rs.getString("username"));
+        examCourseDto.setTid(rs.getString("tid"));
         return examCourseDto;
     }
 }

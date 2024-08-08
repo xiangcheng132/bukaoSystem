@@ -19,15 +19,14 @@
               </el-icon>课程管理
             </template>
             <el-menu-item index="/manager/mCourseManager">课程列表页</el-menu-item>
-            <el-menu-item index="">试卷上传</el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="3">
             <template #title>
               <el-icon>
                 <setting />
-              </el-icon>资源管理
+              </el-icon>班级管理
             </template>
-            <el-menu-item index="">资源修改</el-menu-item>
+            <el-menu-item index="/manager/classManager">班级管理</el-menu-item>
           </el-sub-menu>
         </el-menu>
       </el-scrollbar>
