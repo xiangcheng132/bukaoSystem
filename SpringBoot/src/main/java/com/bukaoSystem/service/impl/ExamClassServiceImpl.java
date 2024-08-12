@@ -16,8 +16,8 @@ public class ExamClassServiceImpl implements ExamClassService {
     private ExamClassDao examClassDao;
 
     @Override
-    public void saveExamClass(ExamClass examClass) {
-        examClassDao.save(examClass);
+    public Long saveExamClass(ExamClass examClass) {
+        return examClassDao.save(examClass);
     }
 
     @Override
@@ -29,7 +29,10 @@ public class ExamClassServiceImpl implements ExamClassService {
     public List<ExamClass> getAllExamClasses() {
         return examClassDao.findAll();
     }
-
+    @Override
+    public List<ExamClassDto> getAllwithteacher() {
+        return examClassDao.findAllwithteacher();
+    }
     @Override
     public void updateExamClass(ExamClass examClass) {
         examClassDao.update(examClass);
@@ -38,10 +41,5 @@ public class ExamClassServiceImpl implements ExamClassService {
     @Override
     public void deleteExamClass(Long id) {
         examClassDao.delete(id);
-    }
-
-    @Override
-    public List<ExamClassDto> getAllExamClassesAndteacher() {
-        return null;
     }
 }

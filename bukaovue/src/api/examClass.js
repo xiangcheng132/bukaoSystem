@@ -4,7 +4,10 @@ import request from "@/utils/axios.js"
 export function getAllClass() {
     return request.get('/bukaoSystem/class')
 }
-
+//获取所有班级加老师
+export function getAllClasswithteacher() {
+    return request.get('/bukaoSystem/class/teacher')
+}
 //根据ID获取特定班级
 export function getClassById(id) {
     return request.post('/bukaoSystem/class/getById', {id})

@@ -7,10 +7,14 @@ import com.bukaoSystem.model.ExamClassDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +25,7 @@ public class ExamClassDaoImpl implements ExamClassDao {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void save(ExamClass examClass) {
+    public Long save(ExamClass examClass) {
         StringBuilder sql = new StringBuilder("INSERT INTO exam_class (name");
         StringBuilder values = new StringBuilder(" VALUES (?");
         List<Object> params = new ArrayList<>();
@@ -44,7 +48,17 @@ public class ExamClassDaoImpl implements ExamClassDao {
 
         sql.append(values);
 
-        jdbcTemplate.update(sql.toString(), params.toArray());
+//        jdbcTemplate.update(sql.toString(), params.toArray());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+            return ps;
+        }, keyHolder);
+
+        return keyHolder.getKey().longValue();
     }
 
 
@@ -60,8 +74,8 @@ public class ExamClassDaoImpl implements ExamClassDao {
         return jdbcTemplate.query(sql, this::mapRowToExamClass);
     }
     @Override
-    public List<ExamClassDto> findAllteacher() {
-        String sql = "SELECT exam_class.*, eu.username FROM exam_class " +
+    public List<ExamClassDto> findAllwithteacher() {
+        String sql = "SELECT exam_class.id, exam_class.name, exam_class.comment, eu.username AS teachername, exam_class.createTime  FROM exam_class " +
                 "LEFT JOIN exam_class_teacher ect ON exam_class.id = ect.classId " +
                 "LEFT JOIN exam_user eu ON ect.teacherId = eu.id ";
         return jdbcTemplate.query(sql, this::mapRowToExamClassdto);

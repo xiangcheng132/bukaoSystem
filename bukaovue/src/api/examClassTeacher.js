@@ -26,12 +26,21 @@ export function getExamClassTeacher(classId){
   })
 } 
 
+// 根据 Class ID 获取 ExamClassTeacherName 列表
+export function getExamClassTeachersnameByClassId(classId){
+  return request({
+    url:'/bukaoSystem/classTeacher/getTeacherNameByClassId',
+    method: 'post',
+    data:{classId}
+  })
+} 
+
 // 创建新的 ExamClassTeacher
-export function createExamClassTeacher(classId,teacherId){
+export function createExamClassTeacher(classInfoList){
   return request({
     url:'/bukaoSystem/classTeacher/create',
     method: 'post',
-    data:{classId,teacherId}
+    data:{...classInfoList}
   })
 } 
 

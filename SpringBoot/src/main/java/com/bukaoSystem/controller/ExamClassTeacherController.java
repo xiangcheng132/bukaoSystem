@@ -2,6 +2,7 @@ package com.bukaoSystem.controller;
 
 import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
 import com.bukaoSystem.model.ExamClassTeacher;
+import com.bukaoSystem.model.ExamClassTeacherDto;
 import com.bukaoSystem.service.ExamClassTeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,10 @@ public class ExamClassTeacherController {
     @PostMapping("/getByClassId")
     public List<ExamClassTeacher> getExamClassTeachersByClassId(@RequestBody ExamClassTeacher examClassTeacher) {
         return examClassTeacherService.getExamClassTeachersByClassId(examClassTeacher.getClassId());
+    }
+    @PostMapping("/getTeacherNameByClassId")
+    public List<ExamClassTeacherDto> getExamClassTeachersnameByClassId(@RequestBody ExamClassTeacher examClassTeacher) {
+        return examClassTeacherService.getExamClassTeachersnameByClassId(examClassTeacher.getClassId());
     }
 
     @PostMapping("/create")

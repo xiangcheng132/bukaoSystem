@@ -4,7 +4,10 @@ import request from "@/utils/axios"
 export function getAllUser() {
     return request.get('/bukaoSystem/users')
 }
-
+//根据课程获取特定用户
+export function findAllStudent(classId) {
+    return request.post('/bukaoSystem/users/getAllStudent', {classId})
+}
 //根据用户名获取特定用户
 export function getAllUserByUsername(username) {
     return request.post('/bukaoSystem/users/getAllUserByUsername', {username})

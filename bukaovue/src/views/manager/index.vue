@@ -2,7 +2,7 @@
   <el-container class="layout-container-demo" style="height: 100vh">
     <el-aside width="200px">
       <el-scrollbar>
-        <el-menu :default-openeds="['1', '2', '3']" router>
+        <el-menu :default-openeds="['1', '2', '3','4']" router>
           <el-sub-menu index="1">
             <template #title>
               <el-icon>
@@ -26,12 +26,19 @@
                 <setting />
               </el-icon>班级管理
             </template>
-            <el-menu-item index="/manager/classManager">班级管理</el-menu-item>
+            <el-menu-item index="/manager/classManager">班级管理页</el-menu-item>
+          </el-sub-menu>
+          <el-sub-menu index="4">
+            <template #title>
+              <el-icon>
+                <Histogram />
+              </el-icon>数据统计
+            </template>
+            <el-menu-item index="/manager/dataStatistics">数据统计页</el-menu-item>
           </el-sub-menu>
         </el-menu>
       </el-scrollbar>
     </el-aside>
-
     <el-container>
       <el-header style="text-align: right; font-size: 12px">
         <div class="pageInfo">{{ route.meta.title }}</div>

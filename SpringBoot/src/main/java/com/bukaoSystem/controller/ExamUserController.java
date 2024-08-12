@@ -2,6 +2,7 @@ package com.bukaoSystem.controller;
 
 import com.bukaoSystem.exception.AccountAlreadyRegisteredException;
 import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
+import com.bukaoSystem.model.ExamClassStudent;
 import com.bukaoSystem.model.ExamUser;
 import com.bukaoSystem.service.impl.ExamUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class ExamUserController {
     @GetMapping
     public List<ExamUser> getAllUsers() {
         return examUserServiceImpl.getAllUsers();
+    }
+    @PostMapping("/getAllStudent")
+    public List<ExamUser> findAllStudent( @RequestBody ExamClassStudent ExamClassStudent) {
+        return examUserServiceImpl.findAllStudent(ExamClassStudent.getClassId());
     }
 
     // 根据ID获取特定用户

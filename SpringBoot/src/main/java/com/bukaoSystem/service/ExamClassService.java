@@ -6,15 +6,16 @@ import com.bukaoSystem.model.ExamClassDto;
 import java.util.List;
 
 public interface ExamClassService {
-    void saveExamClass(ExamClass examClass);
+    Long saveExamClass(ExamClass examClass);
 
     ExamClass getExamClassById(Long id);
 
     List<ExamClass> getAllExamClasses();
 
+    List<ExamClassDto> getAllwithteacher();
+
     void updateExamClass(ExamClass examClass);
 
     void deleteExamClass(Long id);
 
-    List<ExamClassDto> getAllExamClassesAndteacher();
 }
