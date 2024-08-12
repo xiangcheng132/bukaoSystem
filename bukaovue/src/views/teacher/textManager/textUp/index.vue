@@ -1,6 +1,6 @@
 <template>
   <div>
-    试卷生成
+    试卷生成1233
   </div>
 </template>
 
