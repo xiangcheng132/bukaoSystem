@@ -14,6 +14,8 @@ public interface  ExamUserService {
 
     public List<ExamUser> getAllUsers();
 
+    List<ExamUser> findAllStudent(Long classId);
+
     public void updateUser(ExamUser user);
 
     public void deleteUser(Long id);

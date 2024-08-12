@@ -92,6 +92,13 @@ public class ExamUserDaoImpl implements ExamUserDao {
         String sql = "SELECT * FROM exam_user WHERE id = ? AND username = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id, username}, this::mapRowToExamUser);
     }
+    @Override
+    public List<ExamUser>  findAllStudent(Long classId) {
+        String sql = "SELECT eu.* FROM exam_user eu " +
+                "LEFT JOIN exam_class_student ecs ON eu.id = ecs.studentId AND ecs.classId = ? " +
+                "WHERE eu.role = 'student' AND ecs.studentId IS NULL ";
+        return jdbcTemplate.query(sql,new Object[]{classId}, this::mapRowToExamUser);
+    }
 
     @Override
     public List<ExamUser> findAll() {

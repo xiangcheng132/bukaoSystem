@@ -3,6 +3,7 @@ package com.bukaoSystem.dao.impl;
 import com.bukaoSystem.dao.ExamClassTeacherDAO;
 import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
 import com.bukaoSystem.model.ExamClassTeacher;
+import com.bukaoSystem.model.ExamClassTeacherDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -34,16 +35,22 @@ public class ExamClassTeacherDAOImpl implements ExamClassTeacherDAO {
         String sql = "SELECT * FROM exam_class_teacher WHERE classId = ?";
         return jdbcTemplate.query(sql, new Object[]{classId}, new BeanPropertyRowMapper<>(ExamClassTeacher.class));
     }
-
+    @Override
+    public List<ExamClassTeacherDto> getExamClassTeachersnameByClassId(Long classId) {
+        String sql = "SELECT ect.*, eu.username FROM exam_class_teacher ect " +
+                "LEFT JOIN exam_user eu ON ect.teacherId = eu.id " +
+                "WHERE ect.classId = ?";
+        return jdbcTemplate.query(sql, new Object[]{classId}, new BeanPropertyRowMapper<>(ExamClassTeacherDto.class));
+    }
     @Override
     public void saveExamClassTeacher(ExamClassTeacher examClassTeacher) {
-        String sql = "INSERT INTO exam_class_teacher (class_id, teacher_id) VALUES (?, ?)";
+        String sql = "INSERT INTO exam_class_teacher (classid, teacherid) VALUES (?, ?)";
         jdbcTemplate.update(sql, examClassTeacher.getClassId(), examClassTeacher.getTeacherId());
     }
 
     @Override
     public void updateExamClassTeacher(ExamClassTeacher examClassTeacher) {
-        String sql = "UPDATE exam_class_teacher SET class_id = ?, teacher_id = ? WHERE id = ?";
+        String sql = "UPDATE exam_class_teacher SET classid = ?, teacherid = ? WHERE id = ?";
         jdbcTemplate.update(sql, examClassTeacher.getClassId(), examClassTeacher.getTeacherId(), examClassTeacher.getId());
     }
 

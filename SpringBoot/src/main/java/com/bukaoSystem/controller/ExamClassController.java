@@ -22,18 +22,17 @@ public class ExamClassController {
     public List<ExamClass> getAllExamClasses() {
         return examClassService.getAllExamClasses();
     }
-    @GetMapping
-    public List<ExamClassDto> getAllExamClassesAndteacher() {
-        return examClassService.getAllExamClassesAndteacher();
+    @GetMapping("/teacher")
+    public List<ExamClassDto> getAllExamClasseswithteacher() {
+        return examClassService.getAllwithteacher();
     }
     @PostMapping("/getById")
     public ExamClass getExamClassById(@RequestBody ExamClass examClass) {
         return examClassService.getExamClassById(examClass.getId());
     }
-
     @PostMapping("/create")
-    public void createExamClass(@RequestBody ExamClass examClass) {
-        examClassService.saveExamClass(examClass);
+    public Long createExamClass(@RequestBody ExamClass examClass) {
+        return examClassService.saveExamClass(examClass);
     }
 
 

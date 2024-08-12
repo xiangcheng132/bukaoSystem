@@ -6,13 +6,13 @@ import com.bukaoSystem.model.ExamClassDto;
 import java.util.List;
 
 public interface ExamClassDao {
-    void save(ExamClass examClass);
+    Long save(ExamClass examClass);
 
     ExamClass findById(Long id);
 
     List<ExamClass> findAll();
 
-    List<ExamClassDto> findAllteacher();
+    List<ExamClassDto> findAllwithteacher();
 
     void update(ExamClass examClass);
 

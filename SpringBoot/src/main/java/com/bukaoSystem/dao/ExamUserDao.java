@@ -11,6 +11,7 @@ public interface ExamUserDao {
     List<ExamUser> findByUsername(String username);
 
     ExamUser findByIdAndUsername(Long id, String username);
+    List<ExamUser>  findAllStudent(Long classId);
 
     List<ExamUser> findAll();
     void update(ExamUser user);

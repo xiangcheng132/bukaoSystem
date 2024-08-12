@@ -35,7 +35,10 @@ public class ExamUserServiceImpl implements ExamUserService {
     public List<ExamUser> getAllUsers() {
         return examUserDao.findAll();
     }
-
+    @Override
+    public List<ExamUser> findAllStudent(Long classId) {
+        return examUserDao.findAllStudent(classId);
+    }
     @Override
     public void updateUser(ExamUser user) {
         examUserDao.update(user);
