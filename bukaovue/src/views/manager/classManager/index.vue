@@ -44,20 +44,6 @@
         <el-button type="primary" @click="handleCreateClass ">创建</el-button>
       </span>
     </el-dialog>
-    <!-- <el-dialog v-model="studentDialogVisible" title="学生信息">
-      <el-table :data="studentList.values" style="width: 100%">
-        <el-table-column prop="studentId" label="编号"></el-table-column>
-        <el-table-column prop="studentname" label="学生姓名"></el-table-column>
-        <el-table-column label="操作">
-          <template v-slot="scope">
-            <el-button type="danger" @click="removeStudent(scope.row.id)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="dialog-footer" >
-          <el-button type="primary">添加学生</el-button> 
-      </div>
-    </el-dialog> -->
   </div>
 </template>
 
