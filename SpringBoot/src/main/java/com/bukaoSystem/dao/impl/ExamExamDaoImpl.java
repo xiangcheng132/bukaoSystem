@@ -40,11 +40,18 @@ public class ExamExamDaoImpl implements ExamExamDao {
             exam.setEndTime(rs.getString("endTime"));
             exam.setCreateTime(rs.getString("createTime"));
 
-            // 设置班级信息
-            ExamClass examClass = new ExamClass();
-            examClass.setId(rs.getLong("classId"));
-            examClass.setName(rs.getString("className"));
-            exam.setExamClass(examClass);
+            // 处理班级信息
+            String[] classIds = rs.getString("classIds").split(",");
+            String[] classNames = rs.getString("classNames").split(",");
+            List<ExamClass> examClasses = new ArrayList<>();
+            for (int i = 0; i < classIds.length; i++) {
+                ExamClass examClass = new ExamClass();
+                examClass.setId(Long.parseLong(classIds[i]));
+                examClass.setName(classNames[i]);
+                examClasses.add(examClass);
+            }
+            exam.setExamClasses(examClasses);
+
             return exam;
         }
     };
@@ -145,13 +152,15 @@ public class ExamExamDaoImpl implements ExamExamDao {
 
     @Override
     public List<ExamExam> findByTeaId(long userId) {
-        String sql = "SELECT e.*, ec.id as classId, ec.name as className " +
+        String sql = "SELECT e.*, GROUP_CONCAT(DISTINCT ec.id ORDER BY ec.id) as classIds, GROUP_CONCAT(DISTINCT ec.name ORDER BY ec.id) as classNames " +
                 "FROM exam_user u " +
                 "JOIN exam_teacher_course tc ON u.id = tc.teacherId " +
                 "JOIN exam_exam e ON tc.courseId = e.courseId " +
                 "JOIN exam_exam_class eec ON e.id = eec.examId " +
                 "JOIN exam_class ec ON eec.classId = ec.id " +
-                "WHERE u.id = ?";
+                "WHERE u.id = ? " +
+                "GROUP BY e.id";
+
         return jdbcTemplate.query(sql, new Object[]{userId}, ExamRowMapper);
     }
 

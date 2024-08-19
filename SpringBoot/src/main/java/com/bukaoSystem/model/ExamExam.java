@@ -1,5 +1,7 @@
 package com.bukaoSystem.model;
 
+import java.util.List;
+
 public class ExamExam {
     private Long id;
     private Long courseId;
@@ -11,7 +13,7 @@ public class ExamExam {
     private String endTime;
     private String createTime;
 
-    private ExamClass examClass;
+    private List<ExamClass> examClasses;
 
     // Getters and Setters
     public long getId() {
@@ -86,11 +88,11 @@ public class ExamExam {
         this.createTime = createTime;
     }
 
-    public ExamClass getExamClass() {
-        return examClass;
+    public List<ExamClass> getExamClasses() {
+        return examClasses;
     }
 
-    public void setExamClass(ExamClass examClass) {
-        this.examClass = examClass;
+    public void setExamClasses(List<ExamClass> examClasses) {
+        this.examClasses = examClasses;
     }
 }
