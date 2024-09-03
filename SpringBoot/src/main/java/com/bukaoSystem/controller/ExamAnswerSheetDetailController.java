@@ -58,5 +58,10 @@ public class ExamAnswerSheetDetailController {
     public void reviewExamAnswerSheet(@RequestParam Long id,@RequestParam String isTrue) {
         examAnswerSheetDetailService.reviewExamAnswerSheet(id,isTrue);
     }
+    @PostMapping("/saveOrUpdate")
+    public void createOrupdateExamAnswerSheetDetail(@RequestBody ExamAnswerSheetDetail examAnswerSheetDetail) {
+        examAnswerSheetDetailService.createOrupdateExamAnswerSheetDetail(examAnswerSheetDetail);
+    }
+
 }
 

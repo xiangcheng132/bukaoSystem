@@ -48,4 +48,8 @@ public class ExamAnswerSheetServiceImpl implements ExamAnswerSheetService {
     public void deleteExamAnswerSheet(Long id) {
         examAnswerSheetDao.deleteExamAnswerSheet(id);
     }
+    @Override
+    public void saveOrUpdateExamAnswerSheet(ExamAnswerSheet examAnswerSheet) {
+        examAnswerSheetDao.saveOrUpdateExamAnswerSheet(examAnswerSheet);
+    }
 }

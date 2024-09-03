@@ -52,4 +52,8 @@ public class ExamAnswerSheetDetailServiceImpl implements ExamAnswerSheetDetailSe
     public void reviewExamAnswerSheet(Long Id,String isTrue) {
         examAnswerSheetDetailDao.updateExamAnswerSheetReviewStatus(Id, isTrue);
     }
+    @Override
+    public void createOrupdateExamAnswerSheetDetail(ExamAnswerSheetDetail examAnswerSheetDetail){
+        examAnswerSheetDetailDao.createOrupdateExamAnswerSheetDetail(examAnswerSheetDetail);
+    }
 }

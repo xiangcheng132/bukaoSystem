@@ -11,4 +11,5 @@ public interface ExamAnswerSheetService {
     void saveExamAnswerSheet(ExamAnswerSheet examAnswerSheet);
     void updateExamAnswerSheet(ExamAnswerSheet examAnswerSheet);
     void deleteExamAnswerSheet(Long id);
+    void saveOrUpdateExamAnswerSheet(ExamAnswerSheet examAnswerSheet);
 }

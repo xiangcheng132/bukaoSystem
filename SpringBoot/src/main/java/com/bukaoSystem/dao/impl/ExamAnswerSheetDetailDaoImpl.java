@@ -240,5 +240,25 @@ public class ExamAnswerSheetDetailDaoImpl implements ExamAnswerSheetDetailDao {
             answerSheetDetailTrue.put(detailId, isTrue);
         }
     }
+    @Override
+    public void createOrupdateExamAnswerSheetDetail(ExamAnswerSheetDetail examAnswerSheetDetail){
+        StringBuilder sql =new StringBuilder("INSERT INTO exam_answer_sheet_detail (answerId,resourceId,userKey");
+        StringBuilder values = new StringBuilder("VALUES (?,?,?");
+        List<Object> params = new ArrayList<>();
+        params.add(examAnswerSheetDetail.getAnswerId());
+        params.add(examAnswerSheetDetail.getResourceId());
+        params.add(examAnswerSheetDetail.getUserKey());
+        if (examAnswerSheetDetail.getCreateTime() != null) {
+            sql.append(", createTime");
+            values.append(", ?");
+            params.add(examAnswerSheetDetail.getCreateTime());
+        }
+
+        sql.append(")");
+        values.append(")");
+        sql.append(values);
+        sql.append("ON DUPLICATE KEY UPDATE userKey = VALUES(userKey), createTime = VALUES(createTime)");
+        jdbcTemplate.update(sql.toString(), params.toArray());
+    }
 }
 

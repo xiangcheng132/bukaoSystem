@@ -56,4 +56,8 @@ public class ExamAnswerSheetController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
+    @PostMapping("/saveOrUpdate")
+    public void saveOrUpdateupdateExamAnswerSheet(@RequestBody ExamAnswerSheet examAnswerSheet) {
+        examAnswerSheetService.saveOrUpdateExamAnswerSheet(examAnswerSheet);
+    }
 }

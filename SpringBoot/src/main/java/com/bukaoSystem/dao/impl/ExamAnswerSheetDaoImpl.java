@@ -100,4 +100,26 @@ public class ExamAnswerSheetDaoImpl implements ExamAnswerSheetDao {
         }
     }
 
+    @Override
+    public void saveOrUpdateExamAnswerSheet(ExamAnswerSheet examAnswerSheet) {
+        StringBuilder sql =new StringBuilder("INSERT INTO exam_answer_sheet (examId, userId, score");
+        StringBuilder values = new StringBuilder("VALUES (?, ?, ?");
+        List<Object> params = new ArrayList<>();
+        params.add(examAnswerSheet.getExamId());
+        params.add(examAnswerSheet.getUserId());
+        params.add(examAnswerSheet.getScore());
+        if (examAnswerSheet.getCreateTime() != null) {
+            sql.append(", createTime");
+            values.append(", ?");
+            params.add(examAnswerSheet.getCreateTime());
+        }
+
+        sql.append(")");
+        values.append(")");
+        sql.append(values);
+        sql.append("ON DUPLICATE KEY UPDATE score = VALUES(score), createTime = VALUES(createTime)");
+        jdbcTemplate.update(sql.toString(), params.toArray());
+    }
+
+
 }
