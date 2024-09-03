@@ -6,8 +6,10 @@ public class ExamAnswerSheet {
     private Long userId;
     private Integer score;
     private String createTime;
+    private String username;
 
     // Getters and setters
+
     public Long getId() {
         return id;
     }
@@ -46,5 +48,13 @@ public class ExamAnswerSheet {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

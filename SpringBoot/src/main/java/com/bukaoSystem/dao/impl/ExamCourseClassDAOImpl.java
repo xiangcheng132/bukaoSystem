@@ -80,4 +80,26 @@ public class ExamCourseClassDAOImpl implements ExamCourseClassDAO {
             throw new ForeignKeyConstraintViolationException("无法删除id: " + id + "的信息，该id下有关联信息。");
         }
     }
+    @Override
+    public List<ExamCourseClass> getExamCourseClassesByCourseId(Long courseId) {
+        String sql = "SELECT ecc.*, ec.name as className, c.name as courseName " +
+                "FROM exam_course_class ecc " +
+                "JOIN exam_class ec ON ecc.classId = ec.id " +
+                "JOIN exam_course c ON ecc.courseId = c.id " +
+                "WHERE ecc.courseId = ?";
+
+        return jdbcTemplate.query(sql, new Object[]{courseId}, new BeanPropertyRowMapper<>(ExamCourseClass.class));
+    }
+
+
+
+    @Override
+    public List<ExamCourseClass> getExamCourseClassesByClassId(Long classId){
+        String sql = "SELECT ecc.*, ec.name as className, c.name as courseName " +
+                "FROM exam_course_class ecc " +
+                "JOIN exam_class ec ON ecc.classId = ec.id " +
+                "JOIN exam_course c ON ecc.courseId = c.id " +
+                "WHERE ecc.classId = ?";
+        return jdbcTemplate.query(sql, new Object[]{classId}, new BeanPropertyRowMapper<>(ExamCourseClass.class));
+    }
 }

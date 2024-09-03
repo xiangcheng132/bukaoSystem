@@ -7,6 +7,7 @@ public class ExamAnswerSheetDetail {
     private String userKey;
     private String isTrue;
     private String createTime;
+    private ExamResources examResources; // 新增的字段
 
     // Getters and setters
     public Long getId() {
@@ -48,6 +49,9 @@ public class ExamAnswerSheetDetail {
     public void setIsTrue(Boolean isTrue) {
         this.isTrue = String.valueOf(isTrue);
     }
+    public void setIsTrue(String isTrue) {
+        this.isTrue = isTrue;
+    }
 
     public String getCreateTime() {
         return createTime;
@@ -55,5 +59,13 @@ public class ExamAnswerSheetDetail {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public ExamResources getExamResources() {
+        return examResources;
+    }
+
+    public void setExamResources(ExamResources examResources) {
+        this.examResources = examResources;
     }
 }

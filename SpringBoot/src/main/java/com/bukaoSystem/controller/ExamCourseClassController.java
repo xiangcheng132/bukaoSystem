@@ -46,4 +46,12 @@ public class ExamCourseClassController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
+    @PostMapping("/getByClassId")
+    public List<ExamCourseClass> getExamCourseClassByClassId(@RequestBody ExamCourseClass examCourseClass) {
+        return examCourseClassService.getExamCourseClassesByClassId(examCourseClass.getClassId());
+    }
+    @PostMapping("/getByCourseId")
+    public List<ExamCourseClass> getExamCourseClassByCourseId(@RequestBody ExamCourseClass examCourseClass) {
+        return examCourseClassService.getExamCourseClassesByCourseId(examCourseClass.getCourseId());
+    }
 }

@@ -10,4 +10,6 @@ public interface ExamCourseClassService {
     void saveExamCourseClass(ExamCourseClass courseClass);
     void updateExamCourseClass(ExamCourseClass courseClass);
     void deleteExamCourseClass(Long id);
+    List<ExamCourseClass> getExamCourseClassesByClassId(Long classId);
+    List<ExamCourseClass> getExamCourseClassesByCourseId(Long courseId);
 }

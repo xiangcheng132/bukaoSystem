@@ -39,4 +39,11 @@ public class ExamCourseClassServiceImpl implements ExamCourseClassService {
     public void deleteExamCourseClass(Long id) {
         examCourseClassDAO.deleteExamCourseClass(id);
     }
+
+    public List<ExamCourseClass> getExamCourseClassesByClassId(Long classId){
+        return examCourseClassDAO.getExamCourseClassesByClassId(classId);
+    }
+    public List<ExamCourseClass> getExamCourseClassesByCourseId(Long courseId){
+        return examCourseClassDAO.getExamCourseClassesByCourseId(courseId);
+    }
 }

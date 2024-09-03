@@ -1,11 +1,11 @@
 package com.bukaoSystem.model;
 
-import java.time.LocalDateTime;
-
 public class ExamCourseClass {
     private Long id;
     private Long classId;
     private Long courseId;
+    private String className;
+    private String courseName;
     private String createTime;
 
     // Getters and setters
@@ -31,6 +31,22 @@ public class ExamCourseClass {
 
     public void setCourseId(Long courseId) {
         this.courseId = courseId;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     public String getCreateTime() {

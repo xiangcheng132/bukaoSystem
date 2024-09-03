@@ -10,4 +10,6 @@ public interface ExamCourseClassDAO {
     void saveExamCourseClass(ExamCourseClass courseClass);
     void updateExamCourseClass(ExamCourseClass courseClass);
     void deleteExamCourseClass(Long id);
+    List<ExamCourseClass> getExamCourseClassesByCourseId(Long courseId);
+    List<ExamCourseClass> getExamCourseClassesByClassId(Long classId);
 }

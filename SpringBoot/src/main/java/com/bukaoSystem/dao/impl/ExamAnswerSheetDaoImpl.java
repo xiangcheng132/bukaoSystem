@@ -35,7 +35,10 @@ public class ExamAnswerSheetDaoImpl implements ExamAnswerSheetDao {
 
     @Override
     public List<ExamAnswerSheet> getExamAnswerSheetsByExamId(Long examId) {
-        String sql = "SELECT * FROM exam_answer_sheet WHERE examId = ?";
+        String sql = "SELECT eas.*, u.username " +
+                "FROM exam_answer_sheet eas " +
+                "JOIN exam_user u ON eas.userId = u.id " +
+                "WHERE eas.examId = ?";
         return jdbcTemplate.query(sql, rowMapper, examId);
     }
 

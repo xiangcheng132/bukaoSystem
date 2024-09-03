@@ -3,15 +3,24 @@ package com.bukaoSystem.dao.impl;
 import com.bukaoSystem.dao.ExamAnswerSheetDetailDao;
 import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
 import com.bukaoSystem.model.ExamAnswerSheetDetail;
+import com.bukaoSystem.model.ExamResources;
 import com.bukaoSystem.model.GradingResult;
 import com.bukaoSystem.service.BatchUpdateService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,8 +51,52 @@ public class ExamAnswerSheetDetailDaoImpl implements ExamAnswerSheetDetailDao {
 
     @Override
     public List<ExamAnswerSheetDetail> getExamAnswerSheetDetailsByAnswerId(Long answerId) {
-        String sql = "SELECT * FROM exam_answer_sheet_detail WHERE answerId = ?";
-        return jdbcTemplate.query(sql, rowMapper, answerId);
+        String sql = "SELECT easd.*, er.* " +
+                "FROM exam_answer_sheet_detail easd " +
+                "JOIN exam_resources er ON easd.resourceId = er.id " +
+                "WHERE easd.answerId = ?";
+
+        return jdbcTemplate.query(sql, new ResultSetExtractor<List<ExamAnswerSheetDetail>>() {
+            private final ObjectMapper objectMapper = new ObjectMapper();
+
+            @Override
+            public List<ExamAnswerSheetDetail> extractData(ResultSet rs) throws SQLException, DataAccessException {
+                List<ExamAnswerSheetDetail> details = new ArrayList<>();
+                while (rs.next()) {
+                    ExamAnswerSheetDetail detail = new ExamAnswerSheetDetail();
+                    detail.setId(rs.getLong("easd.id"));
+                    detail.setAnswerId(rs.getLong("easd.answerId"));
+                    detail.setResourceId(rs.getLong("easd.resourceId"));
+                    detail.setUserKey(rs.getString("easd.userKey"));
+                    detail.setIsTrue(rs.getString("easd.isTrue"));
+                    detail.setCreateTime(rs.getString("easd.createTime"));
+
+                    ExamResources resources = new ExamResources();
+                    resources.setId(rs.getLong("er.id"));
+                    resources.setCourseId(rs.getLong("er.courseId"));
+                    resources.setChapterId(rs.getLong("er.chapterId"));
+                    resources.setQuestion(rs.getString("er.question"));
+                    resources.setType(ExamResources.Type.valueOf(rs.getString("er.type")));
+                    try {
+
+                        JsonNode optionsNode = objectMapper.readTree(rs.getString("er.options")==null?"":rs.getString("er.options"));
+                        resources.setOptions(optionsNode);
+                    } catch (JsonProcessingException e) {
+                        resources.setOptions(null);
+                    }
+                    resources.setKey(rs.getString("er.key"));
+                    resources.setAnalysis(rs.getString("er.analysis"));
+                    resources.setScore(rs.getDouble("er.score"));
+                    resources.setCreateTime(rs.getString("er.createTime"));
+
+                    // 将查询到的 ExamResources 设置到 ExamAnswerSheetDetail 中
+                    detail.setExamResources(resources);
+
+                    details.add(detail);
+                }
+                return details;
+            }
+        }, answerId);
     }
 
     @Override
@@ -116,11 +169,13 @@ public class ExamAnswerSheetDetailDaoImpl implements ExamAnswerSheetDetailDao {
             throw new ForeignKeyConstraintViolationException("无法删除id: " + id + "的信息，该id下有关联信息。");
         }
     }
+
     @Override
-    public void updateExamAnswerSheetReviewStatus(Long id,String isTrue) {
+    public void updateExamAnswerSheetReviewStatus(Long id, String isTrue) {
         String sql2 = "UPDATE exam_answer_sheet_detail SET isTrue = ? WHERE id = ?";
-        jdbcTemplate.update(sql2, isTrue , id);
+        jdbcTemplate.update(sql2, isTrue, id);
     }
+
     //答卷展示功能（展示详细的题目和用户答案，标准答案，分值）
     public List<Map<String, Object>> showExams(Long answerId) {
         String sql = "SELECT a.id as answerId, d.id as detailId,d.isTrue as isTrue ,d.userKey as userKey, r.key as correctKey, r.score as score, " +
@@ -149,7 +204,7 @@ public class ExamAnswerSheetDetailDaoImpl implements ExamAnswerSheetDetailDao {
             updateParamsForAnswerSheet.add(new Object[]{totalScore, answerId});
         }
         String updateASSql = "UPDATE exam_answer_sheet SET score = ?, isGraded = 1 WHERE id = ?";
-        batchUpdateService.batchUpdate(jdbcTemplate ,updateASSql, updateParamsForAnswerSheet);
+        batchUpdateService.batchUpdate(jdbcTemplate, updateASSql, updateParamsForAnswerSheet);
     }
 
     private void calculateTotalScores(List<Map<String, Object>> gradingResults, Map<Long, Double> answerSheetScores, Map<Long, String> answerSheetDetailTrue) {
@@ -159,14 +214,14 @@ public class ExamAnswerSheetDetailDaoImpl implements ExamAnswerSheetDetailDao {
             String isTrue = (String) row.get("isTrue");
             double score = (Integer) row.get("score");
             int state = 0;
-            if (isTrue.equals("对")){
+            if (isTrue.equals("对")) {
                 state = 1;
             } else if (isTrue.equals("错")) {
                 state = 2;
-            }else if (isTrue.equals("半对半错")){
+            } else if (isTrue.equals("半对半错")) {
                 state = 3;
             }
-            switch (state){
+            switch (state) {
                 case 1:
                     answerSheetScores.merge(answerId, score, Double::sum);
                     break;
@@ -174,7 +229,7 @@ public class ExamAnswerSheetDetailDaoImpl implements ExamAnswerSheetDetailDao {
                     answerSheetScores.merge(answerId, 0.0, Double::sum);
                     break;
                 case 3:
-                    answerSheetScores.merge(answerId, score/2, Double::sum);
+                    answerSheetScores.merge(answerId, score / 2, Double::sum);
                     break;
                 default:
                     // 处理其他可能的情况
