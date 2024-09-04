@@ -2,6 +2,7 @@ package com.bukaoSystem.controller;
 
 import com.bukaoSystem.exception.ForeignKeyConstraintViolationException;
 import com.bukaoSystem.model.ExamAnswerSheet;
+import com.bukaoSystem.model.ExamUser;
 import com.bukaoSystem.service.ExamAnswerSheetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -59,5 +60,9 @@ public class ExamAnswerSheetController {
     @PostMapping("/saveOrUpdate")
     public void saveOrUpdateupdateExamAnswerSheet(@RequestBody ExamAnswerSheet examAnswerSheet) {
         examAnswerSheetService.saveOrUpdateExamAnswerSheet(examAnswerSheet);
+    }
+    @PostMapping("/getByTeacherId")
+    public List<ExamAnswerSheet> getAnswerSheetsByTeacherId(@RequestBody ExamUser user) {
+        return examAnswerSheetService.getAnswerSheetsByTeacherId(user.getId());
     }
 }

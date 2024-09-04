@@ -120,6 +120,20 @@ public class ExamAnswerSheetDaoImpl implements ExamAnswerSheetDao {
         sql.append("ON DUPLICATE KEY UPDATE score = VALUES(score), createTime = VALUES(createTime)");
         jdbcTemplate.update(sql.toString(), params.toArray());
     }
+    @Override
+    public List<ExamAnswerSheet> findAnswerSheetsByTeacherId(Long teacherId) {
+        String sql = "SELECT eas.*, eu.username " +
+                "FROM exam_answer_sheet eas " +
+                "JOIN exam_user eu ON eas.userId = eu.id " +
+                "WHERE eas.examId IN (" +
+                "  SELECT DISTINCT eec.examId " +
+                "  FROM exam_teacher_course etc " +
+                "  JOIN exam_course_class ecc ON etc.courseId = ecc.courseId " +
+                "  JOIN exam_exam_class eec ON ecc.classId = eec.classId " +
+                "  WHERE etc.teacherId = ?" +
+                ")";
 
+        return jdbcTemplate.query(sql, new Object[]{teacherId}, new BeanPropertyRowMapper<>(ExamAnswerSheet.class));
+    }
 
 }

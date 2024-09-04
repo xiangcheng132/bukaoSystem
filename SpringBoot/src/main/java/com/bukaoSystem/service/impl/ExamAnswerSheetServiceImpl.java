@@ -52,4 +52,8 @@ public class ExamAnswerSheetServiceImpl implements ExamAnswerSheetService {
     public void saveOrUpdateExamAnswerSheet(ExamAnswerSheet examAnswerSheet) {
         examAnswerSheetDao.saveOrUpdateExamAnswerSheet(examAnswerSheet);
     }
+    @Override
+    public List<ExamAnswerSheet> getAnswerSheetsByTeacherId(Long teacherId) {
+        return examAnswerSheetDao.findAnswerSheetsByTeacherId(teacherId);
+    }
 }

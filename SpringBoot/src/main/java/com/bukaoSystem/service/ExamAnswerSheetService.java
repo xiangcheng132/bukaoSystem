@@ -12,4 +12,5 @@ public interface ExamAnswerSheetService {
     void updateExamAnswerSheet(ExamAnswerSheet examAnswerSheet);
     void deleteExamAnswerSheet(Long id);
     void saveOrUpdateExamAnswerSheet(ExamAnswerSheet examAnswerSheet);
+    List<ExamAnswerSheet> getAnswerSheetsByTeacherId(Long teacherId);
 }
