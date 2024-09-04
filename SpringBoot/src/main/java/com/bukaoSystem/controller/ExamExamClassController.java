@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/bukaoSystem/examClass")
@@ -32,7 +33,7 @@ public class ExamExamClassController {
     }
 
     @PostMapping("/getByClassId")
-    public List<ExamExamClass> getExamExamClassesByClassId(@RequestBody ExamExamClass examExamClass) {
+    public List<Map<String, Object>> getExamExamClassesByClassId(@RequestBody ExamExamClass examExamClass) {
         return examExamClassService.getExamExamClassesByClassId(examExamClass.getClassId());
     }
 

@@ -35,8 +35,8 @@ public class ExamAnswerSheetServiceImpl implements ExamAnswerSheetService {
     }
 
     @Override
-    public void saveExamAnswerSheet(ExamAnswerSheet examAnswerSheet) {
-        examAnswerSheetDao.saveExamAnswerSheet(examAnswerSheet);
+    public Long saveExamAnswerSheet(ExamAnswerSheet examAnswerSheet) {
+       return examAnswerSheetDao.saveExamAnswerSheet(examAnswerSheet);
     }
 
     @Override
@@ -49,8 +49,8 @@ public class ExamAnswerSheetServiceImpl implements ExamAnswerSheetService {
         examAnswerSheetDao.deleteExamAnswerSheet(id);
     }
     @Override
-    public void saveOrUpdateExamAnswerSheet(ExamAnswerSheet examAnswerSheet) {
-        examAnswerSheetDao.saveOrUpdateExamAnswerSheet(examAnswerSheet);
+    public Long saveOrUpdateExamAnswerSheet(ExamAnswerSheet examAnswerSheet) {
+        return examAnswerSheetDao.saveOrUpdateExamAnswerSheet(examAnswerSheet);
     }
     @Override
     public List<ExamAnswerSheet> getAnswerSheetsByTeacherId(Long teacherId) {

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ExamExamResourcesServiceImpl implements ExamExamResourcesService {
@@ -46,5 +47,9 @@ public class ExamExamResourcesServiceImpl implements ExamExamResourcesService {
     @Override
     public void deleteExamExamResources(Long examId, Long resourceId) {
         examExamResourcesDao.deleteExamExamResources(examId, resourceId);
+    }
+    @Override
+    public List<Map<String, Object>> getExamResourcesByExamId(Long examId) {
+        return examExamResourcesDao.getExamResourcesByExamId(examId);
     }
 }

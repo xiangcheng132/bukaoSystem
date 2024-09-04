@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ExamExamResourcesDaoImpl implements ExamExamResourcesDao {
@@ -38,6 +39,15 @@ public class ExamExamResourcesDaoImpl implements ExamExamResourcesDao {
     public List<ExamExamResources> getExamExamResourcesByExamId(Long examId) {
         String sql = "SELECT * FROM exam_exam_resources WHERE examId = ?";
         return jdbcTemplate.query(sql, rowMapper, examId);
+    }
+    @Override
+    public List<Map<String, Object>> getExamResourcesByExamId(Long examId) {
+        String sql = "SELECT eer.*, er.* " +
+                "FROM exam_exam_resources eer " +
+                "JOIN exam_resources er ON eer.resourceId = er.id " +
+                "WHERE eer.examId = ?";
+
+        return jdbcTemplate.queryForList(sql, examId);
     }
     //根据资源id得到哪些试卷有该资源（试卷id，课程id）
     @Override

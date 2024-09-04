@@ -2,6 +2,7 @@ package com.bukaoSystem.service;
 
 import com.bukaoSystem.model.ExamExamResources;
 import java.util.List;
+import java.util.Map;
 
 public interface ExamExamResourcesService {
     List<ExamExamResources> getAllExamExamResources();
@@ -12,4 +13,5 @@ public interface ExamExamResourcesService {
     void saveExamExamResources(ExamExamResources examExamResources);
     void updateExamExamResources(ExamExamResources examExamResources);
     void deleteExamExamResources(Long examId, Long resourceId);
+    List<Map<String, Object>> getExamResourcesByExamId(Long examId);
 }

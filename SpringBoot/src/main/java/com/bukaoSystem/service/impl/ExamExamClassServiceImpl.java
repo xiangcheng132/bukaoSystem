@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ExamExamClassServiceImpl implements ExamExamClassService {
@@ -29,7 +30,7 @@ public class ExamExamClassServiceImpl implements ExamExamClassService {
     }
 
     @Override
-    public List<ExamExamClass> getExamExamClassesByClassId(Long classId) {
+    public List<Map<String, Object>> getExamExamClassesByClassId(Long classId) {
         return examExamClassDao.getExamExamClassesByClassId(classId);
     }
 

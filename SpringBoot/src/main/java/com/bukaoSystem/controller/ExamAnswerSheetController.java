@@ -39,8 +39,8 @@ public class ExamAnswerSheetController {
     }
 
     @PostMapping("/create")
-    public void createExamAnswerSheet(@RequestBody ExamAnswerSheet examAnswerSheet) {
-        examAnswerSheetService.saveExamAnswerSheet(examAnswerSheet);
+    public Long createExamAnswerSheet(@RequestBody ExamAnswerSheet examAnswerSheet) {
+        return examAnswerSheetService.saveExamAnswerSheet(examAnswerSheet);
     }
 
     @PostMapping("/update")
@@ -58,8 +58,8 @@ public class ExamAnswerSheetController {
         }
     }
     @PostMapping("/saveOrUpdate")
-    public void saveOrUpdateupdateExamAnswerSheet(@RequestBody ExamAnswerSheet examAnswerSheet) {
-        examAnswerSheetService.saveOrUpdateExamAnswerSheet(examAnswerSheet);
+    public Long saveOrUpdateExamAnswerSheet(@RequestBody ExamAnswerSheet examAnswerSheet) {
+        return examAnswerSheetService.saveOrUpdateExamAnswerSheet(examAnswerSheet);
     }
     @PostMapping("/getByTeacherId")
     public List<ExamAnswerSheet> getAnswerSheetsByTeacherId(@RequestBody ExamUser user) {

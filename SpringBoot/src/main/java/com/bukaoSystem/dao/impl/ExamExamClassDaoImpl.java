@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ExamExamClassDaoImpl implements ExamExamClassDao {
@@ -40,10 +41,15 @@ public class ExamExamClassDaoImpl implements ExamExamClassDao {
     }
 
     @Override
-    public List<ExamExamClass> getExamExamClassesByClassId(Long classId) {
-        String sql = "SELECT * FROM exam_exam_class WHERE classId = ?";
-        return jdbcTemplate.query(sql, rowMapper, classId);
+    public List<Map<String, Object>> getExamExamClassesByClassId(Long classId) {
+        String sql = "SELECT eec.*,ee.* " +
+                "FROM exam_exam_class eec " +
+                "JOIN exam_exam ee ON eec.examId = ee.id " +
+                "WHERE eec.classId = ?";
+
+        return jdbcTemplate.queryForList(sql, classId);
     }
+
 
     @Override
     public void saveExamExamClass(ExamExamClass examExamClass) {

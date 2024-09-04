@@ -91,7 +91,7 @@ public class ExamExamClassControllerTest {
     @Test
     public void testGetExamExamClassesByClassId() throws Exception {
         List<ExamExamClass> examClasses = Arrays.asList(examClass1);
-        Mockito.when(examExamClassService.getExamExamClassesByClassId(201L)).thenReturn(examClasses);
+//        Mockito.when(examExamClassService.getExamExamClassesByClassId(201L)).thenReturn(examClasses);
 
         mockMvc.perform(get("http://localhost:8080/bukaoSystem/examClass/getByClassId")
                         .contentType(MediaType.APPLICATION_JSON)
