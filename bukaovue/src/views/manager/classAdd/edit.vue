@@ -28,6 +28,9 @@
     </el-table>
     <div>
       <el-button type="primary"  @click="openAddStudentDialog">添加学生</el-button> 
+        <router-link :to="{path:'/manager/upload', query:{id: classid }}">
+            <el-button type="primary" icon="el-icon-edit" circle>Excle导入</el-button>
+        </router-link>
     </div>
     <!-- 添加学生对话框 -->
     <el-dialog title="添加学生" v-model="showAddStudentDialog">
@@ -47,17 +50,17 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue";
 import { findAllStudent, deleteUser } from '@/api/examUser.js';
-import{getAllClasswithteacher,getAllClass,getClassById,createClass,updateClassInfo,deleteClass}from"@/api/examClass";
+import{getAllClass,getClassById,createClass,updateClassInfo,deleteClass}from"@/api/examClass";
 import { 
   getExamClassStudentsById, 
   createExamClassStudent, 
   deleteExamClassStudent,
 } from "@/api/examClassStudent";
-import {getExamClassTeacher,deleteExamClassTeacher,getExamClassTeachersnameByClassId,updateExamClassTeacher} from "@/api/examClassTeacher";
+import {getExamClassTeacher,createExamClassTeacher,getExamClassTeachersnameByClassId,updateExamClassTeacher} from "@/api/examClassTeacher";
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-
+const classid = route.query.id
 const studentList = reactive({ values: [] });
 const showAddStudentDialog = ref(false);
 
@@ -100,10 +103,6 @@ const refreshClassInfo = () => {
             classForm.teacherId = null;
             classForm.username = '';
           }
-          // console.log(teacherRes);
-          // classForm.teacherId = teacherRes.data.teacherId;
-          // classForm.username = teacherRes.data.username;
-          // console.log(classForm);
         })
     })
     .catch((err) => {
@@ -145,7 +144,11 @@ const updateClass = async () => {
       console.log('更新班级信息成功', classForm);
       refreshClassInfo();
     } else {
-      console.log('没有教师信息可更新');
+      await createExamClassTeacher({
+        classId: route.query.id,
+        teacherId: classForm.teacherId,
+      });
+      refreshClassInfo();
     }
   } catch (error) {
     console.error('更新班级信息失败', error);
@@ -164,17 +167,7 @@ const removeStudent = (studentId) => {
       console.error("删除学生失败", err);
     });
 };
-// const allStudents = reactive({ 
-//   id: null,
-//   username: '',
-//   account: '',
-//   password: '',
-//   role: '',
-//   email: '',
-//   phone: '',
-//   sex: '',
-//   createTime: null
-//  });
+
 const allStudents = reactive({values:[]})
 const loading = ref(false);
 

@@ -2,12 +2,12 @@
   <div class="app-container" style="margin: 50px;">
     <el-form v-model="form" ref="userForm" label-width="100px" v-loading="formLoading" :rules="rules">
       <el-form-item label="用户名：" prop="username" required>
-        <el-input v-model="form.username" ></el-input>
+        <el-input v-model="form.username"></el-input>
       </el-form-item>
       <el-form-item label="账号：" prop="account" required>
-        <el-input v-model="form.account" ></el-input>
+        <el-input v-model="form.account"></el-input>
       </el-form-item>
-      <el-form-item label="密码：" prop="password"  required>
+      <el-form-item label="密码：" prop="password" required>
         <el-input v-model="form.password"></el-input>
       </el-form-item>
       <el-form-item label="身份：" prop="role" required>
@@ -18,13 +18,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="邮箱：" prop="email">
-        <el-input v-model="form.email" ></el-input>
+        <el-input v-model="form.email"></el-input>
       </el-form-item>
-      <el-form-item label="手机号："  prop="phone" >
-        <el-input v-model="form.phone" ></el-input>
+      <el-form-item label="手机号：" prop="phone">
+        <el-input v-model="form.phone"></el-input>
       </el-form-item>
-      <el-form-item label="性别："  prop="sex" >
-        <el-select v-model="form.sex" placeholder="性别" clearable >
+      <el-form-item label="性别：" prop="sex">
+        <el-select v-model="form.sex" placeholder="性别" clearable>
           <el-option label="男" value="男" />
           <el-option label="女" value="女" />
           <el-option label="未知" value="未知" />
@@ -39,15 +39,15 @@
   </div>
 </template>
 <script setup>
-import { ref, reactive, onMounted} from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
+import { nextTick } from 'vue';
 import { getAllUserById, createUser, updateUserInfo } from '@/api/examUser.js';
 const regEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const phoneRegex = /^(\+\d{1,3}[- ]?)?\(?(\d{3})\)?[-. ]?(\d{3})[-. ]?(\d{5})$/;
 const route = useRoute();
 const router = useRouter();
-const forceUpdateKey = ref(0);
 const form = reactive({
   id: null,
   username: '',
@@ -97,13 +97,6 @@ const fetchUserData = (id) => {
     });
 };
 
-onMounted(() => {
-  const id = route.query.id;
-  if (id && !isNaN(parseInt(id))) {
-    fetchUserData(id);
-  } 
-});
-
 const addForm = () => {
   formLoading.value = true;
   createUser(form)
@@ -151,8 +144,17 @@ const resetForm = () => {
   });
 };
 
+onMounted(() => {
+  nextTick(() => {
+    if (form.value) {
+      const id = route.query.id;
+      if (id && !isNaN(parseInt(id))) {
+        fetchUserData(id);
+      }
+    }
+  });
+
+});
 </script>
 
-<style scoped>
-
-</style> 
+<style scoped></style>
