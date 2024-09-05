@@ -43,6 +43,14 @@ export function getExamResourceByCRId(id){
     data:{id}
   })
 } 
+//根据资源ID获取特定考试资源信息
+export function getByExamIdPlus(examId){
+  return request({
+    url:'/bukaoSystem/examResources/getByExamIdPlus',
+    method: 'post',
+    data:{examId}
+  })
+} 
 //创建一个新考试资源
 export function createExamResource(newExamResourceInfo){
   return request({
