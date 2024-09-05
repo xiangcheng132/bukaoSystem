@@ -24,8 +24,11 @@ public class ExamPaperDAOimpl implements ExamPaperDAO {
     //添加试卷
     @Override
     public Long save(ExamPaperDto examExam) {
-        StringBuilder sql = new StringBuilder("INSERT INTO exam_exam (courseId, name, comment, place，state, beginTime, endTime, createTime");
-        StringBuilder values = new StringBuilder(" VALUES (?, ?, ?, ?, 0, ?, ?, ?");
+        // 构建插入 SQL 语句
+        StringBuilder sql = new StringBuilder("INSERT INTO exam_exam (courseId, name, comment, place, state, beginTime, endTime, createTime)");
+        StringBuilder values = new StringBuilder(" VALUES (?, ?, ?, ?, 0, ?, ?, ?)");
+
+        // 构建参数列表
         List<Object> params = new ArrayList<>();
         params.add(examExam.getCourseId());
         params.add(examExam.getName());
@@ -33,15 +36,17 @@ public class ExamPaperDAOimpl implements ExamPaperDAO {
         params.add(examExam.getPlace());
         params.add(examExam.getBeginTime());
         params.add(examExam.getEndTime());
-        // 获取当前时间并格式化为字符串
-        LocalDateTime currentTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedCurrentTime = currentTime.format(formatter);
-        params.add(formattedCurrentTime);
-        sql.append(")");
-        values.append(")");
+        // 当前时间作为 createTime
+        params.add(Timestamp.valueOf(LocalDateTime.now()));
+
+        // 拼接完整 SQL
         sql.append(values);
-//        jdbcTemplate.update(sql.toString(), params.toArray());
+
+        // 打印生成的 SQL 以便调试
+        System.out.println("Generated SQL: " + sql);
+        System.out.println("Params: " + params);
+
+        // 使用 KeyHolder 获取自增主键
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
@@ -51,6 +56,7 @@ public class ExamPaperDAOimpl implements ExamPaperDAO {
             return ps;
         }, keyHolder);
 
+        // 检查是否成功生成 ID
         if (keyHolder.getKey() != null) {
             return keyHolder.getKey().longValue();
         } else {
@@ -58,11 +64,24 @@ public class ExamPaperDAOimpl implements ExamPaperDAO {
         }
     }
 
+
+
     @Override
     //返回对应数量的随机的资源题目
     public List<ExamResources> findRandomResourcesByChapterAndType(Long courseId, String Type, int count) {
-        String sql = "SELECT DISTINCT question, * FROM exam_resources WHERE type = ? AND courseId = ? ORDER BY RAND() LIMIT ?";
-        return jdbcTemplate.query(sql, new Object[]{Type,courseId ,count}, new BeanPropertyRowMapper<>(ExamResources.class));
+        // 使用子查询来去重 question 字段，并获取所有列
+        String sql = "SELECT * " +
+                "FROM exam_resources er " +
+                "WHERE er.question IN (" +
+                "    SELECT DISTINCT question " +
+                "    FROM exam_resources " +
+                "    WHERE type = ? AND courseId = ?" +
+                ") AND er.type = ? AND er.courseId = ? " +
+                "ORDER BY RAND() " +
+                "LIMIT ?";
+
+        return jdbcTemplate.query(sql, new Object[]{Type, courseId, Type, courseId, count}, new BeanPropertyRowMapper<>(ExamResources.class));
+//        return jdbcTemplate.query(sql, new Object[]{Type,courseId ,count}, new BeanPropertyRowMapper<>(ExamResources.class));
     }
 
     public void batchCopyResources(List<ExamResources> resources) {
@@ -140,8 +159,7 @@ public class ExamPaperDAOimpl implements ExamPaperDAO {
     //添加对应数量的试卷和资源对应关系
     @Override
     public void saveExamPaperResource(Long examId, Long resourceId) {
-        String sql = "INSERT INTO exam_exam_resources (examid, resourceid, createTime) VALUES (?, ?, ?)";
+        String sql = " INSERT INTO exam_exam_resources (examId, resourceId, createTime ) VALUES (?, ?, ?) ";
         jdbcTemplate.update(sql, examId, resourceId, Timestamp.valueOf(LocalDateTime.now()));
     }
-
 }

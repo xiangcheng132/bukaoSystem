@@ -14,6 +14,8 @@ public interface ExamClassService {
 
     List<ExamClassDto> getAllwithteacher();
 
+    List<ExamClassDto> getAllwithTeacherById(Long classId);
+
     void updateExamClass(ExamClass examClass);
 
     void deleteExamClass(Long id);
