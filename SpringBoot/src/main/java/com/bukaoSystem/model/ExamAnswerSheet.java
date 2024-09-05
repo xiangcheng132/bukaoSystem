@@ -7,8 +7,15 @@ public class ExamAnswerSheet {
     private Integer score;
     private String createTime;
     private String username;
+    private String examname;
 
-    // Getters and setters
+    public String getExamname() {
+        return examname;
+    }
+
+    public void setExamname(String examname) {
+        this.examname = examname;
+    }
 
     public Long getId() {
         return id;

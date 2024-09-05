@@ -172,7 +172,7 @@ public class ExamAnswerSheetDaoImpl implements ExamAnswerSheetDao {
 //                "  WHERE etc.teacherId = ?" +
 //                ")";
 
-        String sql = "SELECT eas.*, eu.username " +
+        String sql = "SELECT eas.*, eu.username,ee.name as examname " +
                 "FROM exam_teacher_course etc " +
                 "JOIN exam_exam ee ON etc.courseId = ee.courseId " +
                 "JOIN exam_answer_sheet eas ON ee.id = eas.examId " +
