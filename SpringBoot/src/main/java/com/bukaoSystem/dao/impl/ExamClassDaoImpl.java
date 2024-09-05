@@ -80,7 +80,20 @@ public class ExamClassDaoImpl implements ExamClassDao {
                 "LEFT JOIN exam_user eu ON ect.teacherId = eu.id ";
         return jdbcTemplate.query(sql, this::mapRowToExamClassdto);
     }
+    @Override
+    public List<ExamClassDto> findAllwithTeacherById(Long classId) {
+        String sql = "SELECT exam_class.id, " +
+                "exam_class.name, " +
+                "exam_class.comment, " +
+                "eu.username AS teachername, " +
+                "exam_class.createTime " +
+                "FROM exam_class " +
+                "LEFT JOIN exam_class_teacher ect ON exam_class.id = ect.classId " +
+                "LEFT JOIN exam_user eu ON ect.teacherId = eu.id " +
+                "WHERE exam_class.id = ?";
 
+        return jdbcTemplate.query(sql, new Object[]{classId}, this::mapRowToExamClassdto);
+}
     @Override
     public void update(ExamClass examClass) {
         StringBuilder sql = new StringBuilder("UPDATE exam_class SET name = ?");

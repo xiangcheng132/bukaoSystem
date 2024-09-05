@@ -26,6 +26,10 @@ public class ExamClassController {
     public List<ExamClassDto> getAllExamClasseswithteacher() {
         return examClassService.getAllwithteacher();
     }
+    @PostMapping("/getTeacherById")
+    public List<ExamClassDto> getAllwithTeacherById(@RequestBody ExamClass examClass) {
+        return examClassService.getAllwithTeacherById(examClass.getId());
+    }
     @PostMapping("/getById")
     public ExamClass getExamClassById(@RequestBody ExamClass examClass) {
         return examClassService.getExamClassById(examClass.getId());

@@ -19,6 +19,8 @@ public interface ExamPaperService {
 
     List<ExamResources> getRandomResources(Long courseId, String question, int count);
 
+    Long saveexam(ExamPaperDto examExam);
+
 //    List<ExamResources> batchCopyResourcesWithScores(Long courseId, Long chapterId, String type, int count, int score);
 
 //    List<ExamResources> batchCopyResources(Long courseId, String type, int count, int score);

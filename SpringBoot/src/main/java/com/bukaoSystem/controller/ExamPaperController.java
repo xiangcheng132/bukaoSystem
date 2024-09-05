@@ -23,6 +23,9 @@ public class ExamPaperController {
     public int createExamPaper(@RequestBody ExamPaperDto examPaperDto) {
         return examPaperService.createExamPaper(examPaperDto);
     }
-
+    @PostMapping("/save")
+    public Long ExamPaper(@RequestBody ExamPaperDto examPaperDto) {
+        return examPaperService.saveexam(examPaperDto);
+    }
 }
 
