@@ -14,6 +14,8 @@ public interface ExamClassDao {
 
     List<ExamClassDto> findAllwithteacher();
 
+    List<ExamClassDto> findAllwithTeacherById(Long classId);
+
     void update(ExamClass examClass);
 
     void delete(Long id);

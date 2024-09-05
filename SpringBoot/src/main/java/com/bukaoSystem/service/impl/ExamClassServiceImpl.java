@@ -34,6 +34,10 @@ public class ExamClassServiceImpl implements ExamClassService {
         return examClassDao.findAllwithteacher();
     }
     @Override
+    public List<ExamClassDto> getAllwithTeacherById(Long classId) {
+        return examClassDao.findAllwithTeacherById(classId);
+    }
+    @Override
     public void updateExamClass(ExamClass examClass) {
         examClassDao.update(examClass);
     }
