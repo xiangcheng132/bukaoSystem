@@ -7,6 +7,13 @@ export function getExamClassTeacherById(){
     method: 'get'
   })
 } 
+export function getByTeacherId(id){
+  return request({
+    url:'/bukaoSystem/answerSheet/getByTeacherId',
+    method: 'post',
+    data:{id}
+  })
+} 
 
 // 根据 ID 获取 ExamAnswerSheet 记录。
 export function getExamAnswerSheetById(id){
@@ -32,6 +39,16 @@ export function getExamAnswerSheetByExamId(examId){
     url:'/bukaoSystem/answerSheet/getByExamId',
     method: 'POST',
     data:{examId}
+  })
+} 
+
+
+// 根据 Exam ID 获取 ExamAnswerSheet 列表
+export function getByAnswerld(answerId){
+  return request({
+    url:'/bukaoSystem/answerSheetDetail/getByAnswerId',
+    method: 'POST',
+    data:{answerId}
   })
 } 
 

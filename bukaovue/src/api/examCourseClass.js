@@ -9,6 +9,10 @@ export function getAllExamCourseClass() {
 export function getExamClassById(id) {
     return request.post('/bukaoSystem/courseClass/getById', {id})
 }
+//根据 ID 获取 ExamCourseClass
+export function getByCourseId(id) {
+    return request.post('/bukaoSystem/courseClass/getByCourseId', {courseId:id})
+}
 
 //创建新的 ExamCourseClass
 export function createExamCourseClass(classId, courseId) {
