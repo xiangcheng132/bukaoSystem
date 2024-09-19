@@ -34,3 +34,9 @@ export function updateExamAnswerSheetDetail(examAnswerSheetDetailInfo) {
 export function deleteExamAnswerSheetDetail(id) {
     return request.post('/bukaoSystem/answerSheetDetail/delete', {id})
 }
+
+
+
+export function saveOrUpdateExamAnswerSheetDetail(userKeyInfo) {
+    return request.post('/bukaoSystem/answerSheetDetail/saveOrUpdate', userKeyInfo)
+}

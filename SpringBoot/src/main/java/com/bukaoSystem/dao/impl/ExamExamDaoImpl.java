@@ -14,10 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,20 +39,41 @@ public class ExamExamDaoImpl implements ExamExamDao {
             exam.setEndTime(rs.getString("endTime"));
             exam.setCreateTime(rs.getString("createTime"));
 
-            // 处理班级信息
-            String[] classIds = rs.getString("classIds").split(",");
-            String[] classNames = rs.getString("classNames").split(",");
+            // 获取 ResultSet 的元数据
+            ResultSetMetaData metaData = rs.getMetaData();
             List<ExamClass> examClasses = new ArrayList<>();
-            for (int i = 0; i < classIds.length; i++) {
-                ExamClass examClass = new ExamClass();
-                examClass.setId(Long.parseLong(classIds[i]));
-                examClass.setName(classNames[i]);
-                examClasses.add(examClass);
+
+            // 先检查是否存在 classIds 和 classNames 列
+            boolean hasClassIds = false;
+            boolean hasClassNames = false;
+
+            for (int i = 1; i <= metaData.getColumnCount(); i++) {
+                String columnName = metaData.getColumnName(i);
+                if (columnName.equals("classIds")) {
+                    hasClassIds = true;
+                }
+                if (columnName.equals("classNames")) {
+                    hasClassNames = true;
+                }
             }
+
+            // 如果 classIds 和 classNames 列都存在，则进行处理
+            if (hasClassIds && hasClassNames) {
+                    String[] classIds = rs.getString("classIds").split(",");
+                    String[] classNames = rs.getString("classNames").split(",");
+
+                    int length = Math.min(classIds.length, classNames.length);
+                    for (int i = 0; i < length; i++) {
+                        ExamClass examClass = new ExamClass();
+                        examClass.setId(Long.parseLong(classIds[i]));
+                        examClass.setName(classNames[i]);
+                        examClasses.add(examClass);
+                    }
+                }
             exam.setExamClasses(examClasses);
 
             return exam;
-        }
+            }
     };
 
 
