@@ -179,6 +179,7 @@ const modifyRow = (index) => {
   form.username = item.values[index].username;
   form.createTime = item.values[index].createTime;
 };
+
 //处理修改
 function handleModify() {
   console.log();
@@ -187,8 +188,8 @@ function handleModify() {
       console.log(res + "执行更新里的获取用户操作");
       refreshForm();
       refreshCourseInfo();
-      ElMessageBox.alert("修改成功", "Title", {
-        confirmButtonText: "OK",
+      ElMessageBox.alert("修改成功", "提示", {
+        confirmButtonText: "确认",
         callback: (action) => {
           dialogFormVisible.value = false;
         },
@@ -201,6 +202,7 @@ function handleModify() {
 
 // 添加课程
 function addCourse() {
+  refreshForm();
   formChange.value = false;
   dialogFormVisible.value = true;
 }
@@ -208,7 +210,6 @@ function addCourse() {
 // 创建课程
 function createNewCourse() {
   const tempForm = toRaw(form);
-  console.log("进入createNewCourse", tempForm);
   createCourse(tempForm.name, tempForm.comment).then((res) => {
     // console.log(store.state.user.userInfo.id," ", res.data);
     createExamTeacherCourse({ teacherId: tempForm.tid, courseId: res.data }).then(res => {

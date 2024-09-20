@@ -49,13 +49,19 @@
 
 <script setup>
 import Pagination from '@/components/pagination.vue';
-import { ref, reactive, onMounted, toRaw } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import { ElMessage } from 'element-plus';
-import { getAllClasswithteacher, getAllClass, getClassById, createClass, getAllClasswithteacherById, deleteClass } from "@/api/examClass";
+import { getAllClasswithteacher, getAllClass, getAllClasswithteacherById, createClass, deleteClass } from "@/api/examClass";
 import { getExamClassStudentByClassId, getExamClassStudentsById, getExamClassStudentByStuId, createExamClassStudent, updateExamClassStudent, deleteExamClassStudent } from "@/api/examClassStudent";
 import { createExamClassTeacher, deleteExamClassTeacher } from "@/api/examClassTeacher";
 import { useStore } from "vuex";
 import { nextTick } from 'vue';
+// const props = defineProps({
+//       foo: String
+//     })
+
+//     const emit = defineEmits(['change', 'delete'])
+//     // setup code
 const store = useStore();
 
 const item = reactive({ values: [] });

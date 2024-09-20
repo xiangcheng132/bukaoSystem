@@ -145,16 +145,23 @@ const resetForm = () => {
 };
 
 onMounted(() => {
-  nextTick(() => {
-    if (form.value) {
-      const id = route.query.id;
-      if (id && !isNaN(parseInt(id))) {
-        fetchUserData(id);
-      }
-    }
-  });
+  if (route.query.id ) {
+    const id = route.query.id;
+    console.log(id)
+    fetchUserData(id);
+  }  
+  // nextTick(() => {
+  //   if (form.value) {
+  //     const id = route.query.id;
+  //     console.log(id)
+  //     if (id && !isNaN(parseInt(id))) {
+  //       fetchUserData(id);
+  //     }
+  //   }
+  // });
 
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

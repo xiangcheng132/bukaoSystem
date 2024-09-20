@@ -222,6 +222,14 @@ const routes = [
         meta:{
           title:'数据统计页'
         }
+      },
+      {
+        path: '/manager/upload',
+        name: 'upload',
+        component:() => import( '@/views/manager/upload/upload.vue'),
+        meta:{
+          title:'上传'
+        }
       }
     ]
     
