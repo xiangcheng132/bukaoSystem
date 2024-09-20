@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <el-form :model="classForm">
       <el-form-item label="班级名称">
         <el-input v-model="classForm.name"></el-input>
@@ -17,20 +17,22 @@
         <el-button type="primary" @click="updateClass">修改</el-button>
       </el-form-item>
     </el-form>
-    <el-table :data="studentList.values" style="width: 100%">
+    <div class="studentlist" >
+      <el-table  :data="studentList.values" border style="width: 100% ">
       <el-table-column prop="studentId" label="编号"></el-table-column>
       <el-table-column prop="studentname" label="学生姓名"></el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" width:120px >
         <template v-slot="scope">
           <el-button type="danger" @click="removeStudent(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
+    </div>
     <div>
       <el-button type="primary"  @click="openAddStudentDialog">添加学生</el-button> 
-        <router-link :to="{path:'/manager/upload', query:{id: classid }}">
-            <el-button type="primary" icon="el-icon-edit" circle>Excle导入</el-button>
-        </router-link>
+      <router-link :to="{path:'/manager/upload', query:{id: classid }}">
+        <el-button type="primary" style="margin-left: 10px; text-align: center;" > Excle导入 </el-button>
+      </router-link>
     </div>
     <!-- 添加学生对话框 -->
     <el-dialog title="添加学生" v-model="showAddStudentDialog">
@@ -235,5 +237,19 @@ onMounted(() => {
   } 
 });
 </script>
-<style>
+<style scoped>
+
+.container {
+  padding: 20px 40px;
+}
+
+.studentlist {
+  width: 90%;
+  margin-bottom: 20px;
+}
+
+.button-container {
+  margin-bottom: 20px;
+}
+
 </style>

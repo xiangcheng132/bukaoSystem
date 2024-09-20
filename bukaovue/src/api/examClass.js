@@ -8,6 +8,10 @@ export function getAllClass() {
 export function getAllClasswithteacher() {
     return request.get('/bukaoSystem/class/teacher')
 }
+
+export function getAllClasswithteacherById() {
+    return request.get('/bukaoSystem/class/getTeacherById')
+}
 //根据ID获取特定班级
 export function getClassById(id) {
     return request.post('/bukaoSystem/class/getById', {id})

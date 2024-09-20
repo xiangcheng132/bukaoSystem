@@ -26,7 +26,7 @@
     <div class="tableBox" v-show="show.valueOf">
       <h3>
         <i class="el-icon-info">
-          小主，以下是采集完成的数据，请您检查无误后，点击“采集数据提交”按钮上传至服务器</i
+          以下是采集完成的数据，请您检查无误后，点击“采集数据提交”按钮上传至服务器</i
         >
       </h3>
       <el-table :data="tempData" border style="width: 100%" :height="height.valueOf">

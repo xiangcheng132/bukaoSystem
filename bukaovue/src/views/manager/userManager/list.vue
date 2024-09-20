@@ -50,12 +50,10 @@
 <script setup>
 import Pagination from '@/components/pagination.vue';
 import { useStore } from 'vuex';
-import { nextTick } from 'vue';
 import { ref, onMounted, computed } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { getAllUser, getAllUserByUsername, getAllUserById, getUserByIdAndUsername, deleteUser } from '@/api/examUser.js';
 const store = useStore()
-
 const debounce = (fn, delay) => {
   let timer;
   return (...args) => {
@@ -75,13 +73,15 @@ window.ResizeObserver = class ResizeObserver extends resizeObserver {
     super(callback);
   }
 };
+
 const queryParam = ref({
-  id: '',
+  id: null,
   username: '',
   role: '',
   pageIndex: 1,
   pageSize: 15
 });
+
 const listLoading = ref(true)
 const tableData = ref([])
 const total = ref(0);
@@ -96,18 +96,19 @@ const paginatedData = computed(() => {
 const search = () => {
   listLoading.value = true;
   let apiCall;
-  if (queryParam.value.id && queryParam.value.userName) {
+  if (queryParam.value.id && queryParam.value.username) {
     // 如果同时提供了 ID 和用户名，调用组合查询的 API 方法
-    apiCall = getUserByIdAndUsername({ id: queryParam.value.id, userName: queryParam.value.userName });
+    apiCall = getUserByIdAndUsername({ id: queryParam.value.id, username: queryParam.value.username });
   } else if (queryParam.value.id) {
     apiCall = getAllUserById(queryParam.value.id);
-  } else if (queryParam.value.userName) {
-    apiCall = getAllUserByUsername(queryParam.value.userName);
+  } else if (queryParam.value.username) {
+    apiCall = getAllUserByUsername(queryParam.value.username);
   } else {
     apiCall = getAllUser();
   }
   apiCall.then(response => {
-    const data = response.data; // 根据你的axios配置，这里可能是response.data或response直接包含数据
+    const data = response.data; 
+
     tableData.value = Array.isArray(data) ? data : [data]; // 确保数据是数组
     filterData(); // 在筛选数据之后更新 filteredData
     total.value = filteredData.value.length;
@@ -166,7 +167,8 @@ const handledeleteUser = (row) => {
 };
 </script>
 
-<style lang='less'>
+<style scoped >
+
 .el-button {
   margin-left: 5px;
   margin-right: 5px;
