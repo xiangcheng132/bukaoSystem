@@ -69,12 +69,12 @@ li {
 }
 </style>
 <script setup>
+console.log(333333333333333);
 import { ref, reactive, onMounted, defineProps } from "vue";
 import { setStorage, getStorage } from "@/utils/storage.js";
 import { useRoute, useRouter } from "vue-router";
 import { defineEmits } from 'vue';
 import {saveOrUpdateExamAnswerSheetDetail} from "@/api/examAnswerSheetDetail"
-
 const emit = defineEmits(['changeScore']);
 const props = defineProps(['singleList','tFList','completionList','bigquestionList','isAnswer','answerSheetId']);
 console.log(props.answerSheetId,11111111111);

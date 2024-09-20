@@ -78,7 +78,7 @@ const isAnswer = answerSheetInfo.isAnswer;
   "examName", 试卷名
   "isAnswer", 是否为回答的状态 学生端过来 isAnswer的值就设置为true
   "username", 用户名
-} 
+}
 
 */
 
@@ -152,6 +152,9 @@ async function submitAnswerSheet() {
           message: `提交成功`,
         });
         //Todo router.push("") 提交后跳转路由
+        router.push({
+          path:"/student/notice"
+      })
       },
     });
   }
@@ -173,7 +176,7 @@ onMounted(async function () {
         );
         console.log(optionsArray);
         singleList.push({
-          id: kk.id,
+          id: i.resourceId,
           title: kk.question,
           options: optionsArray,
           userKey: i.userKey,
@@ -183,7 +186,7 @@ onMounted(async function () {
       }
       if (kk.type == "true_false") {
         tFList.push({
-          id: kk.id,
+          id: i.resourceId,
           title: kk.question,
           options: ["对", "错"],
           userKey: i.userKey,
@@ -193,7 +196,7 @@ onMounted(async function () {
       }
       if (kk.type == "completion") {
         completionList.push({
-          id: kk.id,
+          id: i.resourceId,
           title: kk.question,
           userKey: i.userKey,
           key: kk.key,
@@ -202,7 +205,7 @@ onMounted(async function () {
       }
       if (kk.type == "bigquestion") {
         bigquestionList.push({
-          id: kk.id,
+          id: i.resourceId,
           title: kk.question,
           userKey: i.userKey,
           key: kk.key,
@@ -212,9 +215,9 @@ onMounted(async function () {
     });
   } else if (store.state.user.userInfo.role == "student") {
     result = await getByExamIdPlus(answerSheetInfo.examId);
-    console.log(result, 22222);
     result.data.forEach((i) => {
       const kk = i;
+      console.log(i);
       if (kk.type == "single_choice") {
         const optionsObject = JSON.parse(kk.options);
         const optionsArray = Object.entries(optionsObject).map(
@@ -222,7 +225,7 @@ onMounted(async function () {
         );
         console.log(optionsArray);
         singleList.push({
-          id: kk.id,
+          id: i.resourceId,
           title: kk.question,
           options: optionsArray,
           key: i.key,
@@ -231,7 +234,7 @@ onMounted(async function () {
       }
       if (kk.type == "true_false") {
         tFList.push({
-          id: kk.id,
+          id: i.resourceId,
           title: kk.question,
           options: ["对", "错"],
           key: i.key,
@@ -240,7 +243,7 @@ onMounted(async function () {
       }
       if (kk.type == "completion") {
         completionList.push({
-          id: kk.id,
+          id: i.resourceId,
           title: kk.question,
           key: i.key,
           score: i.score,
@@ -248,7 +251,7 @@ onMounted(async function () {
       }
       if (kk.type == "bigquestion") {
         bigquestionList.push({
-          id: kk.id,
+          id: i.resourceId,
           title: kk.question,
           key: i.key,
           score: i.score,
