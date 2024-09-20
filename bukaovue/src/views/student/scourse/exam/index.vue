@@ -42,6 +42,7 @@
   margin: 0 auto;
 }
 </style>
+
 <script setup>
 import { ref, reactive, onMounted, defineProps } from "vue";
 import { updateExamAnswerSheetDetail } from "@/api/examAnswerSheetDetail";

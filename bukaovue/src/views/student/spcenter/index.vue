@@ -24,7 +24,6 @@ import {getAllUserById} from '@/api/examUser';
 import {getStorage} from "@/utils/storage";
 import store from "@/store";
 import {mapMutations} from "vuex";
-
 export default {
   name: 'SpCenter',
   data() {

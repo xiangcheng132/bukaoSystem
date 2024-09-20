@@ -27,7 +27,6 @@
   </div>
 </template>
 
-
 <script>
 import {getAllExam} from '@/api/exam.js';
 import router from "@/router"; // 确保路径正确

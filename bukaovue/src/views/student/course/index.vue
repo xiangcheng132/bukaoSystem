@@ -59,6 +59,7 @@ export default {
       this.classId = "";
       this.studentId = "";
     },
+
     // 加入班级操作
     async joinClass() {
       try {
