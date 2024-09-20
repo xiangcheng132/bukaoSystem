@@ -20,7 +20,7 @@
         <td>{{ exam.comment }}</td>
         <td>{{ exam.place }}</td>
         <td>{{ exam.beginTime }}</td>
-        <td><button @click="startExam(exam.id)">考试</button></td>
+        <td><button @click="startExam(exam)">考试</button></td>
       </tr>
       </tbody>
     </table>
@@ -29,7 +29,10 @@
 
 <script>
 import {getAllExam} from '@/api/exam.js';
+import {  createExamAnswerSheet } from '@/api/examAnswerSheet'
 import router from "@/router"; // 确保路径正确
+import { useStore } from "vuex";
+
 
 export default {
   data() {
@@ -52,14 +55,17 @@ export default {
       }
     },
     // 点击考试按钮的处理函数
-    startExam(exam) {
+   async startExam(exam) {
+    const answerExamId = await createExamAnswerSheet(exam.id, this.$store.state.user.userInfo.id,0)
+    console.log(answerExamId);
       this.$router.push({
-        path: '/student/scourse/exam',
+        path: '/teacher/textManager/answerSheet',
         query: {
-          examId: exam.id,
+          id: answerExamId.data,
           examName: exam.name,
           username: this.username,
-          isAnswer:true
+          isAnswer:true,
+          examId:exam.id
         }
       });
     }
