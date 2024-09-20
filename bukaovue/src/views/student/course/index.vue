@@ -1,14 +1,26 @@
 <template>
   <div>
-    <h1>我的课程</h1>
-    <p>根据用户id返回返回所有用户已加入的所有课程信息</p>
-    <p>加入班级---根据输入的用户id和班级id将用户加入班级，返回加入结果信息</p>
+    <h2>我学的课</h2>
+    <!--    <p>根据用户id返回返回所有用户已加入的所有课程信息</p>-->
+    <!--    <p>加入班级-&#45;&#45;根据输入的用户id和班级id将用户加入班级，返回加入结果信息</p>-->
   </div>
   <el-form :inline="true" :model="formInline" class="demo-form-inline">
     <el-form-item>
-      <el-button type="primary" @click="showJoinClassModal">加入班级</el-button>
+      <el-button type="primary" @click="showJoinClassModal" class="yangshi">加入班级</el-button>
+    </el-form-item>
+    <el-form-item class="yangshi2">
+      loading...
     </el-form-item>
   </el-form>
+
+  <!--  <div>-->
+  <!--    <el-table :data="item.value" style="width: 100%">-->
+  <!--      &lt;!&ndash; <el-table-column fixed prop="id" label="Id" width="300" /> &ndash;&gt;-->
+  <!--      <el-table-column prop="name" label="课程名" width="300" />-->
+  <!--      <el-table-column prop="comment" label="课程详情" width="400" />-->
+  <!--      <el-table-column prop="createTime" label="创建时间" width="300" />-->
+  <!--    </el-table>-->
+  <!--  </div>-->
   <!-- 加入班级的弹窗 -->
   <div v-if="showModal" class="addClass">
     <div class="modal-content">
@@ -47,6 +59,7 @@ export default {
       this.classId = "";
       this.studentId = "";
     },
+
     // 加入班级操作
     async joinClass() {
       try {
@@ -86,5 +99,15 @@ export default {
   padding: 20px;
   border-radius: 8px;
   width: 300px;
+}
+
+.yangshi {
+  margin-top: 10px;
+}
+
+.yangshi2 {
+  position: relative;
+  top: 50px;
+  right: 118px;
 }
 </style>

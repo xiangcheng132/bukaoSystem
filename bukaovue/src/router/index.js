@@ -66,7 +66,15 @@ const routes = [
         meta:{
           title:'个人中心页'
         }
-      } 
+      },
+      {
+        path: '/student/course',
+        name: 'course',
+        component:() => import( '@/views/student/course'),
+        meta:{
+          title:'个人中心页'
+        }
+      }
     ]
   },
   //教师端路由

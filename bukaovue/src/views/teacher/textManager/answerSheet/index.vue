@@ -1,18 +1,24 @@
 <template>
-<div class="top">
-  <div class="platForm">在线测试平台</div>
-  <div class="answerName">{{answerSheetInfo.examName}}</div>
-  <div class="username">{{answerSheetInfo.userName}}</div>
-  <div class="submit"><button @click="submitAnswerSheet">提交</button></div>
-  <div class="deadTime" v-if="isAnswer">剩余时间:00:59:59</div>
-</div>
-<div class="wapper">
-  <answerSheet @changeScore = "changeScore" :singleList="singleList" :tFList="tFList" :completionList="completionList" :bigquestionList="bigquestionList" :isAnswer="isAnswer" :answerSheetId = "answerSheetInfo.id"></answerSheet>
-</div>
-
-
+  <div class="top">
+    <div class="platForm">在线测试平台</div>
+    <div class="answerName">{{ answerSheetInfo.examName }}</div>
+    <div class="username">{{ answerSheetInfo.userName }}</div>
+    <div class="submit"><button @click="submitAnswerSheet">提交</button></div>
+    <div class="deadTime" v-if="isAnswer">剩余时间:00:59:59</div>
+  </div>
+  <div class="wapper">
+    <answerSheet
+      @changeScore="changeScore"
+      :singleList="singleList"
+      :tFList="tFList"
+      :completionList="completionList"
+      :bigquestionList="bigquestionList"
+      :isAnswer="isAnswer"
+      :answerSheetId="answerSheetInfo.id"
+    ></answerSheet>
+  </div>
 </template>
-<style lang = 'less' scoped>
+<style lang="less" scoped>
 .top {
   width: 100%;
   height: 100px;
@@ -55,7 +61,7 @@ const store = useStore();
 const route = useRoute();
 const router = useRouter();
 const answerSheetInfo = route.query;
-const isAnswer =answerSheetInfo.isAnswer;
+const isAnswer = answerSheetInfo.isAnswer;
 
 /*
   router.push({
@@ -150,7 +156,7 @@ async function submitAnswerSheet() {
     });
   }
 }
-onMounted(async function() {
+onMounted(async function () {
   /*
   根据考卷id拿到所有资源
   把资源根据题型进行分类
@@ -252,4 +258,3 @@ onMounted(async function() {
   }
 });
 </script>
-    
