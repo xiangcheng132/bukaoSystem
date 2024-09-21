@@ -19,4 +19,7 @@ public interface ExamPaperDAO {
 //    List<ExamResources> batchCopyResourcesWithScores(Long courseId, Long chapterId, String type, int count, int score);
 
     void saveExamPaperResource(Long examId, Long resourceId);
+
+    //添加对应试卷和班级对应关系
+    void saveExamExamClass(Long examId, Long classId);
 }

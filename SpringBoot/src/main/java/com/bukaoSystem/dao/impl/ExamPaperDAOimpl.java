@@ -6,20 +6,17 @@ import com.bukaoSystem.model.ExamResources;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -141,5 +138,11 @@ public class ExamPaperDAOimpl implements ExamPaperDAO {
     public void saveExamPaperResource(Long examId, Long resourceId) {
         String sql = " INSERT INTO exam_exam_resources (examId, resourceId, createTime ) VALUES (?, ?, ?) ";
         jdbcTemplate.update(sql, examId, resourceId, Timestamp.valueOf(LocalDateTime.now()));
+    }
+    //添加对应试卷和班级对应关系
+    @Override
+    public void saveExamExamClass(Long examId, Long classId) {
+        String sql = " INSERT INTO exam_exam_class (examId, classId,createTime) VALUES (?, ?,?) ";
+        jdbcTemplate.update(sql, examId, classId, Timestamp.valueOf(LocalDateTime.now()));
     }
 }
