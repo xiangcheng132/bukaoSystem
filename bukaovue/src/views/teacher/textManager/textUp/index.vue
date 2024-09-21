@@ -68,7 +68,7 @@
 
 <script setup>
 import { ref, reactive, onMounted,toRaw } from "vue";
-import { deleteExamById, getExamInfoByTeaId,createExam } from "@/api/exam";
+import { deleteExamById, getExamInfoByTeaId,createExam} from "@/api/exam";
 import { getAllCourseByUId } from "@/api/examCourse";
 import { setStorage, getStorage } from "@/utils/storage.js";
 import { ElMessage, ElMessageBox } from "element-plus";
@@ -100,7 +100,7 @@ const onSubmit = async () => {
   let newForm = toRaw(form);
   // console.log(newForm);
   // newForm["state"] = 1;
-  const code = await createExam(newForm);
+  const code = await examUp(newForm);
   console.log(code)
 };
 async function courseChange(v) {

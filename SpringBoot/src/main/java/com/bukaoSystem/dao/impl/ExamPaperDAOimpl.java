@@ -3,14 +3,20 @@ package com.bukaoSystem.dao.impl;
 import com.bukaoSystem.dao.ExamPaperDAO;
 import com.bukaoSystem.model.ExamPaperDto;
 import com.bukaoSystem.model.ExamResources;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,6 +27,30 @@ import java.util.List;
 public class ExamPaperDAOimpl implements ExamPaperDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    private RowMapper<ExamResources> rowMapper = new RowMapper<ExamResources>() {
+        @Override
+        public ExamResources mapRow(ResultSet rs, int rowNum) throws SQLException {
+            ExamResources examResources = new ExamResources();
+            examResources.setId(rs.getLong("id"));
+            examResources.setCourseId(rs.getLong("courseId"));
+            examResources.setChapterId(rs.getLong("chapterId"));
+            examResources.setQuestion(rs.getString("question"));
+            examResources.setType(ExamResources.Type.valueOf(rs.getString("type")));
+            try {
+                examResources.setOptions(objectMapper.readTree(rs.getString("options")));
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            examResources.setKey(rs.getString("key"));
+            examResources.setAnalysis(rs.getString("analysis"));
+            examResources.setScore(rs.getDouble("score"));
+            examResources.setCreateTime(rs.getString("createTime"));
+            return examResources;
+        }
+    };
     //添加试卷
     @Override
     public Long save(ExamPaperDto examExam) {
@@ -79,8 +109,7 @@ public class ExamPaperDAOimpl implements ExamPaperDAO {
                 ") AND er.type = ? AND er.courseId = ? " +
                 "ORDER BY RAND() " +
                 "LIMIT ?";
-
-        return jdbcTemplate.query(sql, new Object[]{Type, courseId, Type, courseId, count}, new BeanPropertyRowMapper<>(ExamResources.class));
+        return jdbcTemplate.query(sql, new Object[]{Type, courseId, Type, courseId, count}, rowMapper);
 //        return jdbcTemplate.query(sql, new Object[]{Type,courseId ,count}, new BeanPropertyRowMapper<>(ExamResources.class));
     }
 
@@ -107,55 +136,6 @@ public class ExamPaperDAOimpl implements ExamPaperDAO {
             jdbcTemplate.batchUpdate(sql, batchArgs);
         }
     }
-
-//    @Override
-//    // 批量复制资源并修改分值
-//    public List<ExamResources> batchCopyResourcesWithScores(Long courseId, Long chapterId, String type, int count, int score) {
-//        // 查询随机资源
-//        List<ExamResources> resources = findRandomResourcesByChapterAndType(courseId, chapterId, type, count);
-//
-//        if (resources.isEmpty()) {
-//            return null;
-//        }
-//
-//        // 使用 Set 来去重 question 字段
-//        Set<String> uniqueQuestions = new HashSet<>();
-//        List<Object[]> batchArgs = new ArrayList<>();
-//
-//        // 验证数据库内无相同题目字段值且分数字段值与传入的分数参数值相同的记录
-//        String checkSql = "SELECT COUNT(*) FROM exam_resources WHERE question = ? AND score = ?";
-//
-//        for (ExamResources resource : resources) {
-//            if (uniqueQuestions.add(resource.getQuestion())) {
-//                List<Integer> existingCounts = jdbcTemplate.queryForList(checkSql, new Object[]{resource.getQuestion(), score}, Integer.class);
-//                int existingCount = existingCounts.isEmpty() ? 0 : existingCounts.get(0);
-//
-//                if (existingCount == 0) {
-//                    // 复制原始资源的属性，并设置新的成绩
-//                    Object[] params = {
-//                            resource.getCourseId(), // 复制课程 ID
-//                            resource.getChapterId(), // 复制章节 ID
-//                            resource.getQuestion(), // 复制问题
-//                            resource.getType(), // 复制类型
-//                            resource.getOptions(),// 复制选择题选项
-//                            resource.getKey(),// 复制答案
-//                            resource.getAnalysis(),// 复制解析
-//                            score // 新的分值
-//                    };
-//                    batchArgs.add(params);
-//                }
-//            }
-//        }
-//
-//        // 执行批量插入
-//        if (!batchArgs.isEmpty()) {
-//            String sql = "INSERT INTO exam_resources (courseId, chapterId, question, type, options, key, analysis, score) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-//            jdbcTemplate.batchUpdate(sql, batchArgs);
-//        }
-//        // 返回最开始查询到的资源
-//        return resources;
-//    }
-
     //添加对应数量的试卷和资源对应关系
     @Override
     public void saveExamPaperResource(Long examId, Long resourceId) {
