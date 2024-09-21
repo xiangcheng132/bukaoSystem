@@ -83,10 +83,9 @@ export function getExamInfoByTeaId(id){
   })
 } 
 
-
 export function examUp(examInfo){
   return request({
-    url:'/bukaoSystem/exampaper',
+    url:'/bukaoSystem//exampaper',
     method: 'post',
     data:{examInfo}
   })
