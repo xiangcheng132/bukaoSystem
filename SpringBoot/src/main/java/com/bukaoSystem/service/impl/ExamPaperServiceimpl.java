@@ -4,14 +4,9 @@ import com.bukaoSystem.dao.ExamPaperDAO;
 import com.bukaoSystem.model.ExamPaperDto;
 import com.bukaoSystem.model.ExamResources;
 import com.bukaoSystem.service.ExamPaperService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +21,9 @@ public class ExamPaperServiceimpl implements ExamPaperService {
         if (examPaper == null || examPaper.getCourseId() == null) {
             throw new IllegalArgumentException("试卷数据或课程ID不能为空");
         }
-
         try {
             Long savedExamPaperId = examPaperdao.save(examPaper);
+            examPaperdao.saveExamExamClass(savedExamPaperId, examPaper.getClassId());
             if (savedExamPaperId == null) {
                 throw new RuntimeException("保存试卷失败");
             }
@@ -138,6 +133,10 @@ public class ExamPaperServiceimpl implements ExamPaperService {
     @Override
     public Long saveexam(ExamPaperDto examExam) {
         return examPaperdao.save(examExam);
+    }
+    @Override
+    public void saveexamclass(Long examId, Long classId) {
+        examPaperdao.saveExamExamClass(examId, classId);
     }
 }
 
