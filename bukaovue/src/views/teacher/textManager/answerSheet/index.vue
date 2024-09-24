@@ -61,26 +61,8 @@ const store = useStore();
 const route = useRoute();
 const router = useRouter();
 const answerSheetInfo = route.query;
-const isAnswer = answerSheetInfo.isAnswer;
+const isAnswer = ref(answerSheetInfo.isAnswer);
 
-/*
-  router.push({
-    path: "/teacher/textManager/answerSheet",
-    query: {
-      "id", 答卷id
-      "examName", 试卷名
-      "isAnswer", 是否为回答的状态 学生端过来 isAnswer的值就设置为true
-      "username", 用户名
-    }
-  });
-{
-  "id", 答卷id
-  "examName", 试卷名
-  "isAnswer", 是否为回答的状态 学生端过来 isAnswer的值就设置为true
-  "username", 用户名
-}
-
-*/
 
 console.log(answerSheetInfo);
 let singleList = reactive([]);
@@ -167,7 +149,7 @@ onMounted(async function () {
   let result = "";
   if (store.state.user.userInfo.role == "teacher") {
     result = await getByAnswerld(answerSheetInfo.id);
-    console.log(result);
+    console.log(result,"teamcher");
     result.data.forEach((i) => {
       const kk = i.examResources;
       if (kk.type == "single_choice") {

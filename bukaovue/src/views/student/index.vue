@@ -8,14 +8,14 @@
     <div class="main-content">
       <aside class="sidebar">
         <router-link to="/student/notice" class="sidebar-link">考试通知</router-link>
-        <div class="dropdown" @mouseover="showDropdown = true" @mouseleave="showDropdown = false">
+        <!-- <div class="dropdown" @mouseover="showDropdown = true" @mouseleave="showDropdown = false">
           <router-link to="/student/scourse" class="sidebar-link">课程中心</router-link>
           <div v-if="showDropdown" class="dropdown-content">
             <router-link to="/student/scourse/exam" class="dropdown-item">考试页</router-link>
             <router-link to="/student/scourse/resource" class="dropdown-item">资源页</router-link>
           </div>
         </div>
-        <router-link to="/student/course" class="sidebar-link">我的课程</router-link>
+        <router-link to="/student/course" class="sidebar-link">我的课程</router-link> -->
         <router-link to="/student/spcenter" class="sidebar-link">个人中心</router-link>
       </aside>
       <main class="content">

@@ -8,7 +8,8 @@
     </el-form-item>
     <el-form-item label="单选题题数：">
       <el-input v-model="form.singleChoiceCount" />
-    </el-form-item>    
+    </el-form-item>
+
     <el-form-item label="判断题题数：">
       <el-input v-model="form.trueFasleCount" />
     </el-form-item>
@@ -22,16 +23,29 @@
       <el-input v-model="form.place" />
     </el-form-item>
     <el-form-item label="所属课程：">
-      <el-select v-model="form.courseId" placeholder="所属课程" @change = "courseChange">
+      <el-select
+        v-model="form.courseId"
+        placeholder="所属课程"
+        @change="courseChange"
+      >
         <el-option v-for="v in courseList" :label="v.name" :value="v.id" />
       </el-select>
     </el-form-item>
     <el-form-item label="所属班级：">
       <el-select v-model="form.classId" placeholder="所属班级">
-        <el-option v-for="v in classList" :label="v.className" :value="v.classId" />
+        <el-option
+          v-for="v in classList"
+          :label="v.className"
+          :value="v.classId"
+        />
+        <el-option
+          v-for="v in classList"
+          :label="v.className"
+          :value="v.classId"
+        />
       </el-select>
     </el-form-item>
-    
+
     <el-form-item label="发布时间：">
       <div class="demo-datetime-picker">
         <div class="block">
@@ -43,8 +57,8 @@
             format="YYYY/MM/DD hh:mm:ss"
             value-format="YYYY-MM-DD h:m:s"
           />
+        </div>
       </div>
-    </div>
     </el-form-item>
     <el-form-item label="结束时间：">
       <div class="demo-datetime-picker">
@@ -57,8 +71,8 @@
             format="YYYY/MM/DD hh:mm:ss"
             value-format="YYYY-MM-DD h:m:s"
           />
+        </div>
       </div>
-    </div>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit" class="bbb">生成</el-button>
@@ -76,6 +90,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { getByCourseId } from "@/api/examCourseClass";
 import { examUp } from "@/api/exam.js";
+
 const store = useStore();
 // do not use same name with ref
 let courseList = reactive([]);
@@ -100,8 +115,21 @@ const onSubmit = async () => {
   let newForm = toRaw(form);
   // console.log(newForm);
   // newForm["state"] = 1;
-  const code = await examUp(newForm);
-  console.log(code)
+        // console.log(code)
+      ElMessageBox.alert("确认创建？", "Title", {
+      // if you want to disable its autofocus
+      // autofocus: false,
+      confirmButtonText: "确认",
+      callback:async (action) => {
+        ElMessage({
+          type: "info",
+          message: `提交成功`,
+        });
+        //Todo router.push("") 提交后跳转路由
+        const code = await examUp(newForm);
+      },
+    });
+
 };
 async function courseChange(v) {
   console.log(v);
@@ -136,4 +164,3 @@ onMounted(function() {
   margin: 0 auto;
 }
 </style>
-

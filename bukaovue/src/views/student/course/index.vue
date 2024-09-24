@@ -6,7 +6,7 @@
   </div>
   <el-form :inline="true" :model="formInline" class="demo-form-inline">
     <el-form-item>
-      <el-button type="primary" @click="showJoinClassModal" class="yangshi">加入班级</el-button>
+      <!-- <el-button type="primary" @click="showJoinClassModal" class="yangshi">加入班级</el-button> -->
     </el-form-item>
     <el-form-item class="yangshi2">
       loading...

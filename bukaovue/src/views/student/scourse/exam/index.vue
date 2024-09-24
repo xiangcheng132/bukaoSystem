@@ -8,13 +8,13 @@
   </div>
   <div class="wapper">
     <answerSheet
-        @changeScore="changeScore"
-        :singleList="singleList"
-        :tFList="tFList"
-        :completionList="completionList"
-        :bigquestionList="bigquestionList"
-        :isAnswer="isAnswer"
-        :answerSheetId="answerSheetInfo.id"
+      @changeScore="changeScore"
+      :singleList="singleList"
+      :tFList="tFList"
+      :completionList="completionList"
+      :bigquestionList="bigquestionList"
+      :isAnswer="isAnswer"
+      :answerSheetId="answerSheetInfo.id"
     ></answerSheet>
   </div>
 </template>
@@ -42,7 +42,6 @@
   margin: 0 auto;
 }
 </style>
-
 <script setup>
 import { ref, reactive, onMounted, defineProps } from "vue";
 import { updateExamAnswerSheetDetail } from "@/api/examAnswerSheetDetail";
@@ -118,10 +117,10 @@ async function submitAnswerSheet() {
       confirmButtonText: "确认",
       callback: async (action) => {
         const result = await updateExamAnswerSheet(
-            answerSheetInfo.id,
-            answerSheetInfo.examId,
-            answerSheetInfo.userId,
-            score
+          answerSheetInfo.id,
+          answerSheetInfo.examId,
+          answerSheetInfo.userId,
+          score
         );
         //调改变答卷表分数的接口 跳转路由
 
@@ -154,8 +153,8 @@ async function submitAnswerSheet() {
         });
         //Todo router.push("") 提交后跳转路由
         router.push({
-          path: "/student/notice"
-        })
+          path:"/student/notice"
+      })
       },
     });
   }
@@ -173,11 +172,11 @@ onMounted(async function () {
       const kk = i.examResources;
       if (kk.type == "single_choice") {
         const optionsArray = Object.entries(kk.options).map(
-            ([key, value]) => `${key}: ${value}`
+          ([key, value]) => `${key}: ${value}`
         );
         console.log(optionsArray);
         singleList.push({
-          id: kk.id,
+          id: i.resourceId,
           title: kk.question,
           options: optionsArray,
           userKey: i.userKey,
@@ -187,7 +186,7 @@ onMounted(async function () {
       }
       if (kk.type == "true_false") {
         tFList.push({
-          id: kk.id,
+          id: i.resourceId,
           title: kk.question,
           options: ["对", "错"],
           userKey: i.userKey,
@@ -197,7 +196,7 @@ onMounted(async function () {
       }
       if (kk.type == "completion") {
         completionList.push({
-          id: kk.id,
+          id: i.resourceId,
           title: kk.question,
           userKey: i.userKey,
           key: kk.key,
@@ -206,7 +205,7 @@ onMounted(async function () {
       }
       if (kk.type == "bigquestion") {
         bigquestionList.push({
-          id: kk.id,
+          id: i.resourceId,
           title: kk.question,
           userKey: i.userKey,
           key: kk.key,
@@ -216,17 +215,17 @@ onMounted(async function () {
     });
   } else if (store.state.user.userInfo.role == "student") {
     result = await getByExamIdPlus(answerSheetInfo.examId);
-    console.log(result, 22222);
     result.data.forEach((i) => {
       const kk = i;
+      console.log(i);
       if (kk.type == "single_choice") {
         const optionsObject = JSON.parse(kk.options);
         const optionsArray = Object.entries(optionsObject).map(
-            ([key, value]) => `${key}: ${value}`
+          ([key, value]) => `${key}: ${value}`
         );
         console.log(optionsArray);
         singleList.push({
-          id: kk.id,
+          id: i.resourceId,
           title: kk.question,
           options: optionsArray,
           key: i.key,
@@ -235,7 +234,7 @@ onMounted(async function () {
       }
       if (kk.type == "true_false") {
         tFList.push({
-          id: kk.id,
+          id: i.resourceId,
           title: kk.question,
           options: ["对", "错"],
           key: i.key,
@@ -244,7 +243,7 @@ onMounted(async function () {
       }
       if (kk.type == "completion") {
         completionList.push({
-          id: kk.id,
+          id: i.resourceId,
           title: kk.question,
           key: i.key,
           score: i.score,
@@ -252,7 +251,7 @@ onMounted(async function () {
       }
       if (kk.type == "bigquestion") {
         bigquestionList.push({
-          id: kk.id,
+          id: i.resourceId,
           title: kk.question,
           key: i.key,
           score: i.score,

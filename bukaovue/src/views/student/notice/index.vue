@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import {getAllExam} from '@/api/exam.js';
+import {getAllExam,getExamInfoBySId} from '@/api/exam.js';
 import {  createExamAnswerSheet } from '@/api/examAnswerSheet'
 import router from "@/router"; // 确保路径正确
 import { useStore } from "vuex";
@@ -48,7 +48,7 @@ export default {
     // 异步获取考试数据
     async fetchExams() {
       try {
-        const response = await getAllExam(); // 调用 API 获取数据
+        const response = await getExamInfoBySId(this.$store.state.user.userInfo.id); // 调用 API 获取数据
         this.exams = response.data; // 将返回的数据存储到 exams 中
       } catch (error) {
         console.error('获取考试信息失败:', error);
@@ -59,7 +59,7 @@ export default {
     const answerExamId = await createExamAnswerSheet(exam.id, this.$store.state.user.userInfo.id,0)
     console.log(answerExamId);
       this.$router.push({
-        path: '/teacher/textManager/answerSheet',
+        path: '/student/scourse/exam',
         query: {
           id: answerExamId.data,
           examName: exam.name,
