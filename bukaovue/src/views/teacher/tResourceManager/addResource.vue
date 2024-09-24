@@ -141,7 +141,7 @@ const onSubmit = () => {
   createExamResource(tempForm).then(res=>{
     console.log("资源创建",res);
     refreshForm();
-    ElMessageBox.alert("创建", "资源创建", {
+    ElMessageBox.alert("创建成功", "资源创建", {
       confirmButtonText: "OK",
       callback: (action) => {
 

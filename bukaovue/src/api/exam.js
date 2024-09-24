@@ -87,6 +87,6 @@ export function examUp(examInfo){
   return request({
     url:'/bukaoSystem//exampaper',
     method: 'post',
-    data:{examInfo}
+    data:{...examInfo}
   })
 } 
