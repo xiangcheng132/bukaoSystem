@@ -55,11 +55,11 @@ export function createExamClassStudent(classId,studentId){
 } 
 
 // 更新 ExamClassStudent
-export function updateExamClassStudent(classId,studentId,createTime){
+export function updateExamClassStudent(id,classId,studentId,createTime){
   return request({
     url:'/bukaoSystem/classStudent/update',
     method: 'POST',
-    data:{classId,studentId,createTime}
+    data:{id,classId,studentId,createTime}
   })
 } 
 

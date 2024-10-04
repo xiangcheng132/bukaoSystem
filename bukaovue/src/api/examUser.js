@@ -10,7 +10,7 @@ export function findAllStudent(classId) {
 }
 //根据用户名获取特定用户
 export function getAllUserByUsername(username) {
-    return request.post('/bukaoSystem/users/getAllUserByUsername', {username})
+    return request.post('/bukaoSystem/users/getByUsername', {username})
 }
 
 //根据ID和用户名获取特定用户
