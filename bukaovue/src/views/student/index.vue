@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home1">
     <nav class="navbar">
       <div class="container">
         <span class="title">学在布考</span>
@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style>
-.home {
+.home1{
   display: flex;
   flex-direction: column;
   height: 100vh;

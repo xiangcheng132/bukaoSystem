@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-header{
+.h111{
   z-index: 999;
   display: flex;
   position: absolute;
@@ -25,11 +25,11 @@ header{
   text-decoration: none;
 }
 
-header .navigation{
+.h111 .navigation{
   position: relative;
 }
 
-header .navigation .navigation-items a{
+.h111 .navigation .navigation-items a{
   position: relative;
   color: #fff;
   font-size: 1rem;
@@ -39,7 +39,7 @@ header .navigation .navigation-items a{
   transition: 0.3s ease ;
 }
 
-header .navigation .navigation-items a::before{
+.h111.navigation .navigation-items a::before{
   content: "";
   position: absolute;
   bottom: 0px;
@@ -50,11 +50,11 @@ header .navigation .navigation-items a::before{
   transition: 0.3s ease;
 }
 
-header .navigation .navigation-items a:hover:before{
+.h111 .navigation .navigation-items a:hover:before{
   width: 100%;
 }
 
-section{
+.home{
   padding: 100px 200px;
 }
 
@@ -67,7 +67,7 @@ section{
   display: flex;
   justify-content: center;
   flex-direction: column;
-  background-color: #2696E9;
+  /* background-color: #2696E9; */
 }
 
 .home video{
@@ -86,7 +86,7 @@ section{
   position:absolute;
   top: 0;
   left: 0;
-  background: rgba(3,96,251,0.3);
+  /* background: rgba(3,96,251,0.3); */
   width: 100%;
   height: 100%;
 }
@@ -196,22 +196,22 @@ section{
 
 
 @media  (max-width:1040px) {
-  header{
+  .h111{
     padding:  12px 20px;
   }
 
-  section{
+  .home{
     padding: 100px 20px;
   }
   .home .media-icons {
     right: 15px;
 
   }
-  header .navigation{
+  .h111 .navigation{
     display: none;
   }
 
-  header .navigation.active{
+  .h111 .navigation.active{
     position: fixed;
     width: 100%;
     height: 100vh ;
@@ -223,13 +223,13 @@ section{
     background: rgba(1,1,1,0.5);
   }
 
-  header .navigation .navigation-items a::before{
+  .h111 .navigation .navigation-items a::before{
     background-color: rgb(0, 0, 0);
     height: 5px;
   }
   
 
-  header .navigation.active .navigation-items {
+  .h111 .navigation.active .navigation-items {
     background: #fff;
     width: 600px;
     max-width: 600px;
@@ -244,14 +244,14 @@ section{
 
  
 
-  header .navigation .navigation-items a{
+   .h111 .navigation .navigation-items a{
     color: #000;
     font-size: 1.2em;
     margin: 20px;
  }
 
   .menu-btn{
-    background: url(menu.png)no-repeat;
+    background: url("./menu.png") no-repeat;
     background-size: 30px;
     background-position: center;
     width: 40px;
@@ -261,7 +261,7 @@ section{
   }
   .menu-btn.active{
     z-index: 999;
-    background: url(close.png)no-repeat;
+    background: url("./close.png") no-repeat;
     background-size: 25px;
     background-position: center;
     transition: 0.3 ease

@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="homee">
     <nav class="navbar">
       <div class="container">
         <span class="title">布考</span>
@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style>
-.home {
+.homee {
   display: flex;
   flex-direction: column;
   height: 100vh;

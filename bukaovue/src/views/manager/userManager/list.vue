@@ -54,25 +54,7 @@ import { ref, onMounted, computed } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { getAllUser, getAllUserByUsername, getAllUserById, getUserByIdAndUsername, deleteUser } from '@/api/examUser.js';
 const store = useStore()
-const debounce = (fn, delay) => {
-  let timer;
-  return (...args) => {
-    if (timer) {
-      clearTimeout(timer);
-    }
-    timer = setTimeout(() => {
-      fn(...args);
-    }, delay);
-  };
-};
 
-const resizeObserver = window.ResizeObserver;
-window.ResizeObserver = class ResizeObserver extends resizeObserver {
-  constructor(callback) {
-    callback = debounce(callback, 200);
-    super(callback);
-  }
-};
 
 const queryParam = ref({
   id: null,
