@@ -58,9 +58,9 @@
         <el-form-item label="课程描述">
           <el-input v-model="form.comment" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="教师id">
+        <!-- <el-form-item label="教师id">
           <el-input v-model="form.tid" autocomplete="off" />
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -92,24 +92,6 @@ import { createExamTeacherCourse } from "@/api/examTeacherCourse";
 import { useStore } from "vuex";
 const store = useStore();
 const item = reactive({ values: [] });
-const debounce = (fn, delay) => {
-  let timer;
-  return (...args) => {
-    if (timer) {
-      clearTimeout(timer);
-    }
-    timer = setTimeout(() => {
-      fn(...args);
-    }, delay);
-  };
-};
-const resizeObserver = window.ResizeObserver;
-window.ResizeObserver = class ResizeObserver extends resizeObserver {
-  constructor(callback) {
-    callback = debounce(callback, 200);
-    super(callback);
-  }
-};
 
 //清空临时表单
 function refreshForm() {
@@ -210,12 +192,13 @@ function addCourse() {
 // 创建课程
 function createNewCourse() {
   const tempForm = toRaw(form);
-  createCourse(tempForm.name, tempForm.comment).then((res) => {
-    // console.log(store.state.user.userInfo.id," ", res.data);
+   createCourse(tempForm.name, tempForm.comment).then((res) => {
+    console.log(store.state.user.userInfo.id," ", res.data);
     createExamTeacherCourse({ teacherId: tempForm.tid, courseId: res.data }).then(res => {
       console.log("课程老师中间表新建记录", res);
       refreshCourseInfo();
     })
+    // refreshCourseInfo();
     ElMessageBox.alert("添加成功", "新建课程", {
       confirmButtonText: "OK",
       callback: (action) => {

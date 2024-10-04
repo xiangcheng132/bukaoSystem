@@ -46,13 +46,8 @@ public class ExamUserController {
     }
     // 创建用户
     @PostMapping("/create")
-    public ResponseEntity<String> createExamUser(@RequestBody ExamUser examUser) {
-        try {
-            examUserServiceImpl.saveUser(examUser);
-            return new ResponseEntity<>("User created successfully", HttpStatus.CREATED);
-        } catch (AccountAlreadyRegisteredException ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
-        }
+    public Long createExamUser(@RequestBody ExamUser examUser) {
+          return examUserServiceImpl.saveUser(examUser);
     }
 
     // 更新用户

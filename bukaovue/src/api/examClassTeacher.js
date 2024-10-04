@@ -9,11 +9,11 @@ export function getAllExamClassTeacher(){
 } 
 
 //根据 ID 获取 ExamClassTeacher 记录。
-export function getExamClassTeacherById(id){
+export function getExamClassTeacherById(teacherId){
   return request({
     url:'/bukaoSystem/classTeacher/getById',
     method: 'post',
-    data:{id}
+    data:{teacherId}
   })
 } 
 

@@ -16,7 +16,7 @@
       <el-table-column label="操作">
         <template v-slot:default="{ row }">
           <router-link :to="{ path: '/manager/classAdd', query: { id: row.id } }" class="link-left">
-            <el-button type="primary"  size="small" >编辑</el-button>
+            <el-button type="primary" size="small">编辑</el-button>
           </router-link>
           <el-button type="danger" size="small" @click="deleteClassById(row.id)">删除</el-button>
         </template>
@@ -34,9 +34,15 @@
         <el-form-item label="教师id">
           <el-input v-model="newClassForm.teacherId"></el-input>
         </el-form-item>
+        <el-form-item label="所属课程">
+          <el-select v-model="newClassForm.courseId" multiple collapse-tags collapse-tags-tooltip placeholder="所属课程"
+            @change="courseChange">
+            <el-option v-for="v in courseList" :label="v.name" :value="v.id" />
+          </el-select>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="showCreateClassDialog = false">取消</el-button>
+        <el-button @click="cancel">取消</el-button>
         <el-button type="primary" @click="handleCreateClass">创建</el-button>
       </span>
     </el-dialog>
@@ -52,47 +58,22 @@ import Pagination from '@/components/pagination.vue';
 import { ref, reactive, onMounted } from "vue";
 import { ElMessage } from 'element-plus';
 import { getAllClasswithteacher, getAllClass, getAllClasswithteacherById, createClass, deleteClass } from "@/api/examClass";
-import { getExamClassStudentByClassId, getExamClassStudentsById, getExamClassStudentByStuId, createExamClassStudent, updateExamClassStudent, deleteExamClassStudent } from "@/api/examClassStudent";
+import { getExamClassStudentsById, getExamClassStudentByStuId, createExamClassStudent, updateExamClassStudent, deleteExamClassStudent } from "@/api/examClassStudent";
 import { createExamClassTeacher, deleteExamClassTeacher } from "@/api/examClassTeacher";
+import { createExamCourseClass } from "@/api/examCourseClass";
+import { getAllCourse } from "@/api/examCourse";
 import { useStore } from "vuex";
 import { nextTick } from 'vue';
-// const props = defineProps({
-//       foo: String
-//     })
-
-//     const emit = defineEmits(['change', 'delete'])
-//     // setup code
 const store = useStore();
-
 const item = reactive({ values: [] });
+let courseList = reactive([]);
 const showCreateClassDialog = ref(false);
 const newClassForm = reactive({
   name: '',
   comment: '',
   teacherId: '',
-  teacher: '',
+  courseId: [],
 });
-
-const debounce = (fn, delay) => {
-  let timer;
-  return (...args) => {
-    if (timer) {
-      clearTimeout(timer);
-    }
-    timer = setTimeout(() => {
-      fn(...args);
-    }, delay);
-  };
-};
-
-const resizeObserver = window.ResizeObserver;
-window.ResizeObserver = class ResizeObserver extends resizeObserver {
-  constructor(callback) {
-    callback = debounce(callback, 200);
-    super(callback);
-  }
-};
-
 const form = reactive({
   id: '',
   name: '',
@@ -100,12 +81,38 @@ const form = reactive({
   teacher: '',
 })
 
-
 const total = ref(0);
 const pageSize = ref(10);
 const currentPage = ref(1);
 
 let allClasses = [];
+
+//查询课程数据
+const refreshCourseInfo = () => {
+  courseList.splice(0, courseList.length);
+  getAllCourse()
+    .then((res) => {
+      console.log(res);
+      res.data.map((item) => {
+        courseList.push({
+          name: item.name,
+          id: item.id,
+        });
+      });
+    })
+    .catch((err) => { });
+}
+
+
+const cancel = () => {
+  showCreateClassDialog.value = false;
+  Object.assign(newClassForm, {
+    name: '',
+    comment: '',
+    teacherId: '',
+    courseId: [],
+  });
+}
 
 const refreshClassInfo = () => {
   getAllClasswithteacher()
@@ -145,8 +152,10 @@ const handleSizeChange = (size) => {
   pageSize.value = size;
   updateTableData();
 };
+
 onMounted(() => {
   refreshClassInfo();
+  refreshCourseInfo();
 });
 
 
@@ -155,20 +164,38 @@ const handleCreateClass = () => {
   createClass({ name: newClassForm.name, comment: newClassForm.comment })
     .then((res) => {
       console.log("创建班级成功");
-      console.log(res.data);
-      createExamClassTeacher({ classId: res.data, teacherId: newClassForm.teacherId })
-        .then((res) => {
+      const classId = res.data
+      createExamClassTeacher({ classId: classId, teacherId: newClassForm.teacherId })
+        .then((r) => {
           console.log("新建教师班级记录");
-          ElMessage.success('创建班级成功');
-          showCreateClassDialog.value = false;
-          refreshClassInfo();
         })
+      createCourseClass(classId)
+      refreshClassInfo();
+      showCreateClassDialog.value = false
     })
     .catch((err) => {
       ElMessage.error('创建班级失败');
       console.error("创建班级失败", err);
     });
 }
+
+const createCourseClass = (classId) => {
+  const coursePromises = newClassForm.courseId.map(courseId => {
+    console.log(classId)
+    return createExamCourseClass(classId, courseId);
+  });
+
+  Promise.all(coursePromises)
+    .then((results) => {
+      console.log("所有课程创建成功", results);
+      // 可在这里处理进一步的操作或状态更新
+    })
+    .catch((err) => {
+      ElMessage.error('课程创建失败');
+      console.error("课程创建失败", err);
+    });
+};
+
 // 删除班级
 const deleteClassById = (classId) => {
   deleteClass(classId)
@@ -225,9 +252,11 @@ const FindClass = () => {
 .dialog-footer {
   text-align: right;
 }
+
 .el-button--primary {
   margin: 10px;
 }
+
 .buttonBox {
   position: fixed;
   top: 10px;
@@ -235,12 +264,11 @@ const FindClass = () => {
   z-index: 9999;
 }
 
-.footer-box{
-  width: 90%; 
-  display: flex; 
+.footer-box {
+  width: 90%;
+  display: flex;
   justify-content: center;
   margin-top: 10px;
   padding: 10px;
 }
-
 </style>

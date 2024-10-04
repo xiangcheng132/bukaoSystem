@@ -9,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +27,7 @@ public class ExamUserDaoImpl implements ExamUserDao {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void save(ExamUser user) {
+    public Long save(ExamUser user) {
         ExamUser existingUser = login(user.getAccount());
         if (existingUser != null) {
             throw new AccountAlreadyRegisteredException("Account already registered: " + user.getAccount());
@@ -71,8 +75,23 @@ public class ExamUserDaoImpl implements ExamUserDao {
         sql.append(")");
         values.append(")");
         sql.append(values);
+        // 使用 RETURN_GENERATED_KEYS 获取自增ID
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+            return ps;
+        }, keyHolder);
+//        jdbcTemplate.update(sql.toString(), params.toArray());
 
-        jdbcTemplate.update(sql.toString(), params.toArray());
+        // 检查是否成功生成 ID
+        if (keyHolder.getKey() != null) {
+            return keyHolder.getKey().longValue();
+        } else {
+            throw new RuntimeException("Creating exam failed, no ID obtained.");
+        }
     }
 
 

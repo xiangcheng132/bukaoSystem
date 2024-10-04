@@ -15,8 +15,8 @@ public class ExamUserServiceImpl implements ExamUserService {
     private ExamUserDao examUserDao;
 
     @Override
-    public void saveUser(ExamUser user) {
-        examUserDao.save(user);
+    public Long saveUser(ExamUser user) {
+        return examUserDao.save(user);
     }
 
     @Override

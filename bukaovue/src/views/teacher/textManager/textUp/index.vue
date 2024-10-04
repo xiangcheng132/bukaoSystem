@@ -38,11 +38,11 @@
           :label="v.className"
           :value="v.classId"
         />
-        <el-option
+        <!-- <el-option
           v-for="v in classList"
           :label="v.className"
           :value="v.classId"
-        />
+        /> -->
       </el-select>
     </el-form-item>
 
@@ -140,6 +140,7 @@ async function courseChange(v) {
     classList.push(e);
   });
 }
+
 function refreshCourseInfo() {
   courseList.splice(0, courseList.length);
   getAllCourseByUId(store.state.user.userInfo.id)
