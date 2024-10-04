@@ -6,7 +6,7 @@
       <el-table-column prop="name" label="课程名" width="300" />
       <el-table-column prop="comment" label="课程详情" width="400" />
       <el-table-column prop="createTime" label="创建时间" width="300" />
-      <el-table-column prop="username" label="任课老师" width="100" />
+      <!-- <el-table-column prop="username" label="任课老师" width="100" /> -->
       <el-table-column fixed="right" label="操作" min-width="120">
         <template #default="scope">
           <el-button type="primary" size="small" @click.prevent="modifyRow(scope.$index)">
@@ -194,11 +194,11 @@ function createNewCourse() {
   const tempForm = toRaw(form);
    createCourse(tempForm.name, tempForm.comment).then((res) => {
     console.log(store.state.user.userInfo.id," ", res.data);
-    createExamTeacherCourse({ teacherId: tempForm.tid, courseId: res.data }).then(res => {
-      console.log("课程老师中间表新建记录", res);
-      refreshCourseInfo();
-    })
-    // refreshCourseInfo();
+    // createExamTeacherCourse({ teacherId: tempForm.tid, courseId: res.data }).then(res => {
+    //   console.log("课程老师中间表新建记录", res);
+    //   refreshCourseInfo();
+    // })
+    refreshCourseInfo();
     ElMessageBox.alert("添加成功", "新建课程", {
       confirmButtonText: "OK",
       callback: (action) => {

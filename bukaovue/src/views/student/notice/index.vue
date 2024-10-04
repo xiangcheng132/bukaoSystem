@@ -90,8 +90,8 @@ th {
   background-color: #f4f4f4;
 }
 td button{
-  background-color: white;
-  border: none;
+  color: black;
+  border: none
 }
 td button:hover{
   background-color:white;
