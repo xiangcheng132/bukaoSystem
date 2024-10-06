@@ -77,8 +77,9 @@ const classForm = reactive({
 const getStudentList = (id) => {
   getExamClassStudentsById(id)
     .then((res) => {
-      console.log("获取学生信息成功");
+      // console.log("获取学生信息成功");
       studentList.values = res.data;
+      console.log(res.data);
     })
     .catch((err) => {
       console.error("获取学生信息失败", err);
@@ -89,7 +90,7 @@ const getStudentList = (id) => {
 const refreshClassInfo = () => {
   getClassById(route.query.id)
     .then((res) => {
-      console.log("刷新班级信息成功");
+      // console.log("刷新班级信息成功");
       console.log(route.query.id);
       classForm.name = res.data.name;
       classForm.comment = res.data.comment;
