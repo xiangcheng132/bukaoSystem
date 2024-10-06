@@ -92,10 +92,6 @@ import {
   deleteClass,
 } from "@/api/examClass";
 import {
-  getExamClassStudentsById,
-  getExamClassStudentByStuId,
-  createExamClassStudent,
-  updateExamClassStudent,
   deleteExamClassStudent,
 } from "@/api/examClassStudent";
 import {
