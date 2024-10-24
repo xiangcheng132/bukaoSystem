@@ -21,6 +21,8 @@ public interface ExamPaperService {
 
     Long saveexam(ExamPaperDto examExam);
 
+    void saveexamclass(Long examId, Long classId);
+
 //    List<ExamResources> batchCopyResourcesWithScores(Long courseId, Long chapterId, String type, int count, int score);
 
 //    List<ExamResources> batchCopyResources(Long courseId, String type, int count, int score);

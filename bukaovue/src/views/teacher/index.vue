@@ -10,7 +10,7 @@
             <template #title>
               <el-icon><message /></el-icon>课程管理
             </template>
-            <el-menu-item index="/teacher/tCourseManager" >课程修改</el-menu-item>
+            <el-menu-item index="/teacher/tCourseManager" >课程展示</el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="2">
             <template #title>

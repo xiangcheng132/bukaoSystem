@@ -21,18 +21,12 @@ import { getExamClassTeacherById, getByTeacherId } from "@/api/examAnswerSheet";
 import { setStorage, getStorage } from "@/utils/storage.js";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
+
 const store = useStore();
 const router = useRouter();
 
 const answerList = reactive([
-  {
-    examname: "测试1",
-    username: "zhenglou",
-    userId: 10,
-    score: 100,
-    id: 2,
-    examId: 1,
-  },
+
 ]);
 function handleClick(index) {
   /*   let id = answerList[index].answerSheetId;

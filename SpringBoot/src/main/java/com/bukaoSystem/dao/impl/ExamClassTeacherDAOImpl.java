@@ -25,9 +25,9 @@ public class ExamClassTeacherDAOImpl implements ExamClassTeacherDAO {
     }
 
     @Override
-    public ExamClassTeacher getExamClassTeacherById(Long id) {
-        String sql = "SELECT * FROM exam_class_teacher WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new BeanPropertyRowMapper<>(ExamClassTeacher.class));
+    public List<ExamClassTeacher> getExamClassTeacherById(Long teacherId ){
+        String sql = "SELECT * FROM exam_class_teacher WHERE teacherId = ?";
+        return jdbcTemplate.query(sql, new Object[]{teacherId}, new BeanPropertyRowMapper<>(ExamClassTeacher.class));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ExamClassTeacherDAOImpl implements ExamClassTeacherDAO {
 
     @Override
     public void updateExamClassTeacher(ExamClassTeacher examClassTeacher) {
-        String sql = "UPDATE exam_class_teacher SET classid = ?, teacherid = ? WHERE id = ?";
+        String sql = "UPDATE exam_class_teacher SET classId = ?, teacherId = ? WHERE id = ?";
         jdbcTemplate.update(sql, examClassTeacher.getClassId(), examClassTeacher.getTeacherId(), examClassTeacher.getId());
     }
 

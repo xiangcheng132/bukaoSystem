@@ -149,7 +149,7 @@ onUnmounted(() => {
 </script> -->
 <script setup>
 import { getExamData, getMonthlyUserData } from '@/api/examData'; // 添加获取月度数据的API
-// import * as echarts from 'echarts';
+import * as echarts from 'echarts';
 import { ref, onMounted, onUnmounted } from 'vue';
 
 const examPaperCount = ref(0);

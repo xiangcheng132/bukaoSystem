@@ -35,7 +35,7 @@ public class ExamClassStudentDaoImpl implements ExamClassStudentDao {
     }
     @Override
     public List<ExamClassStudentDto> getClassStudentsById(Long classId) {
-        String sql = "SELECT ecs.*, eu.username FROM exam_class_student ecs " +
+        String sql = "SELECT ecs.*, eu.username as studentname FROM exam_class_student ecs " +
                 "left join exam_user eu ON ecs.studentId = eu.id " +
                 "WHERE ecs.classId = ?";
         return jdbcTemplate.query(sql, rowMapper1, classId);

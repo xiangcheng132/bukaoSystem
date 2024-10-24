@@ -1,5 +1,5 @@
 <template>
-  <el-button type="primary" @click="addCourse">新建课程</el-button>
+  <!-- <el-button type="primary" @click="addCourse">新建课程</el-button> -->
   <div>
     <el-table :data="item.value" style="width: 100%">
       <!-- <el-table-column fixed prop="id" label="Id" width="300" /> -->
@@ -80,24 +80,6 @@ import { useStore } from "vuex";
 
 const store = useStore();
 let item = reactive([]);
-const debounce = (fn, delay) => {
-  let timer;
-  return (...args) => {
-    if (timer) {
-      clearTimeout(timer);
-    }
-    timer = setTimeout(() => {
-      fn(...args);
-    }, delay);
-  };
-};
-const resizeObserver = window.ResizeObserver;
-window.ResizeObserver = class ResizeObserver extends resizeObserver {
-  constructor(callback) {
-    callback = debounce(callback, 200);
-    super(callback);
-  }
-};
 //清空临时表单
 function refreshForm() {
   form.id = "";

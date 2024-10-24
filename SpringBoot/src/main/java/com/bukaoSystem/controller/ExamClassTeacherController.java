@@ -24,8 +24,8 @@ public class ExamClassTeacherController {
     }
 
     @PostMapping("/getById")
-    public ExamClassTeacher getExamClassTeacherById(@RequestBody ExamClassTeacher examClassTeacher) {
-        return examClassTeacherService.getExamClassTeacherById(examClassTeacher.getId());
+    public List<ExamClassTeacher>  getExamClassTeacherById(@RequestBody ExamClassTeacher examClassTeacher) {
+        return examClassTeacherService.getExamClassTeacherById(examClassTeacher.getTeacherId());
     }
 
     @PostMapping("/getByClassId")

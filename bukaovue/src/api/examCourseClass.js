@@ -16,7 +16,7 @@ export function getByCourseId(id) {
 
 //创建新的 ExamCourseClass
 export function createExamCourseClass(classId, courseId) {
-    return request.post('/bukaoSystem/courseClass/create', {classId, courseId})
+    return request.post('/bukaoSystem/courseClass/create', {classId:classId, courseId:courseId})
 }
 
 //更新现有的 ExamCourseClass

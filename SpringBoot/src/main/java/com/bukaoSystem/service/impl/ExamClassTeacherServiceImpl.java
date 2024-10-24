@@ -21,8 +21,8 @@ public class ExamClassTeacherServiceImpl implements ExamClassTeacherService {
     }
 
     @Override
-    public ExamClassTeacher getExamClassTeacherById(Long id) {
-        return examClassTeacherDAO.getExamClassTeacherById(id);
+    public List<ExamClassTeacher>  getExamClassTeacherById(Long teacherId) {
+        return examClassTeacherDAO.getExamClassTeacherById(teacherId);
     }
 
     @Override

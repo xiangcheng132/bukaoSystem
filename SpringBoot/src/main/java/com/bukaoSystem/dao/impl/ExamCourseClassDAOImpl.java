@@ -32,23 +32,23 @@ public class ExamCourseClassDAOImpl implements ExamCourseClassDAO {
 
     @Override
     public void saveExamCourseClass(ExamCourseClass courseClass) {
-        StringBuilder sql = new StringBuilder("INSERT INTO exam_course_class (id, class_id, course_id");
-        StringBuilder values = new StringBuilder(" VALUES (?, ?, ?");
+        StringBuilder sql = new StringBuilder("INSERT INTO exam_course_class (classId, courseId");
+        StringBuilder values = new StringBuilder(" VALUES ( ?, ?");
         List<Object> params = new ArrayList<>();
-        params.add(courseClass.getId());
         params.add(courseClass.getClassId());
         params.add(courseClass.getCourseId());
-
         if (courseClass.getCreateTime() != null) {
             sql.append(", createTime");
             values.append(", ?");
             params.add(courseClass.getCreateTime());
         }
-
         sql.append(")");
         values.append(")");
         sql.append(values);
-
+        // 确保courseId存在
+        if (!jdbcTemplate.queryForObject("SELECT COUNT(*) FROM exam_course WHERE id = ?", Integer.class, courseClass.getCourseId()).equals(1)) {
+            throw new IllegalArgumentException("课程ID不存在");
+        }
         jdbcTemplate.update(sql.toString(), params.toArray());
     }
 

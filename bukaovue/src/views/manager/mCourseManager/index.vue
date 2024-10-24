@@ -6,7 +6,7 @@
       <el-table-column prop="name" label="课程名" width="300" />
       <el-table-column prop="comment" label="课程详情" width="400" />
       <el-table-column prop="createTime" label="创建时间" width="300" />
-      <el-table-column prop="username" label="任课老师" width="100" />
+      <!-- <el-table-column prop="username" label="任课老师" width="100" /> -->
       <el-table-column fixed="right" label="操作" min-width="120">
         <template #default="scope">
           <el-button type="primary" size="small" @click.prevent="modifyRow(scope.$index)">
@@ -58,9 +58,9 @@
         <el-form-item label="课程描述">
           <el-input v-model="form.comment" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="教师id">
+        <!-- <el-form-item label="教师id">
           <el-input v-model="form.tid" autocomplete="off" />
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -92,24 +92,6 @@ import { createExamTeacherCourse } from "@/api/examTeacherCourse";
 import { useStore } from "vuex";
 const store = useStore();
 const item = reactive({ values: [] });
-const debounce = (fn, delay) => {
-  let timer;
-  return (...args) => {
-    if (timer) {
-      clearTimeout(timer);
-    }
-    timer = setTimeout(() => {
-      fn(...args);
-    }, delay);
-  };
-};
-const resizeObserver = window.ResizeObserver;
-window.ResizeObserver = class ResizeObserver extends resizeObserver {
-  constructor(callback) {
-    callback = debounce(callback, 200);
-    super(callback);
-  }
-};
 
 //清空临时表单
 function refreshForm() {
@@ -179,6 +161,7 @@ const modifyRow = (index) => {
   form.username = item.values[index].username;
   form.createTime = item.values[index].createTime;
 };
+
 //处理修改
 function handleModify() {
   console.log();
@@ -187,8 +170,8 @@ function handleModify() {
       console.log(res + "执行更新里的获取用户操作");
       refreshForm();
       refreshCourseInfo();
-      ElMessageBox.alert("修改成功", "Title", {
-        confirmButtonText: "OK",
+      ElMessageBox.alert("修改成功", "提示", {
+        confirmButtonText: "确认",
         callback: (action) => {
           dialogFormVisible.value = false;
         },
@@ -201,6 +184,7 @@ function handleModify() {
 
 // 添加课程
 function addCourse() {
+  refreshForm();
   formChange.value = false;
   dialogFormVisible.value = true;
 }
@@ -208,13 +192,13 @@ function addCourse() {
 // 创建课程
 function createNewCourse() {
   const tempForm = toRaw(form);
-  console.log("进入createNewCourse", tempForm);
-  createCourse(tempForm.name, tempForm.comment).then((res) => {
-    // console.log(store.state.user.userInfo.id," ", res.data);
-    createExamTeacherCourse({ teacherId: tempForm.tid, courseId: res.data }).then(res => {
-      console.log("课程老师中间表新建记录", res);
-      refreshCourseInfo();
-    })
+   createCourse(tempForm.name, tempForm.comment).then((res) => {
+    console.log(store.state.user.userInfo.id," ", res.data);
+    // createExamTeacherCourse({ teacherId: tempForm.tid, courseId: res.data }).then(res => {
+    //   console.log("课程老师中间表新建记录", res);
+    //   refreshCourseInfo();
+    // })
+    refreshCourseInfo();
     ElMessageBox.alert("添加成功", "新建课程", {
       confirmButtonText: "OK",
       callback: (action) => {

@@ -37,7 +37,7 @@ public class ExamClassStudentController {
         return examClassStudentService.getExamClassStudentsByClassId(examClassStudent.getClassId());
     }
 
-    @GetMapping("/getByStudentId")
+    @PostMapping("/getByStudentId")
     public List<ExamClassStudent> getExamClassStudentsByStudentId(@RequestBody ExamClassStudent examClassStudent) {
         return examClassStudentService.getExamClassStudentsByStudentId(examClassStudent.getStudentId());
     }

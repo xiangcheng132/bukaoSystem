@@ -1,11 +1,17 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Login from "@/views/login.vue"
+import Home from "@/views/Home.vue"
 
 const routes = [
   {
     path: '/',
-    redirect:'/login',
+    redirect:'/Home',
     name: 'index',
+  },
+  {
+    path: '/Home',
+    name: 'Home',
+    component: Home,
   },
   {
     path: '/login',
@@ -66,7 +72,15 @@ const routes = [
         meta:{
           title:'个人中心页'
         }
-      } 
+      },
+      {
+        path: '/student/course',
+        name: 'course',
+        component:() => import( '@/views/student/course'),
+        meta:{
+          title:'个人中心页'
+        }
+      }
     ]
   },
   //教师端路由
@@ -213,6 +227,14 @@ const routes = [
         component:() => import( '@/views/manager/dataStatistics'),
         meta:{
           title:'数据统计页'
+        }
+      },
+      {
+        path: '/manager/upload',
+        name: 'upload',
+        component:() => import( '@/views/manager/upload/upload.vue'),
+        meta:{
+          title:'上传'
         }
       }
     ]

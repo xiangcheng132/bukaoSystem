@@ -1,26 +1,17 @@
 package com.bukaoSystem.model;
 
-import java.util.List;
-
 public class ExamPaperDto {
     private String name;
     private String comment;
     private String place;
     private Long courseId;
-    private String classId;
+    private Long classId;
     private String beginTime;
     private String endTime;
     private int singleChoiceCount;
     private int trueFalseCount;
     private int fillInBlankCount;
     private int bigquestionCount;
-    public int getBigquestionCount() {
-        return bigquestionCount;
-    }
-
-    public void setBigquestionCount(int bigquestionCount) {
-        this.bigquestionCount = bigquestionCount;
-    }
 
     public String getName() {
         return name;
@@ -54,11 +45,11 @@ public class ExamPaperDto {
         this.courseId = courseId;
     }
 
-    public String getClassId() {
+    public Long getClassId() {
         return classId;
     }
 
-    public void setClassId(String classId) {
+    public void setClassId(Long classId) {
         this.classId = classId;
     }
 
@@ -100,6 +91,14 @@ public class ExamPaperDto {
 
     public void setFillInBlankCount(int fillInBlankCount) {
         this.fillInBlankCount = fillInBlankCount;
+    }
+
+    public int getBigquestionCount() {
+        return bigquestionCount;
+    }
+
+    public void setBigquestionCount(int bigquestionCount) {
+        this.bigquestionCount = bigquestionCount;
     }
 }
 

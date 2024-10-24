@@ -140,7 +140,7 @@ let k = false;
 let loginSuccessfulInfo = {};
 // 用户登录
 async function submitLogin() {
-  if(form.account != "" && form.password != ""){
+  if(form.account != "" && form.password!= ""){
      const userInfo = toRaw(form);
      const {account,password} = userInfo;
        loginSuccessfulInfo = await userLogin({account,password}).then(res =>{

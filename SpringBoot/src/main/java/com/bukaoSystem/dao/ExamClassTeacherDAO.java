@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ExamClassTeacherDAO {
     List<ExamClassTeacher> getAllExamClassTeachers();
-    ExamClassTeacher getExamClassTeacherById(Long id);
+    List<ExamClassTeacher> getExamClassTeacherById(Long teacherId);
     List<ExamClassTeacher> getExamClassTeachersByClassId(Long classId);
 
     List<ExamClassTeacherDto> getExamClassTeachersnameByClassId(Long classId);
